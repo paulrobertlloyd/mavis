@@ -1,0 +1,25 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = serviceName + " (MAVIS)" %}
+
+{% block content %}
+  <div class="nhsuk-u-width-two-thirds">
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
+
+    {% filter nhsukMarkdown %}
+Use this service to:
+
+- triage consent requests
+- approve children for vaccination
+- keep a record of vaccinations given to children
+    {% endfilter %}
+
+    {{ button({
+      text: "Start now",
+      href: "/account/sign-in"
+    }) }}
+  </div>
+{% endblock %}
