@@ -1,0 +1,13 @@
+{% extends "_layouts/default.njk" %}
+
+{% set bodyClasses = "app-unbranded__body" %}
+
+{% block skipLink %}{% endblock %}
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+{% block headIcons %}{% endblock %}
+
+{% block pageTitle %}
+  {{- "Error: " if errors -}}
+  {{- title + " - " if title -}}
+{% endblock %}
