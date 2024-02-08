@@ -1,0 +1,20 @@
+{% extends "_layouts/form.njk" %}
+
+{% set confirmButtonText = "Save changes" %}
+{% set paths = { back: vaccine.uri } %}
+{% set title = __("batch.edit.title", batch.id) %}
+
+{% block form %}
+  {{ heading({
+    title: title,
+    caption: vaccine.brand
+  }) }}
+
+  {{ dateInput({
+    fieldset: {
+      legend: { text: __("batch.expires.label") }
+    },
+    hint: { text: __("batch.expires.hint") },
+    decorate: "batch.expires_"
+  }) }}
+{% endblock %}
