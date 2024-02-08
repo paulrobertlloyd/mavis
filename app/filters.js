@@ -19,5 +19,18 @@ export default (env) => {
     return env.filters.safe(nhsukMarkdown)
   }
 
+  /**
+   * Push item to array
+   * @param {Array} array - Array
+   * @param {*} item - Item to push
+   * @returns {Array} Updated array
+   */
+  filters.push = (array, item) => {
+    let newArray = [...array]
+    newArray.push(structuredClone(item))
+
+    return newArray
+  }
+
   return filters
 }

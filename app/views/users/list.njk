@@ -1,0 +1,48 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = "Manage team" %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    size: "xl",
+    title: title
+  }) }}
+
+  {{ button({
+    text: "Invite a team member",
+    href: "/users/new"
+  }) }}
+
+  {% set userRows = [] %}
+  {% for user in users %}
+    {% set userRows = userRows | push([
+      {
+        header: __("user.fullName.label"),
+        html: link(user.uri, user.fullName) or "Not provided"
+      },
+      {
+        header: __("user.registration.label"),
+        html: user.registration or "Not provided"
+      },
+      {
+        header: __("user.email.label"),
+        html: user.email or "Not provided"
+      }
+    ]) %}
+  {% endfor %}
+
+  {{ actionTable({
+    sort: "name",
+    table: {
+      responsive: true,
+      head: [
+        { text: __("user.fullName.label") },
+        { text: __("user.registration.label") },
+        { text: __("user.email.label") }
+      ],
+      rows: userRows
+    }
+  }) }}
+{% endblock %}
