@@ -1,4 +1,7 @@
+import _ from 'lodash'
 import { readFileSync } from 'fs'
+import vaccines from './datasets/vaccines.js'
+const batches = JSON.parse(readFileSync('.data/batches.json'))
 const users = JSON.parse(readFileSync('.data/users.json'))
 
 /**
@@ -10,6 +13,7 @@ const users = JSON.parse(readFileSync('.data/users.json'))
  * existing application.
  */
 export default {
+  batches,
   // Set feature flags using the `features` key
   features: {
     demo: {
@@ -18,5 +22,6 @@ export default {
       description: 'Show message about feature flags on the home page.'
     }
   },
-  users
+  users,
+  vaccines: _.keyBy(vaccines, 'gtin')
 }
