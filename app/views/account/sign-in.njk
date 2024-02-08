@@ -1,0 +1,26 @@
+{% extends "_layouts/form.njk" %}
+
+{% set confirmButtonText = __("account.sign-in.confirm") %}
+{% set title = __("account.sign-in.title") %}
+
+{% block form %}
+  {{ heading({
+    size: "xl",
+    title: title
+  }) }}
+
+  {{ input({
+    classes: "nhsuk-input--width-20",
+    label: { text: __("account.email.label") },
+    decorate: "email"
+  }) }}
+
+  {{ input({
+    classes: "nhsuk-input--width-20",
+    label: { text: __("account.password.label") },
+    type: "password",
+    decorate: "password"
+  }) }}
+
+  <p><a href="#">{{ __("account.password.forgot") }}</a></p>
+{% endblock %}
