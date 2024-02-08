@@ -1,3 +1,7 @@
+import { readFileSync } from 'fs'
+import registrars from './datasets/professional-bodies.js'
+const users = JSON.parse(readFileSync('.data/users.json'))
+
 /**
  * Default values for user session data
  *
@@ -14,5 +18,7 @@ export default {
       name: 'Demonstration',
       description: 'Show message about feature flags on the home page.'
     }
-  }
+  },
+  registrars,
+  users
 }

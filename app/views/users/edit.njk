@@ -1,0 +1,41 @@
+{% extends "_layouts/form.njk" %}
+
+{% set confirmButtonText = "Save changes" %}
+{% set paths = { back: user.uri } %}
+{% set title = __("user.edit.title", user.fullName) %}
+
+{% block form %}
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ input({
+    label: { text: __("user.firstName.label") },
+    decorate: "user.firstName"
+  }) }}
+
+  {{ input({
+    label: { text: __("user.lastName.label") },
+    decorate: "user.lastName"
+  }) }}
+
+  {{ input({
+    label: { text: __("user.email.label") },
+    decorate: "user.email"
+  }) }}
+
+  {{ radios({
+    fieldset: {
+      legend: { text: __("user.registrar.label") }
+    },
+    items: registrarItems,
+    decorate: "user.registrar"
+  }) }}
+
+  {{ input({
+    classes: "nhsuk-input--width-10",
+    label: { text: __("user.registration.label") },
+    hint: { text: __("user.registration.hint") },
+    decorate: "user.registration"
+  }) }}
+{% endblock %}
