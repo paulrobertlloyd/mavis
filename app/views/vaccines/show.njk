@@ -1,0 +1,33 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = vaccine.brandWithVaccine %}
+{% set paths = { back: "/vaccines" } %}
+
+{% block content %}
+  <div class="nhsuk-u-width-three-quarters">
+    {{ super() }}
+
+    {{ heading({
+      title: title
+    }) }}
+
+    {{ card({
+      heading: "Details",
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(vaccine, {
+          gtin: {},
+          brand: {},
+          supplier: {},
+          vaccine: {},
+          method: {},
+          dose: { value: vaccine.dose + " ml" }
+        })
+      })
+    }) }}
+
+    <p>
+      <a href="{{ vaccine.uri }}/delete">Delete vaccine</a>
+    </p>
+  </div>
+{% endblock %}

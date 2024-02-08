@@ -28,6 +28,10 @@
     showSearch: "false",
     primaryLinks: [
       {
+        url: "/vaccines",
+        label: "Vaccines"
+      } if data.token.admin,
+      {
         url: "/users",
         label: "Manage team"
       } if data.token.admin,

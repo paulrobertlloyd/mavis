@@ -1,0 +1,72 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = "Manage vaccines" %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    size: "xl",
+    title: title
+  }) }}
+
+  {{ button({
+    text: "Add a new vaccine",
+    href: "#"
+  }) }}
+
+  {% for vaccine in vaccines %}
+    {% set descriptionHtml %}
+      <p class="nhsuk-body-s nhsuk-secondary-text-color">
+        {{ vaccine.supplier }}, GTIN: {{ vaccine.gtin }}
+      </p>
+
+      <p class="nhsuk-body">
+        <a href="{{ vaccine.uri }}/new">Add a batch</a>
+      </p>
+
+      {% set batchRows = [] %}
+      {% for batch in vaccine.batches %}
+        {% set batchRows = batchRows | push([
+          {
+            header: __("batch.id.label"),
+            html: batch.id
+          },
+          {
+            header: __("batch.entered.label"),
+            html: batch.entered | govukDate or "Not provided"
+          },
+          {
+            header: __("batch.expires.label"),
+            html: batch.expires | govukDate or "Not provided"
+          },
+          {
+            header: __("vaccine.actions.label"),
+            html: link(batch.uri + "/edit", "Change") + " " + link("#", "Archive")
+          }
+        ]) %}
+      {% endfor %}
+
+      {{ actionTable({
+        sort: "batch",
+        table: {
+          responsive: true,
+          head: [
+            { text: __("batch.id.label") },
+            { text: __("batch.entered.label") },
+            { text: __("batch.expires.label") },
+            { text: __("vaccine.actions.label") }
+          ],
+          rows: batchRows
+        }
+      }) if batchRows.length }}
+    {% endset %}
+
+    {{ card({
+      heading: vaccine.brandWithVaccine,
+      headingClasses: "nhsuk-heading-m nhsuk-u-margin-bottom-1",
+      href: vaccine.uri,
+      descriptionHtml: descriptionHtml
+    }) }}
+  {% endfor %}
+{% endblock %}
