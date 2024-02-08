@@ -59,6 +59,7 @@ export default () => {
           text: label
         },
         value: {
+          classes: rows[key]?.classes,
           html: String(value) || fallbackValue
         },
         actions: href &&

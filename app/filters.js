@@ -21,6 +21,16 @@ export default (env) => {
   }
 
   /**
+   * Format array as HTML list
+   * @param {Array} array - Array
+   * @returns {string} HTML unordered list with nhsuk-* typography classes
+   */
+  filters.nhsukList = function (array) {
+    const list = array.map((item) => `- ${item}`)
+    return filters.nhsukMarkdown(list.join('\n'))
+  }
+
+  /**
    * Push item to array
    * @param {Array} array - Array
    * @param {*} item - Item to push
