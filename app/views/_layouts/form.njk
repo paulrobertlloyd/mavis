@@ -1,0 +1,14 @@
+{% extends "_layouts/default.njk" %}
+
+{% block content %}
+  <form class="nhsuk-u-width-three-quarters" method="post" novalidate>
+    {% block form %}
+    {% endblock %}
+
+    {% block afterForm %}
+      {{ button({
+        html: confirmButtonText if confirmButtonText else "Continue"
+      }) if not hideConfirmButton }}
+    {% endblock %}
+  </div>
+{% endblock %}

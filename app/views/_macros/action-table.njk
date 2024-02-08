@@ -1,0 +1,6 @@
+{%- from "tables/macro.njk" import table %}
+{% macro actionTable(params) -%}
+<action-table sort="{{ params.sort }}">
+  {{ table(params.table) }}
+</action-table>
+{%- endmacro %}
