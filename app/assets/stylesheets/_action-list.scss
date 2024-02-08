@@ -1,0 +1,22 @@
+.app-action-list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.app-action-list__item {
+  display: inline;
+  margin: 0;
+  margin-right: nhsuk-spacing(3);
+  padding-right: nhsuk-spacing(3);
+}
+
+.app-action-list__item:not(:last-child) {
+  border-right: 1px solid $nhsuk-border-color;
+}
+
+.app-action-list__item:last-child {
+  border: 0;
+  margin-right: 0;
+  padding-right: 0;
+}
