@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import prototypeFilters from '@x-govuk/govuk-prototype-filters'
 
 /**
@@ -17,6 +18,19 @@ export default (env) => {
     const markdown = prototypeFilters.govukMarkdown(string)
     const nhsukMarkdown = markdown.replaceAll('govuk-', 'nhsuk-')
     return env.filters.safe(nhsukMarkdown)
+  }
+
+  /**
+   * Push item to array
+   * @param {Array} array - Array
+   * @param {*} item - Item to push
+   * @returns {Array} Updated array
+   */
+  filters.push = (array, item) => {
+    let newArray = [...array]
+    newArray.push(_.cloneDeep(item))
+
+    return newArray
   }
 
   return filters
