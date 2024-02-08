@@ -25,6 +25,13 @@
     showSearch: "false",
     containerClasses: "nhsuk-width-container"
   }) }}
+  {{ govukPhaseBanner({
+    classes: "nhsuk-width-container",
+    tag: {
+      text: "Prototype"
+    },
+    text: "This is a prototype of a new service. Some parts may not work yet."
+  }) | replace("govuk-tag", "nhsuk-tag") }}
 {% endblock %}
 
 {% block outerContent %}

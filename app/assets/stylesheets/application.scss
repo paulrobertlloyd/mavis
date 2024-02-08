@@ -17,6 +17,7 @@ $govuk-assets-path: "/govuk/assets/";
 
 // Import app components
 @import "autocomplete";
+@import "phase-banner";
 
 // Highlight code within body copy
 li code,
