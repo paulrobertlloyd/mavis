@@ -1,0 +1,30 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = serviceName + " (MAVIS)" %}
+
+{% block content %}
+  <div class="nhsuk-u-width-two-thirds">
+    {{ super() }}
+
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
+
+    {% if data.token.admin %}
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
+      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/users">
+        {{ __("user.list.title") }}
+      </a>
+    </h2>
+    <p>Add or remove team members and set permissions</p>
+    {% endif %}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
+      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/account">
+        {{ __("account.show.title") }}
+      </a>
+    </h2>
+    <p>Change your email address or password</p>
+  </div>
+{% endblock %}

@@ -21,10 +21,12 @@
   {{ header({
     service: {
       name: serviceName,
-      href: "/"
+      href: "/dashboard" if data.token else "/"
     },
-    showNav: "false",
-    showSearch: "false"
+    homeHref: "/dashboard" if data.token else "/",
+    showNav: "true" if data.token else "false",
+    showSearch: "false",
+    primaryLinks: navigation.primaryLinks
   }) }}
 {% endblock %}
 

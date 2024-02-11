@@ -26,6 +26,7 @@ export const accountController = {
     const { __ } = response.locals
 
     response.render('users/edit', {
+      headingSize: 'xl',
       paths: false,
       registrarItems: getRegistrarItems(),
       title: __('account.show.title')
