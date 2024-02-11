@@ -19,13 +19,15 @@
 
 {% block header %}
   {{ header({
+    containerClasses: "nhsuk-width-container",
     service: {
       name: serviceName,
-      href: "/"
+      href: "/dashboard" if data.token else "/"
     },
-    showNav: "false",
+    homeHref: "/dashboard" if data.token else "/",
+    showNav: "true" if data.token else "false",
     showSearch: "false",
-    containerClasses: "nhsuk-width-container"
+    primaryLinks: navigation.primaryLinks
   }) }}
 {% endblock %}
 
