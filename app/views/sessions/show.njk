@@ -1,0 +1,34 @@
+{% extends "_layouts/default.njk" %}
+
+{% set campaign = data.campaigns[session.campaign_uuid] %}
+{% set title = campaign.name + " session at " + session.location.name %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        text: "Home",
+        href: "/dashboard"
+      },
+      {
+        text: __("session.list.title"),
+        href: "/sessions"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    classes: "nhsuk-u-margin-bottom-2",
+    title: title
+  }) }}
+
+  <p class="nhsuk-caption-l nhsuk-u-margin-bottom-4">{{ session.date | govukDate }} ({{ session.time }}) · {{ __n("session.cohort.count", session.cohort.length) }}</p>
+
+  <p>
+    <a href="{{ session.uri }}/edit">Edit session</a>
+  </p>
+{% endblock %}
