@@ -1,0 +1,23 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.edit.format.title") %}
+
+{% block form %}
+  {{ radios({
+    fieldset: {
+      legend: {
+        classes: "nhsuk-fieldset__legend--l",
+        isPageHeading: true,
+        text: title
+      }
+    },
+    items: [{
+      text: "A routine session in school"
+    }, {
+      text: "A catch-up session in school"
+    }, {
+      text: "A clinic"
+    }],
+    decorate: "session.format"
+  }) }}
+{% endblock %}

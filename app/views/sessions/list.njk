@@ -1,0 +1,52 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = __("session.list.title") %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    size: "xl",
+    title: title
+  }) }}
+
+  {{ button({
+    text: __("session.list.new"),
+    href: "/sessions/new"
+  }) }}
+
+  {% for type, sessions in sessions | groupby("campaign_type") %}
+    {% set sessionRows = [] %}
+    {% for session in sessions %}
+      {% set sessionRows = sessionRows | push([
+        {
+          header: __("session.date.label"),
+          html: session.date | govukDate or "Not provided"
+        },
+        {
+          header: __("session.time.label"),
+          html: session.time or "Not provided"
+        },
+        {
+          header: __("session.location.label"),
+          html: sessionSummary(session) or "Not provided"
+        }
+      ]) %}
+    {% endfor %}
+
+    {{ actionTable({
+      sort: "date",
+      table: {
+        heading: sessions[0].campaign.name,
+        panel: true,
+        responsive: true,
+        head: [
+          { text: __("session.date.label") },
+          { text: __("session.time.label") },
+          { text: __("session.location.label") }
+        ],
+        rows: sessionRows
+      }
+    }) }}
+  {% endfor %}
+{% endblock %}

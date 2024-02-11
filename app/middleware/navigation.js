@@ -7,6 +7,10 @@ export const navigation = (request, response, next) => {
     primaryLinks: data.token?.admin
       ? [
           {
+            url: '/sessions',
+            label: __('session.list.title')
+          },
+          {
             url: '/vaccines',
             label: __('vaccine.list.title')
           },
@@ -24,6 +28,10 @@ export const navigation = (request, response, next) => {
           }
         ]
       : [
+          {
+            url: '/sessions',
+            label: __('session.list.title')
+          },
           {
             url: '/account',
             label: __('account.show.title')
