@@ -1,11 +1,12 @@
 {% extends "_layouts/form.njk" %}
 
 {% set confirmButtonText = "Save changes" %}
-{% set paths = { back: user.uri } %}
-{% set title = __("user.edit.title", user.fullName) %}
+{% set paths = { back: user.uri } if paths %}
+{% set title = title or __("user.edit.title", user.fullName) %}
 
 {% block form %}
   {{ heading({
+    size: headingSize,
     title: title
   }) }}
 

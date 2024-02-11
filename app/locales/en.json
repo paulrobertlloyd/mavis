@@ -1,4 +1,29 @@
 {
+  "account": {
+    "show": {
+      "title": "Your account"
+    },
+    "edit": {
+      "title": "Edit account details"
+    },
+    "sign-in": {
+      "title": "Sign in",
+      "confirm": "Sign in"
+    },
+    "sign-out": {
+      "title": "Sign out"
+    },
+    "success": {
+      "update": "Account details updated"
+    },
+    "password": {
+      "forgot": "I’ve forgotten my password",
+      "label": "Password"
+    },
+    "email": {
+      "label": "Email address"
+    }
+  },
   "user": {
     "list": {
       "title": "Manage team",
