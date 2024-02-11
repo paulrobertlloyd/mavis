@@ -1,0 +1,43 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = session.name %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        text: "Home",
+        href: "/dashboard"
+      },
+      {
+        text: "School sessions",
+        href: "/sessions"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="nhsuk-u-width-three-quarters">
+    {{ super() }}
+
+    {{ heading({
+      classes: "nhsuk-u-margin-bottom-2",
+      title: title
+    }) }}
+
+    <p class="nhsuk-body-l nhsuk-u-secondary-text-color">{{ session.date | govukDate }} ({{ session.time }}) · {{ __n("session.cohort.count", session.cohort.length) }}</p>
+
+    {% set cardDescriptionHtml %}
+      <p>
+        <a href="{{ session.uri }}/edit">Edit session</a>
+      </p>
+    {% endset %}
+
+    {{ card({
+      heading: "Details",
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: cardDescriptionHtml
+    }) }}
+  </div>
+{% endblock %}

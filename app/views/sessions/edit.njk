@@ -1,0 +1,44 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.edit.title") %}
+
+{% block form %}
+  {{ super() }}
+
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ card({
+    heading: "Details",
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(session, {
+        urn: {
+          value: session.location.name,
+          href: session.uri + "/edit/urn"
+        },
+        campaign_type: {
+          value: data.campaigns[session.campaign_type].name,
+          href: session.uri + "/edit/campaign-type"
+        },
+        date: {
+          value: (session.date | govukDate) + " (" + session.time + ")",
+          href: session.uri + "/edit/date"
+        },
+        open: {
+          value: session.open | govukDate,
+          href: session.uri + "/edit/schedule"
+        },
+        reminder: {
+          value: session.reminder | govukDate,
+          href: session.uri + "/edit/schedule"
+        },
+        close: {
+          value: session.close | govukDate,
+          href: session.uri + "/edit/schedule"
+        }
+      })
+    })
+  }) }}
+{% endblock %}

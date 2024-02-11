@@ -1,0 +1,39 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.edit.date.title") %}
+
+{% block form %}
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ dateInput({
+    fieldset: {
+      legend: {
+        classes: "nhsuk-fieldset__legend--m",
+        text: "Date"
+      }
+    },
+    hint: {
+      text: "For example, 27 3 2023"
+    },
+    decorate: "session.dateDate"
+  }) }}
+
+  {{ radios({
+    fieldset: {
+      legend: {
+        classes: "nhsuk-fieldset__legend--m",
+        text: "Time"
+      }
+    },
+    items: [{
+      text: "Morning"
+    }, {
+      text: "Afternoon"
+    }, {
+      text: "All day"
+    }],
+    decorate: "session.time"
+  }) }}
+{% endblock %}

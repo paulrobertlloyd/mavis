@@ -1,0 +1,29 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.edit.campaign_type.title") %}
+
+{% block form %}
+  {{ radios({
+    fieldset: {
+      legend: {
+        classes: "nhsuk-fieldset__legend--l",
+        isPageHeading: true,
+        text: title
+      }
+    },
+    items: [{
+      text: "Flu",
+      value: "flu"
+    }, {
+      text: "HPV",
+      value: "hpv"
+    }, {
+      text: "3-in-1",
+      value: "3-in-1-teenage-booster"
+    }, {
+      text: "MenACWY",
+      value: "men-acwy"
+    }],
+    decorate: "session.campaign_type"
+  }) }}
+{% endblock %}

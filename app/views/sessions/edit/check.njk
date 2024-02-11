@@ -1,0 +1,17 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.edit.check.title") %}
+
+{% block form %}
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ card({
+    heading: "Details",
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows
+    })
+  }) }}
+{% endblock %}

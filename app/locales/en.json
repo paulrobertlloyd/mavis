@@ -44,6 +44,62 @@
       "label": "batch.actions.label"
     }
   },
+  "session": {
+    "edit": {
+      "title": "Edit session",
+      "format": {
+        "title": "What type of session are you adding?"
+      },
+      "campaign_type": {
+        "title": "Which routine vaccine is being given?"
+      },
+      "urn": {
+        "title": "Which school is it at?"
+      },
+      "date": {
+        "title": "When is the session?"
+      },
+      "check": {
+        "title": "Check and confirm details"
+      }
+    },
+    "cohort": {
+      "count": {
+        "one": "%s child in cohort",
+        "other": "[0] No children in cohort|%s children in cohort"
+      }
+    },
+    "date": {
+      "label": "Date"
+    },
+    "time": {
+      "label": "Time"
+    },
+    "urn": {
+      "label": "School"
+    },
+    "location": {
+      "label": "Location"
+    },
+    "format": {
+      "label": "Type of session"
+    },
+    "campaign_type": {
+      "label": "Vaccine"
+    },
+    "open": {
+      "label": "Consent requests",
+      "hint": "When should parents get a request for consent?"
+    },
+    "reminder": {
+      "label": "Reminders",
+      "hint": "When should parents who haven’t responded get a reminder?"
+    },
+    "close": {
+      "label": "Deadline for responses",
+      "hint": "session.close.hint"
+    }
+  },
   "user": {
     "action": {
       "title": "Are you sure you want to %s this user?",

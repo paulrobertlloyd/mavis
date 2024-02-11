@@ -9,6 +9,17 @@ export default (env) => {
   const filters = {}
 
   /**
+   * Format date with day of the week
+   * @param {string} string - ISO date, for example 07-12-2021
+   * @returns {string} Formatted date, for example Sunday, 7 December 2021
+   */
+  filters.dateWithDayOfWeek = (string) => {
+    return new Intl.DateTimeFormat('en-GB', {
+      dateStyle: 'full'
+    }).format(new Date(string))
+  }
+
+  /**
    * Format markdown
    * @param {string} string - Markdown
    * @returns {string} HTML decorated with nhsuk-* typography classes

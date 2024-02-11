@@ -4,6 +4,7 @@ import { internationalisation } from './middleware/internationalisation.js'
 import { notification } from './middleware/notification.js'
 import { accountRoutes } from './routes/account.js'
 import { batchRoutes } from './routes/batch.js'
+import { sessionRoutes } from './routes/session.js'
 import { userRoutes } from './routes/user.js'
 import { vaccineRoutes } from './routes/vaccine.js'
 
@@ -13,6 +14,7 @@ router.use(internationalisation)
 router.use(flash(), notification)
 
 router.use('/account', accountRoutes)
+router.use('/sessions', sessionRoutes)
 router.use('/users', userRoutes)
 router.use('/vaccines', vaccineRoutes)
 router.use('/vaccines/:gtin', batchRoutes)
