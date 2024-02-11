@@ -16,3 +16,26 @@ export function convertIsoDateToObject(isoDate) {
     day: dateObj.getDate()
   }
 }
+
+/**
+ * Add days to a date
+ * @param {string} date - ISO 8601 date
+ * @param {number} days - Number of days to add
+ * @returns {Date} Date with days added
+ */
+export function addDays(date, days) {
+  date = new Date(date)
+  date.setDate(date.getDate() + days)
+
+  return date
+}
+
+/**
+ * Format a data
+ * @param {string} string - Date string
+ * @param {object} [options] - DateTimeFormat options
+ * @returns {string} Formatted date
+ */
+export function formatDate(string, options) {
+  return new Intl.DateTimeFormat('en-GB', options).format(new Date(string))
+}
