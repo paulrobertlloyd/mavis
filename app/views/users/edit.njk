@@ -1,7 +1,7 @@
 {% extends "_layouts/form.njk" %}
 
 {% set confirmButtonText = "Save changes" %}
-{% set paths = { back: user.uri } %}
+{% set paths = { back: user.uri } if paths %}
 {% set title = __("user.edit.title", user.fullName) %}
 
 {% block form %}

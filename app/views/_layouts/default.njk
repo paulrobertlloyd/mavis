@@ -18,13 +18,28 @@
 
 {% block header %}
   {{ header({
+    containerClasses: "nhsuk-width-container",
     service: {
       name: serviceName,
-      href: "/"
+      href: "/dashboard" if data.token else "/"
     },
-    showNav: "false",
+    homeHref: "/dashboard" if data.token else "/",
+    showNav: "true" if data.token else "false",
     showSearch: "false",
-    containerClasses: "nhsuk-width-container"
+    primaryLinks: [
+      {
+        url: "/users",
+        label: "Manage team"
+      } if data.token.admin,
+      {
+        url: "/account",
+        label: "Your account"
+      },
+      {
+        url: "/account/sign-out",
+        label: "Sign out"
+      }
+    ]
   }) }}
   {{ govukPhaseBanner({
     classes: "nhsuk-width-container",

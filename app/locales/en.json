@@ -1,4 +1,23 @@
 {
+  "account": {
+    "edit": {
+      "title": "Edit account details"
+    },
+    "sign-in": {
+      "title": "Sign in",
+      "confirm": "Sign in"
+    },
+    "success": {
+      "update": "Account details updated"
+    },
+    "password": {
+      "forgot": "I’ve forgotten my password",
+      "label": "Password"
+    },
+    "email": {
+      "label": "Email address"
+    }
+  },
   "user": {
     "action": {
       "title": "Are you sure you want to %s this user?",
