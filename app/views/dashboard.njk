@@ -14,6 +14,15 @@
     <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
       {{ card({
         clickable: true,
+        heading: __("session.list.title"),
+        headingClasses: "nhsuk-heading-m",
+        href: "/sessions",
+        description: __("session.list.description")
+      }) }}
+    </li>
+    <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        clickable: true,
         heading: __("vaccine.list.title"),
         headingClasses: "nhsuk-heading-m",
         href: "/vaccines",
@@ -21,6 +30,13 @@
       }) }}
     </li>
   </ul>
+
+  <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
+    <a class="nhsuk-link nhsuk-link--no-visited-state" href="/campaigns">
+      {{ __("campaign.list.title") }}
+    </a>
+  </h2>
+  <p>{{ __("campaign.list.description") }}</p>
 
   {% if data.token.admin %}
   <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
