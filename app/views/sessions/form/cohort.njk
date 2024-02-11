@@ -1,0 +1,47 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.edit.cohort.title") %}
+{% set cohort = data.records | cohort(data.campaigns, session.campaign_uuid) %}
+
+{% macro checkboxHtml(label, nhsukNumber) %}
+{{ checkboxes({
+  items: [{
+    idPrefix: "session-cohort",
+    name: "[session][cohort]",
+    value: nhsukNumber,
+    html: "<span class=\"nhsuk-u-visually-hidden\">Choose " + label + "</span>",
+    checked: session.cohort | arrayOrStringIncludes(nhsukNumber)
+  }]
+}) }}
+{% endmacro %}
+
+{% block form %}
+  {{ heading({ title: title }) }}
+
+  <action-table sort="name">
+    <table class="nhsuk-table app-table--select-cohort">
+      <thead class="nhsuk-table__head">
+        <tr class="nhsuk-table__row">
+          <th class="nhsuk-table__header" no-sort>{{ checkboxHtml("all") }}</th>
+          <th class="nhsuk-table__header">{{ __("record.fullName.label") }}</th>
+          <th class="nhsuk-table__header">{{ __("record.dob.label") }}</th>
+        </tr>
+      </thead>
+      <tbody class="nhsuk-table__body">
+        {% for record in cohort %}
+        <tr class="nhsuk-table__row">
+          <td class="nhsuk-table__cell">
+            {{ checkboxHtml(record.fullName, record.nhsn) }}
+          </td>
+          <td class="nhsuk-table__cell" data-sort="{{ record.lastName }}">
+            {{ record.fullName }}
+          </td>
+          <td class="nhsuk-table__cell" data-sort="{{ record.dob }}">
+            {{ record.dob | govukDate }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </action-table>
+{% endblock %}

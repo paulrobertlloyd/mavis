@@ -1,0 +1,66 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = __("session.list.title") %}
+
+{% block content %}
+  {{ super() }}
+
+  <div class="app-heading-group">
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
+
+    {{ button({
+      classes: "nhsuk-button--secondary",
+      text: __("session.list.new"),
+      href: "/sessions/new"
+    }) }}
+  </div>
+
+  {% for type, sessions in sessions | groupby("campaign_uuid") %}
+    {% set sessionRows = [] %}
+    {% for session in sessions %}
+      {% set sessionRows = sessionRows | push([
+        {
+          header: __("session.date.label"),
+          html: session.date | govukDate or "Not provided",
+          attributes: {
+            "data-sort": session.date
+          }
+        },
+        {
+          header: __("session.time.label"),
+          html: SessionTime[session.time] or "Not provided"
+        },
+        {
+          header: __("session.location.label"),
+          html: sessionSummary(session) or "Not provided"
+        },
+        {
+          header: __("session.cohort.label"),
+          html: session.cohort.length
+        }
+      ]) %}
+    {% endfor %}
+
+    {{ actionTable({
+      sort: "date",
+      heading: data.campaigns[sessions[0].campaign_uuid].name,
+      panel: true,
+      responsive: true,
+      head: [
+        { text: __("session.date.label") },
+        { text: __("session.time.label") },
+        { text: __("session.location.label") },
+        {
+          text: __("session.cohort.label"),
+          attributes: {
+            "no-sort": "no-sort"
+          }
+        }
+      ],
+      rows: sessionRows
+    }) }}
+  {% endfor %}
+{% endblock %}

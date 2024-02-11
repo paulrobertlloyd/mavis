@@ -1,0 +1,58 @@
+{% extends "_layouts/form.njk" %}
+
+{% set confirmButtonText = "Save changes" %}
+{% set paths = { back: session.uri } %}
+{% set title = __("session.edit.title") %}
+
+{% block form %}
+  {{ super() }}
+
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ card({
+    heading: "Details",
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(session, {
+        format: {
+          value: SessionFormat[session.format],
+          href: session.uri + "/edit/format"
+        },
+        campaign_uuid: {
+          value: data.campaigns[session.campaign_uuid].name,
+          href: session.uri + "/edit/campaign-uuid"
+        },
+        urn: {
+          value: session.location.name,
+          href: session.uri + "/edit/urn"
+        },
+        cohort: {
+          value: __n("session.cohort.count", session.cohort.length),
+          href: session.uri + "/edit/cohort"
+        },
+        date: {
+          value: session.date | dateWithDayOfWeek,
+          href: session.uri + "/edit/date"
+        },
+        time: {
+          value: SessionTime[session.time],
+          href: session.uri + "/edit/date"
+        },
+        open: {
+          value: session.open | dateWithDayOfWeek,
+          href: session.uri + "/edit/schedule"
+        },
+        reminder: {
+          value: session.reminder | dateWithDayOfWeek,
+          href: session.uri + "/edit/schedule"
+        },
+        close: {
+          value: session.close | dateWithDayOfWeek,
+          href: session.uri + "/edit/schedule"
+        }
+      })
+    })
+  }) }}
+{% endblock %}
