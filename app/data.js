@@ -1,8 +1,11 @@
 import _ from 'lodash'
 import { readFileSync } from 'fs'
 import registrars from './datasets/professional-bodies.js'
+import schools from './datasets/schools.js'
 import vaccines from './datasets/vaccines.js'
 const batches = JSON.parse(readFileSync('.data/batches.json'))
+const campaigns = JSON.parse(readFileSync('.data/campaigns.json'))
+const sessions = JSON.parse(readFileSync('.data/sessions.json'))
 const users = JSON.parse(readFileSync('.data/users.json'))
 
 /**
@@ -15,6 +18,7 @@ const users = JSON.parse(readFileSync('.data/users.json'))
  */
 export default {
   batches,
+  campaigns,
   // Set feature flags using the `features` key
   features: {
     demo: {
@@ -24,6 +28,8 @@ export default {
     }
   },
   registrars,
+  schools,
+  sessions,
   users,
   vaccines: _.keyBy(vaccines, 'gtin')
 }

@@ -1,0 +1,49 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("session.new.check-answers.title") %}
+
+{% block form %}
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ card({
+    heading: "New session details",
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(session, {
+        format: {
+          href: session.uri + "/new/format"
+        },
+        campaign_type: {
+          value: session.campaign.name,
+          href: session.uri + "/new/campaign-type"
+        },
+        urn: {
+          value: session.location.name,
+          href: session.uri + "/new/urn"
+        },
+        date: {
+          value: session.date | dateWithDayOfWeek,
+          href: session.uri + "/new/date"
+        },
+        time: {
+          value: session.time,
+          href: session.uri + "/new/date"
+        },
+        open: {
+          value: session.open | dateWithDayOfWeek,
+          href: session.uri + "/new/schedule"
+        },
+        reminder: {
+          value: session.reminder | dateWithDayOfWeek,
+          href: session.uri + "/new/schedule"
+        },
+        close: {
+          value: session.close | dateWithDayOfWeek,
+          href: session.uri + "/new/schedule"
+        }
+      })
+    })
+  }) }}
+{% endblock %}
