@@ -24,7 +24,7 @@
     "dev": "npm-run-all --parallel assets:watch serve"
   },
   "dependencies": {
-    "@colinaut/action-table": "^2.4.6",
+    "@colinaut/action-table": "^2.4.9",
     "@faker-js/faker": "^8.4.0",
     "express-flash": "^0.0.2",
     "i18n": "^0.15.1",
