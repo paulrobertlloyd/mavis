@@ -1,0 +1,160 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = __("report.list.title") %}
+
+{% block pageTitle %}
+  {{- title }}: {{ campaign.name + " - " }}
+  {{- serviceName + " - NHS.UK" -}}
+{% endblock %}
+
+{% block content %}
+  <div class="app-heading-group">
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
+
+    <p class="nhsuk-body nhsuk-u-secondary-text-color">
+      1 January 2023 - Today<br>
+      <a class="nhsuk-link nhsuk-u-font-size-16" href="#">Change date range</a>
+    </p>
+  </div>
+
+  {% set secondaryNavigationItems = [] %}
+  {% for campaign in data.campaigns | objectToArray %}
+    {% set secondaryNavigationItems = secondaryNavigationItems | push(
+      {
+        href: "/reports/" + campaign.type,
+        text: campaign.name,
+        current: type == campaign.type
+      }
+    ) %}
+  {% endfor %}
+
+  {{ xGovukSecondaryNavigation({
+    classes: "nhsuk-u-margin-bottom-4",
+    items: secondaryNavigationItems
+  }) }}
+
+  <h2 class="nhsuk-heading-l">Overall {{ campaign.name }} campaign performance</h2>
+
+  <div class="nhsuk-grid-row nhsuk-card-group">
+    <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        classes: "app-card--data",
+        heading: "Sessions completed",
+        description: "567"
+      }) }}
+    </div>
+
+    <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        classes: "app-card--data",
+        heading: "Vaccinations delivered",
+        description: "456"
+      }) }}
+    </div>
+
+    <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        classes: "app-card--data",
+        heading: "Children rescheduled",
+        description: "12"
+      }) }}
+    </div>
+
+    <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        classes: "app-card--data",
+        heading: "Consent requests and reminders sent",
+        description: "1671"
+      }) }}
+    </div>
+
+    <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        classes: "app-card--data",
+        heading: "Consent given (versus refused or no response)",
+        description: "78%"
+      }) }}
+    </div>
+
+    <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        classes: "app-card--data",
+        heading: "Responses received and triaged",
+        description: "98%"
+      }) }}
+    </div>
+  </div>
+
+  {{ table({
+    heading: "Reasons for refusal",
+    panel: true,
+    head: [
+      { text: "Reason" },
+      { text: "Frequency", format: "numeric" }
+    ],
+    rows: [
+      [
+        { text: "Vaccine contains gelatine from pigs" },
+        { text: "11.1%", format: "numeric" }
+      ] if type == "flu",
+      [
+        { text: "Vaccine already received" },
+        { text: "2.0%", format: "numeric" }
+      ],
+      [
+        { text: "Vaccine will be given elsewhere" },
+        { text: "3.6%", format: "numeric" }
+      ],
+      [
+        { text: "Medical reasons" },
+        { text: "1.0%", format: "numeric" }
+      ],
+      [
+        { text: "Personal choice" },
+        { text: "5.1%", format: "numeric" }
+      ],
+      [
+        { text: "Other" },
+        { text: "1.1%", format: "numeric" }
+      ]
+    ]
+  }) }}
+
+  {% set questionRows = [] %}
+  {% for question in campaign.healthQuestions %}
+    {% set questionRows = questionRows | push([
+      {
+        text: HealthQuestion[question]
+      },
+      {
+        text: ["0.21","0.57","3.45","1.89"] | random + "%",
+        format: "numeric"
+      }
+    ]) %}
+  {% endfor %}
+
+  {{ table({
+    heading: "Consent journey",
+    panel: true,
+    head: [
+      { text: "Question" },
+      { html: "Dropout", format: "numeric" }
+    ],
+    rows: questionRows
+  }) }}
+
+  <p class="nhsuk-body">Average time between parent accessing the start page to submitting their response was<br><b>3 minutes and 12 seconds</b>.</p>
+
+  <hr class="nhsuk-section-break nhsuk-section-break--visible  nhsuk-section-break--m">
+
+  {{ button({
+    href: "/public/downloads/vaccinations.csv",
+    text: "Download NIVS data (CSV)",
+    attributes: {
+      download: "example.csv"
+    }
+  })}}
+{% endblock %}
