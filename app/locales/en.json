@@ -98,6 +98,12 @@
       "label": "School"
     }
   },
+  "report": {
+    "list": {
+      "title": "Reports",
+      "description": "View service and campaign performance reports."
+    }
+  },
   "session": {
     "list": {
       "title": "School sessions",
