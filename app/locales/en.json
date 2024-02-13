@@ -50,6 +50,11 @@
       "label": "batch.actions.label"
     }
   },
+  "report": {
+    "list": {
+      "title": "Reports"
+    }
+  },
   "session": {
     "list": {
       "title": "School sessions",
