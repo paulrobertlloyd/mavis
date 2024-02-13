@@ -17,6 +17,10 @@ export const navigation = (request, response, next) => {
             label: __('vaccine.list.title')
           },
           {
+            url: '/reports',
+            label: __('report.list.title')
+          },
+          {
             url: '/users',
             label: __('user.list.title')
           },
@@ -37,6 +41,10 @@ export const navigation = (request, response, next) => {
           {
             url: '/vaccines',
             label: __('vaccine.list.title')
+          },
+          {
+            url: '/reports',
+            label: __('report.list.title')
           },
           {
             url: '/account',
