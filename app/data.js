@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { readFileSync } from 'fs'
 import vaccines from './datasets/vaccines.js'
 const batches = JSON.parse(readFileSync('.data/batches.json'))
+const records = JSON.parse(readFileSync('.data/records.json'))
 const users = JSON.parse(readFileSync('.data/users.json'))
 
 /**
@@ -22,6 +23,7 @@ export default {
       description: 'Show message about feature flags on the home page.'
     }
   },
+  records,
   users,
   vaccines: _.keyBy(vaccines, 'gtin')
 }
