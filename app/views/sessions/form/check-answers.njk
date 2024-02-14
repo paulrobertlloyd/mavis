@@ -15,13 +15,17 @@
         format: {
           href: session.uri + "/new/format"
         },
-        campaign_type: {
-          value: session.campaign.name,
-          href: session.uri + "/new/campaign-type"
+        campaign_uuid: {
+          value: data.campaigns[session.campaign_uuid].name,
+          href: session.uri + "/new/campaign-uuid"
         },
         urn: {
           value: session.location.name,
           href: session.uri + "/new/urn"
+        },
+        cohort: {
+          value: __n("session.cohort.count", session.cohort.length),
+          href: session.uri + "/edit/cohort"
         },
         date: {
           value: session.date | dateWithDayOfWeek,
