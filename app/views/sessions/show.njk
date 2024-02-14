@@ -1,6 +1,7 @@
 {% extends "_layouts/default.njk" %}
 
-{% set title = session.name %}
+{% set campaign = data.campaigns[session.campaign_uuid] %}
+{% set title = campaign.name + " session at " + session.location.name %}
 
 {% block beforeContent %}
   {{ breadcrumb({

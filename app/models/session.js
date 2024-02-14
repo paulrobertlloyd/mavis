@@ -1,5 +1,4 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
-import campaignTypes from '../datasets/campaign-types.js'
 import schools from '../datasets/schools.js'
 import {
   convertIsoDateToObject,
@@ -9,6 +8,7 @@ import {
 /**
  * @class Session
  * @property {string} id - ID
+ * @property {Array} cohort - Cohort
  * @property {string} [format] - Format
  * @property {string} [urn] - School
  * @property {object} [date] - Date
@@ -16,8 +16,7 @@ import {
  * @property {object} [open] - Date consent window opens
  * @property {number} [reminder] - Date to send reminders
  * @property {object} [close] - Date consent window closes
- * @property {string} [campaign_type] - Campaign type
- * @function name - Get session name
+ * @property {string} [campaign_uuid] - Campaign UUID
  * @function school - Get school details
  * @function location - Get location details
  * @function ns - Namespace
@@ -26,6 +25,7 @@ import {
 export class Session {
   constructor(options) {
     this.id = options?.id || faker.helpers.replaceSymbols('??##')
+    this.cohort = options?.cohort || []
     this.format = options?.format
     this.urn = options?.urn
     this.date = options?.date
@@ -33,7 +33,7 @@ export class Session {
     this.open = options?.open
     this.reminder = options?.reminder
     this.close = options?.close
-    this.campaign_type = options?.campaign_type
+    this.campaign_uuid = options?.campaign_uuid
     // dateInput objects
     this.date_ = options?.date_
     this.open_ = options?.open_
@@ -41,12 +41,10 @@ export class Session {
     this.close_ = options?.close_
   }
 
-  static generate() {
-    const campaign_type = faker.helpers.arrayElement(['flu', 'hpv'])
-
+  static generate(campaign) {
     // Flu campaigns take place in primary schools, other campaigns in secondary
     let school = faker.helpers.arrayElement(schools)
-    if (campaign_type === 'flu') {
+    if (campaign.type === 'flu') {
       const primary = Object.values(schools).filter(
         (school) => school.phase === 'Primary'
       )
@@ -73,6 +71,7 @@ export class Session {
     close.setDate(close.getDate() - 3)
 
     return new Session({
+      cohort: faker.helpers.arrayElements(campaign.cohort, 10),
       format: faker.helpers.arrayElement([
         'A routine session in school',
         'A catch-up session in school',
@@ -84,7 +83,7 @@ export class Session {
       open: new Date(open).toISOString(),
       reminder: new Date(reminder).toISOString(),
       close: new Date(close).toISOString(),
-      campaign_type
+      campaign_uuid: campaign.uuid
     })
   }
 
@@ -125,18 +124,6 @@ export class Session {
   set close_(object) {
     if (object) {
       this.close = convertObjectToIsoDate(object)
-    }
-  }
-
-  get campaign() {
-    if (this.campaign_type) {
-      return campaignTypes[this.campaign_type]
-    }
-  }
-
-  get name() {
-    if (this.campaign && this.location) {
-      return `${this.campaign.name} session at ${this.location.name}`
     }
   }
 
