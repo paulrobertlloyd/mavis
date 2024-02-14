@@ -1,0 +1,25 @@
+{% extends "_layouts/unbranded.njk" %}
+
+{% set title = record.fullName %}
+{% set paths = { back: "/records" } %}
+
+{% block content %}
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ card({
+    heading: "Details",
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(record, {
+        nhsNumber: { value: record.formattedNhsNumber },
+        fullName: {},
+        dob: { value: record.dobWithAge },
+        sex: {},
+        address: { value: record.formattedAddress | nl2br },
+        gpSurgery: {}
+      })
+    })
+  }) }}
+{% endblock %}

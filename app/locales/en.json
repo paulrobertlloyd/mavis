@@ -50,6 +50,34 @@
       "label": "batch.actions.label"
     }
   },
+  "record": {
+    "list": {
+      "title": "Records",
+      "caption": "Child Health Information Service"
+    },
+    "count": {
+      "one": "%s record",
+      "other": "%s records"
+    },
+    "nhsNumber": {
+      "label": "NHS number"
+    },
+    "fullName": {
+      "label": "Full name"
+    },
+    "dob": {
+      "label": "Date of birth"
+    },
+    "sex": {
+      "label": "Sex"
+    },
+    "address": {
+      "label": "Address"
+    },
+    "gpSurgery": {
+      "label": "GP surgery"
+    }
+  },
   "report": {
     "list": {
       "title": "Reports"
