@@ -1,5 +1,4 @@
 import { wizard } from 'nhsuk-prototype-rig'
-import campaignTypes from '../datasets/campaign-types.js'
 import { Session } from '../models/session.js'
 
 export const sessionController = {
@@ -75,8 +74,9 @@ export const sessionController = {
     const journey = {
       [`/`]: {},
       [`/${id}/${form}/format`]: {},
-      [`/${id}/${form}/campaign-type`]: {},
+      [`/${id}/${form}/campaign-uuid`]: {},
       [`/${id}/${form}/urn`]: {},
+      [`/${id}/${form}/cohort`]: {},
       [`/${id}/${form}/date`]: {},
       [`/${id}/${form}/schedule`]: {},
       [`/${id}/${form}/check-answers`]: {},
@@ -91,10 +91,10 @@ export const sessionController = {
       })
     }
 
-    response.locals.campaignTypeItems = Object.entries(campaignTypes).map(
-      ([id, campaign]) => ({
+    response.locals.campaignItems = Object.entries(data.campaigns).map(
+      ([uuid, campaign]) => ({
         text: campaign.name,
-        value: id
+        value: uuid
       })
     )
 

@@ -101,11 +101,14 @@
       "format": {
         "title": "What type of session are you adding?"
       },
-      "campaign_type": {
-        "title": "Which routine vaccine is being given?"
+      "campaign_uuid": {
+        "title": "Which campaign is this session part of?"
       },
       "urn": {
         "title": "Which school is it at?"
+      },
+      "cohort": {
+        "title": "Choose cohort for this session"
       },
       "date": {
         "title": "When is the session?"
@@ -116,6 +119,7 @@
       "update": "Session updated"
     },
     "cohort": {
+      "label": "Cohort",
       "count": {
         "one": "%s child in cohort",
         "other": "[0] No children in cohort|%s children in cohort"
@@ -137,8 +141,8 @@
     "format": {
       "label": "Type of session"
     },
-    "campaign_type": {
-      "label": "Vaccine"
+    "campaign_uuid": {
+      "label": "Campaign"
     },
     "open": {
       "label": "Consent requests",
