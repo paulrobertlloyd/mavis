@@ -5,6 +5,7 @@ import schools from './datasets/schools.js'
 import vaccines from './datasets/vaccines.js'
 const batches = JSON.parse(readFileSync('.data/batches.json'))
 const campaigns = JSON.parse(readFileSync('.data/campaigns.json'))
+const records = JSON.parse(readFileSync('.data/records.json'))
 const sessions = JSON.parse(readFileSync('.data/sessions.json'))
 const users = JSON.parse(readFileSync('.data/users.json'))
 
@@ -27,6 +28,7 @@ export default {
       description: 'Show message about feature flags on the home page.'
     }
   },
+  records,
   registrars,
   schools,
   sessions,
