@@ -66,5 +66,16 @@ export default (env) => {
     return newArray
   }
 
+  /**
+   * Filter array where key has a value
+   * @param {Array} array - Array
+   * @param {string} key - Key to check
+   * @param {string} value - Value to check
+   * @returns {Array} Filtered array
+   */
+  filters.where = (array, key, value) => {
+    return array.filter((item) => item[key] === value)
+  }
+
   return filters
 }

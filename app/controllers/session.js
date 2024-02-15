@@ -1,5 +1,10 @@
 import { wizard } from 'nhsuk-prototype-rig'
+import { CONSENT_OUTCOME, Patient } from '../models/patient.js'
 import { Session } from '../models/session.js'
+
+const consentSort = Object.fromEntries(
+  CONSENT_OUTCOME.map((outcome, index) => [outcome, index])
+)
 
 export const sessionController = {
   list(request, response) {
@@ -13,7 +18,44 @@ export const sessionController = {
   },
 
   show(request, response) {
-    response.render('sessions/show')
+    const { id } = request.params
+    const { data } = request.session
+
+    const session = data.sessions[id]
+
+    response.render('sessions/show', {
+      patients: Object.values(data.patients)
+        .filter((patient) => session.cohort.includes(patient.nhsNumber))
+        .map((patient) => new Patient(patient))
+        .sort((a, b) => consentSort[a.consent] - consentSort[b.consent])
+    })
+  },
+
+  patients(request, response) {
+    const { activity, id } = request.params
+    const { data } = request.session
+
+    const session = data.sessions[id]
+
+    response.render('sessions/patients', {
+      patients: Object.values(data.patients)
+        .filter((patient) => session.cohort.includes(patient.nhsNumber))
+        .map((patient) => new Patient(patient)),
+      activity
+    })
+  },
+
+  patient(request, response) {
+    const { activity, id, nhsNumber } = request.params
+    const { data } = request.session
+
+    const session = new Session(data.sessions[id])
+
+    response.render('patients/show', {
+      activity,
+      paths: { back: `${session.uri}/${activity}` },
+      patient: new Patient(data.patients[nhsNumber])
+    })
   },
 
   read(request, response, next) {

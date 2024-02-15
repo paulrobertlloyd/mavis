@@ -11,6 +11,14 @@
     }) }}
 
     {{ card({
+      classes: "app-card--" + patientStatus(patient).colour,
+      heading: patientStatus(patient).label,
+      headingClasses: "nhsuk-heading-m",
+      description: patientStatus(patient).description,
+      feature: true
+    }) }}
+
+    {{ card({
       heading: "Child record",
       headingClasses: "nhsuk-heading-m",
       descriptionHtml: summaryList({
@@ -23,6 +31,21 @@
           gpSurgery: {}
         })
       })
+    }) }}
+
+    {% set consentDescriptionHtml %}
+      {%- set consentIcon = __("consent." + patient.consent + ".icon") -%}
+      {%- set consentColour = __("consent." + patient.consent + ".colour") -%}
+      <p class="app-status{{ " app-status--" + consentColour if consentColour }}">
+        {{- icon(consentIcon) if consentIcon -}}
+        {{- __("consent." + patient.consent + ".label") -}}
+      </p>
+    {% endset %}
+
+    {{ card({
+      heading: "Consent",
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: consentDescriptionHtml
     }) }}
   </div>
 {% endblock %}

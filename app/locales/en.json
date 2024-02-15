@@ -66,6 +66,108 @@
       "label": "Health questions"
     }
   },
+  "capture": {
+    "VACCINATED": {
+      "label": "Vaccinated"
+    },
+    "PART_VACCINATED": {
+      "label": "Partially vaccinated"
+    },
+    "ALREADY_VACCINATED": {
+      "label": "Already had the vaccine"
+    },
+    "CONTRAINDICATIONS": {
+      "label": "Had contraindications"
+    },
+    "REFUSED": {
+      "label": "Refused vaccine"
+    },
+    "ABSENT_SCHOOL": {
+      "label": "Absent from school"
+    },
+    "ABSENT_SESSION": {
+      "label": "Absent from the session"
+    },
+    "UNWELL": {
+      "label": "Unwell"
+    },
+    "NO_CONSENT": {
+      "label": "Unable to contact parent"
+    },
+    "LATE_CONSENT": {
+      "label": "Consent received too late"
+    }
+  },
+  "consent": {
+    "NO_RESPONSE": {
+      "colour": "grey",
+      "description": "No-one responded to our requests for consent",
+      "label": "No response",
+      "tab": "No response (%s)",
+      "count": {
+        "one": "%s child with no consent response",
+        "other": "[0] No children with no consent response|%s children with no consent response"
+      }
+    },
+    "GIVEN": {
+      "colour": "blue",
+      "description": "%s is ready to vaccinate",
+      "icon": "tick",
+      "label": "Consent given",
+      "tab": "Given (%s)",
+      "count": {
+        "one": "%s child with consent given",
+        "other": "[0] No children with consent given|%s children with consent given"
+      }
+    },
+    "REFUSED": {
+      "colour": "red",
+      "description": "%s refused to give consent",
+      "icon": "cross",
+      "label": "Consent refused",
+      "tab": "Refused (%s)",
+      "count": {
+        "one": "%s child with consent refused",
+        "other": "[0] No children with consent refused|%s children with consent refused"
+      }
+    },
+    "FINAL_REFUSAL": {
+      "colour": "red",
+      "description": "Refusal to give consent confirmed by %s",
+      "icon": "cross",
+      "label": "Refusal confirmed",
+      "tab": "Refusal confirmed (%s)",
+      "count": {
+        "one": "%s child with no consent response",
+        "other": "[0] No children with no consent response|%s children with no consent response"
+      }
+    },
+    "INCONSISTENT": {
+      "colour": "orange",
+      "description": "You can only vaccinate if all respondents give consent.",
+      "label": "Conflicting consent",
+      "tab": "Conflicts (%s)",
+      "count": {
+        "one": "%s child with conflicting consent responses",
+        "other": "[0] No children with conflicting consent|%s children with conflicting consent"
+      },
+      "icon": "consent.INCONSISTENT.icon"
+    }
+  },
+  "outcome": {
+    "NO_RESPONSE": {
+      "colour": "grey",
+      "label": "No outcome yet"
+    },
+    "VACCINATED": {
+      "colour": "green",
+      "label": "Vaccinated"
+    },
+    "COULD_NOT_VACCINATE": {
+      "colour": "red",
+      "label": "Could not vaccinate"
+    }
+  },
   "record": {
     "list": {
       "title": "Records",
@@ -101,7 +203,32 @@
       "description": "View service and campaign performance reports."
     }
   },
+  "screen": {
+    "NEEDS_TRIAGE": {
+      "label": "Needs triage"
+    },
+    "DELAY_VACCINATION": {
+      "label": "Delay vaccination to a later date"
+    },
+    "DO_NOT_VACCINATE": {
+      "label": "Do not vaccinate in campaign"
+    },
+    "VACCINATE": {
+      "label": "Safe to vaccinate"
+    }
+  },
   "session": {
+    "activity": {
+      "consent": {
+        "title": "Check consent responses"
+      },
+      "screen": {
+        "title": "Triage health questions"
+      },
+      "capture": {
+        "title": "Record vaccinations"
+      }
+    },
     "list": {
       "title": "School sessions",
       "description": "Create new school sessions, check consent requests, triage answers to health questions and record vaccinations.",

@@ -1,0 +1,77 @@
+{% extends "_layouts/default.njk" %}
+
+{% set campaign = data.campaigns[session.campaign_uuid] %}
+{% set sessionName = campaign.name + " session at " + session.location.name %}
+{% set title = __("session.activity." + activity + ".title") %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        text: "Home",
+        href: "/dashboard"
+      },
+      {
+        text: __("session.list.title"),
+        href: "/sessions"
+      },
+      {
+        text: sessionName,
+        href: "/sessions/" + session.id
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    title: title
+  }) }}
+
+  {% set tabItems = [] %}
+  {% for consent, patients in patients | groupby("consent") %}
+    {% set patientRows = [] %}
+    {% for patient in patients %}
+      {% set patientRows = patientRows | push([
+        {
+          header: __("record.fullName.label"),
+          html: link(session.uri + "/" + activity + "/" + patient.nhsNumber, patient.record.fullName)
+        },
+        {
+          header: __("record.nhsNumber.label"),
+          html: patient.formattedNhsNumber or "Not provided"
+        },
+        {
+          header: __("record.dob.label"),
+          html: patient.record.dob | govukDate or "Not provided"
+        }
+      ]) %}
+    {% endfor %}
+
+    {% set tabItems = tabItems | push({
+      id: __("consent." + consent + ".label") | slugify,
+      label: __("consent." + consent + ".tab", patients.length),
+      panel: {
+        html: actionTable({
+          sort: "full name",
+          table: {
+            caption: __n("consent." + consent + ".count", patients.length),
+            responsive: true,
+            head: [
+              { text: __("record.fullName.label") },
+              { text: __("record.nhsNumber.label") },
+              { text: __("record.dob.label") }
+            ],
+            rows: patientRows
+          }
+        })
+      }
+    }) %}
+  {% endfor %}
+
+  {{ tabs({
+    items: tabItems
+  }) }}
+{% endblock %}
