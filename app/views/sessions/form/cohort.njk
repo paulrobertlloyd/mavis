@@ -31,7 +31,7 @@
         {% for record in cohort %}
         <tr class="nhsuk-table__row">
           <td class="nhsuk-table__cell">
-            {{ checkboxHtml(record.fullName, record.nhsNumber) }}
+            {{ checkboxHtml(record.fullName, record.nhsn) }}
           </td>
           <td class="nhsuk-table__cell" data-sort="{{ record.lastName }}">
             {{ record.fullName }}
