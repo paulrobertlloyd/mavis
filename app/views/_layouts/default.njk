@@ -1,6 +1,7 @@
 {% extends "template.njk" %}
 
 {% from "_macros/action-table.njk" import actionTable %}
+{% from "_macros/count.njk" import count %}
 {% from "_macros/heading.njk" import heading %}
 {% from "_macros/icon.njk" import icon %}
 
@@ -16,6 +17,7 @@
 {% endblock %}
 
 {% set bodyAttributes = {"data-module": "edge"} %}
+{% set bodyClasses = "app-signed-in" if data.token %}
 
 {% block header %}
   {{ header({

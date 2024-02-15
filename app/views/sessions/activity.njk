@@ -1,0 +1,94 @@
+{% extends "_layouts/default.njk" %}
+
+{% set campaign = data.campaigns[session.campaign_uuid] %}
+{% set sessionName = campaign.name + " session at " + session.location.name %}
+{% set title = __("session.activity." + activity + ".title") %}
+{% set patientsWithOutcome = patients | where("consent", ConsentOutcome[consent]) %}
+
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        text: "Home",
+        href: "/dashboard"
+      },
+      {
+        text: __("session.list.title"),
+        href: "/sessions"
+      },
+      {
+        text: sessionName,
+        href: "/sessions/" + session.id
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    title: title
+  }) }}
+
+  {% include "sessions/_secondary-navigation.njk" %}
+
+  {% set patientRows = [] %}
+  {% for patient in patientsWithOutcome %}
+    {% set patientRows = patientRows | push([
+      {
+        header: __("record.fullName.label"),
+        html: link(session.uri + "/" + patient.nhsn, patient.record.fullName)
+      },
+      {
+        header: __("record.nhsn.label"),
+        text: patient.formattedNhsNumber or "Not provided"
+      },
+      {
+        header: __("record.dob.label"),
+        text: patient.record.dob | govukDate or "Not provided",
+        attributes: {
+          "data-filter": patient.record.dob | date({ dateStyle: "short" }),
+          "data-sort": patient.record.dob
+        }
+      }
+    ]) %}
+  {% endfor %}
+
+  {% if patientsWithOutcome.length %}
+    {% call actionTable({
+      classes: "app-patients",
+      tableClasses: "app-patients__table",
+      sort: "name",
+      caption: __n("consent." + consent + ".count", patientsWithOutcome.length),
+      captionClasses: "nhsuk-u-secondary-text-color nhsuk-u-font-weight-normal nhsuk-u-font-size-19",
+      responsive: true,
+      head: [
+        {
+          text: __("record.fullName.label"),
+          attributes: {
+            "data-col": "name"
+          }
+        },
+        {
+          text: __("record.nhsn.label")
+        },
+        {
+          text: __("record.dob.label"),
+          attributes: {
+            "data-col": "dob"
+          }
+        }
+      ],
+      rows: patientRows
+    }) %}
+      <action-table-filters class="app-patients__filters">
+        {% include "sessions/_filters.njk" %}
+      </action-table-filters>
+    {% endcall %}
+  {% else %}
+    <div class="app-patients">
+      <p class="app-patients__no-results nhsuk-caption-m">{{ __n("consent." + consent + ".count", patientsWithOutcome.length) }}</p>
+    </div>
+  {% endif %}
+{% endblock %}
