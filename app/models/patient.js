@@ -1,6 +1,36 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Record } from './record.js'
 
+export const CONSENT_OUTCOME = [
+  'NO_RESPONSE',
+  'GIVEN',
+  'REFUSED',
+  'FINAL_REFUSAL',
+  'INCONSISTENT'
+]
+
+export const SCREEN_OUTCOME = [
+  'NEEDS_TRIAGE',
+  'DELAY_VACCINATION',
+  'DO_NOT_VACCINATE',
+  'VACCINATE'
+]
+
+export const CAPTURE_OUTCOME = [
+  'VACCINATED',
+  'PART_VACCINATED',
+  'ALREADY_VACCINATED',
+  'CONTRAINDICATIONS',
+  'REFUSED',
+  'ABSENT_SCHOOL',
+  'ABSENT_SESSION',
+  'UNWELL',
+  'NO_CONSENT',
+  'LATE_CONSENT'
+]
+
+export const OUTCOME = ['NO_OUTCOME_YET', 'VACCINATED', 'COULD_NOT_VACCINATE']
+
 /**
  * @class Patient in-session record
  * @property {string} nhsn - NHS number
@@ -26,12 +56,15 @@ export class Patient {
   }
 
   static generate(chis_record) {
+    const consent = faker.helpers.arrayElement(CONSENT_OUTCOME)
+    const outcome = 'NO_OUTCOME_YET'
+
     return new Patient({
       nhsn: chis_record.nhsn,
-      consent: false,
+      consent,
       screen: false,
       capture: false,
-      outcome: false,
+      outcome,
       log: [],
       chis_record
     })
