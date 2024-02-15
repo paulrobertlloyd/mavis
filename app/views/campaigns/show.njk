@@ -1,0 +1,26 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = campaign.name %}
+{% set paths = { back: "/campaigns" } %}
+
+{% block content %}
+  <div class="nhsuk-u-width-three-quarters">
+    {{ super() }}
+
+    {{ heading({
+      title: title
+    }) }}
+
+    {{ card({
+      heading: "Details",
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(campaign, {
+          name: {},
+          vaccines: { value: vaccines | join("\n") | nl2br },
+          healthQuestions: { value: healthQuestions | join("\n") | nl2br }
+        })
+      })
+    }) }}
+  </div>
+{% endblock %}

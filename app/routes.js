@@ -5,6 +5,7 @@ import { navigation } from './middleware/navigation.js'
 import { notification } from './middleware/notification.js'
 import { accountRoutes } from './routes/account.js'
 import { batchRoutes } from './routes/batch.js'
+import { campaignRoutes } from './routes/campaign.js'
 import { recordRoutes } from './routes/record.js'
 import { reportRoutes } from './routes/report.js'
 import { sessionRoutes } from './routes/session.js'
@@ -17,6 +18,7 @@ router.use(internationalisation)
 router.use(flash(), navigation, notification)
 
 router.use('/account', accountRoutes)
+router.use('/campaigns', campaignRoutes)
 router.use('/records', recordRoutes)
 router.use('/reports', reportRoutes)
 router.use('/sessions', sessionRoutes)
