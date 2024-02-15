@@ -5,15 +5,18 @@
 {% block content %}
   {{ super() }}
 
-  {{ heading({
-    size: "xl",
-    title: title
-  }) }}
+  <div class="app-heading-group">
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
 
-  {{ button({
-    text: __("vaccine.list.new"),
-    href: "#"
-  }) }}
+    {{ button({
+      classes: "nhsuk-button--secondary",
+      text: __("vaccine.list.new"),
+      href: "#"
+    }) }}
+  </div>
 
   {% for vaccine in vaccines %}
     {% set descriptionHtml %}
