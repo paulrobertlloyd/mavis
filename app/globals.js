@@ -29,6 +29,35 @@ export default () => {
     return `<a class="nhsuk-link" href="${href}">${text}</a>`
   }
 
+  globals.patientStatus = function (patient) {
+    const { __ } = this.ctx
+
+    let colour
+    let description = false
+    let title
+
+    if (patient.outcome !== 'NoOutcomeYet') {
+      // Patient has outcome
+      colour = __(`outcome.${patient.outcome}.colour`)
+      title = __(`outcome.${patient.outcome}.title`)
+    } else if (patient.screen && this.consent === 'Given') {
+      // Patient in triage
+      colour = __(`screen.${patient.screen}.colour`)
+      description = __(`screen.${patient.screen}.description`)
+      title = __(`screen.${patient.screen}.title`)
+    } else {
+      // Patient requires consent
+      colour = __(`consent.${patient.consent}.colour`)
+      description = __(
+        `consent.${patient.consent}.description`,
+        patient.record.fullName
+      )
+      title = __(`consent.${patient.consent}.title`)
+    }
+
+    return { colour, description, title }
+  }
+
   /**
    * Session summary
    * @param {object} session - Session details
