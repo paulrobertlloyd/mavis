@@ -80,5 +80,6 @@
 {%- if params.panel %}
   </div>
 {%- endif %}
+{% if caller %}{{ caller() }}{%- endif %}
 </action-table>
 {%- endmacro %}

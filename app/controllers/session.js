@@ -1,5 +1,10 @@
 import { wizard } from 'nhsuk-prototype-rig'
+import { CONSENT_OUTCOME, Patient } from '../models/patient.js'
 import { Session } from '../models/session.js'
+
+const consentSort = Object.fromEntries(
+  CONSENT_OUTCOME.map((outcome, index) => [outcome, index])
+)
 
 export const sessionController = {
   list(request, response) {
@@ -16,11 +21,42 @@ export const sessionController = {
     response.render('sessions/show')
   },
 
+  patients(request, response) {
+    const { activity } = request.params
+    const outcome = request.query.outcome || 'NO_RESPONSE'
+    const consent = outcome.toUpperCase().replace('-', '_')
+
+    response.locals.patients = response.render('sessions/patients', {
+      activity,
+      consent,
+      outcome
+    })
+  },
+
+  patient(request, response) {
+    const { activity, id, nhsn } = request.params
+    const { data } = request.session
+
+    const session = new Session(data.sessions[id])
+
+    response.render('patients/show', {
+      activity,
+      paths: { back: `${session.uri}/${activity}` },
+      patient: new Patient(data.patients[nhsn])
+    })
+  },
+
   read(request, response, next) {
     const { id } = request.params
     const { data } = request.session
 
-    response.locals.session = new Session(data.sessions[id])
+    const session = new Session(data.sessions[id])
+
+    response.locals.session = session
+    response.locals.patients = Object.values(data.patients)
+      .filter((patient) => session.cohort.includes(patient.nhsn))
+      .map((patient) => new Patient(patient))
+      .sort((a, b) => consentSort[a.consent] - consentSort[b.consent])
 
     next()
   },

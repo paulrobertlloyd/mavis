@@ -7,6 +7,9 @@ $govuk-success-colour: #007f3b;
 $govuk-global-styles: false;
 $govuk-assets-path: "/govuk/assets/";
 
+// App options
+$app-page-width: 1100px;
+
 @import "node_modules/nhsuk-frontend/packages/nhsuk";
 
 // Import GOV.UK Frontend
@@ -20,9 +23,12 @@ $govuk-assets-path: "/govuk/assets/";
 @import "autocomplete";
 @import "button";
 @import "card";
+@import "count";
 @import "header";
 @import "heading-group";
+@import "patients";
 @import "secondary-navigation";
+@import "status";
 @import "table";
 @import "tabs";
 @import "unbranded";
@@ -40,4 +46,19 @@ td code {
 // Use NHSUK colour for <mark>
 mark {
   background-color: $color_nhsuk-pale-yellow;
+}
+
+// `$nhsuk-page-width` isn’t globally editable, so need to apply manually
+.nhsuk-width-container,
+.nhsuk-header__navigation-list,
+.nhsuk-header__container {
+  max-width: $app-page-width;
+
+  @include govuk-media-query($from: desktop) {
+    margin: 0 $nhsuk-gutter;
+  }
+
+  @include mq($and: "(min-width: #{($app-page-width + $nhsuk-gutter * 2)})") {
+    margin: 0 auto;
+  }
 }

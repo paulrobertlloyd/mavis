@@ -1,0 +1,13 @@
+{% set navigationItems = [] %}
+{% for item, patients in patients | groupby("consent") %}
+  {% set navigationItems = navigationItems | push({
+    text: (__("consent." + item + ".tab") + " " + count(patients.length)) | safe,
+    href: "?outcome=" + item | slugify,
+    current: item == consent
+  }) %}
+{% endfor %}
+
+{{ xGovukSecondaryNavigation({
+  classes: "nhsuk-u-margin-bottom-4",
+  items: navigationItems
+}) }}
