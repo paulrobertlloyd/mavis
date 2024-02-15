@@ -5,15 +5,18 @@
 {% block content %}
   {{ super() }}
 
-  {{ heading({
-    size: "xl",
-    title: title
-  }) }}
+  <div class="app-heading-group">
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
 
-  {{ button({
-    text: __("user.list.new"),
-    href: "/users/new"
-  }) }}
+    {{ button({
+      classes: "nhsuk-button--secondary",
+      text: __("user.list.new"),
+      href: "/users/new"
+    }) }}
+  </div>
 
   {% for admin, users in users | groupby("admin") %}
     {% set userRows = [] %}

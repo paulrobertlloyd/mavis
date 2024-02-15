@@ -8,16 +8,16 @@
 {% endblock %}
 
 {% block content %}
-  <div class="nhsuk-grid-row">
-    <div class="nhsuk-grid-column-one-third">
-      {{ heading({
-        size: "xl",
-        title: title
-      }) }}
-    </div>
-    <div class="nhsuk-grid-column-two-thirds">
-      <p class="nhsuk-body nhsuk-u-margin-bottom-0 nhsuk-u-margin-top-4 nhsuk-u-text-align-right nhsuk-u-secondary-text-color">1 January 2023 - Today<a class="nhsuk-link nhsuk-u-margin-left-2 nhsuk-u-font-size-16" href="#">Change date range</a></p>
-    </div>
+  <div class="app-heading-group">
+    {{ heading({
+      size: "xl",
+      title: title
+    }) }}
+
+    <p class="nhsuk-body nhsuk-u-secondary-text-color">
+      1 January 2023 - Today<br>
+      <a class="nhsuk-link nhsuk-u-font-size-16" href="#">Change date range</a>
+    </p>
   </div>
 
   {% set secondaryNavigationItems = [] %}
