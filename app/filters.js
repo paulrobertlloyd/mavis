@@ -43,6 +43,18 @@ export default (env) => {
   }
 
   /**
+   * Format date
+   * @param {string} string - ISO 8601 date
+   * @param {string} tokens - Formatting token
+   * @returns {string} Formatted date
+   */
+  filters.filterDate = (string) => {
+    return new Intl.DateTimeFormat('en-GB', {
+      dateStyle: 'short'
+    }).format(new Date(string))
+  }
+
+  /**
    * Format markdown
    * @param {string} string - Markdown
    * @returns {string} HTML decorated with nhsuk-* typography classes
@@ -64,6 +76,17 @@ export default (env) => {
     newArray.push(_.cloneDeep(item))
 
     return newArray
+  }
+
+  /**
+   * Filter array where key has a value
+   * @param {Array} array - Array
+   * @param {string} key - Key to check
+   * @param {string} value - Value to check
+   * @returns {Array} Filtered array
+   */
+  filters.where = (array, key, value) => {
+    return array.filter((item) => item[key] === value)
   }
 
   return filters
