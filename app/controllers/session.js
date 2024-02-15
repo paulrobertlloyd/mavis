@@ -1,5 +1,6 @@
 import { wizard } from 'nhsuk-prototype-rig'
 import { Campaign } from '../models/campaign.js'
+import { ConsentOutcome, Patient } from '../models/patient.js'
 import { Record } from '../models/record.js'
 import { Session } from '../models/session.js'
 
@@ -18,11 +19,43 @@ export const sessionController = {
     response.render('sessions/show')
   },
 
+  activity(request, response) {
+    const { patients } = request.app.locals
+    const { activity } = request.params
+    const consent = request.query.consent || 'NoResponse'
+    const { __ } = response.locals
+
+    const navigationItems = [
+      'NoResponse',
+      'Given',
+      'Refused',
+      'Inconsistent'
+    ].map((item) => ({
+      text: __(`consent.${item}.label`),
+      count: patients.filter(
+        (patient) => patient.consent === ConsentOutcome[item]
+      ).length,
+      href: `?consent=${item}`,
+      current: item === consent
+    }))
+
+    response.render('sessions/activity', {
+      activity,
+      consent,
+      navigationItems
+    })
+  },
+
   read(request, response, next) {
     const { id } = request.params
     const { data } = request.session
 
+    const session = new Session(data.sessions[id])
+
     request.app.locals.session = new Session(data.sessions[id])
+    request.app.locals.patients = session.cohort.map(
+      (record) => new Patient(data.patients[record])
+    )
 
     next()
   },
