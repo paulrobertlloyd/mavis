@@ -1,7 +1,8 @@
 {
   "account": {
     "show": {
-      "title": "Your account"
+      "title": "Your account",
+      "description": "Change your email address or password."
     },
     "edit": {
       "title": "Edit account details"
@@ -53,7 +54,8 @@
   "record": {
     "list": {
       "title": "Records",
-      "caption": "Child Health Information Service"
+      "caption": "Child Health Information Service",
+      "description": "View service and campaign performance reports."
     },
     "count": {
       "one": "%s record",
@@ -80,12 +82,14 @@
   },
   "report": {
     "list": {
-      "title": "Reports"
+      "title": "Reports",
+      "description": "View service and campaign performance reports."
     }
   },
   "session": {
     "list": {
       "title": "School sessions",
+      "description": "Create new school sessions, check consent requests, triage answers to health questions and record vaccinations.",
       "new": "Add a new session"
     },
     "new": {
@@ -157,6 +161,7 @@
   "user": {
     "list": {
       "title": "Manage team",
+      "description": "Add or remove team members and set permissions.",
       "new": "Invite a team member"
     },
     "action": {
@@ -201,6 +206,7 @@
   "vaccine": {
     "list": {
       "title": "Vaccines",
+      "description": "Add or remove batches.",
       "new": "Add a new vaccine"
     },
     "action": {

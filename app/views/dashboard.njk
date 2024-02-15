@@ -3,57 +3,58 @@
 {% set title = serviceName + " (MAVIS)" %}
 
 {% block content %}
-  <div class="nhsuk-u-width-two-thirds">
-    {{ super() }}
+  {{ super() }}
 
-    {{ heading({
-      size: "xl",
-      title: title
-    }) }}
+  {{ heading({
+    size: "xl",
+    title: title
+  }) }}
 
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/sessions">
-        {{ __("session.list.title") }}
-      </a>
-    </h2>
-    <p class="nhsuk-u-margin-bottom-1">Use this area to:</p>
-    <ul class="nhsuk-list nhsuk-list--bullet">
-      <li>create new school sessions</li>
-      <li>upload cohort lists</li>
-      <li>send emails to parents</li>
-      <li>check consent requests</li>
-      <li>triage answers to health questions</li>
-      <li>record vaccinations</li>
-    </ul>
-
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/reports">
-        {{ __("report.list.title") }}
-      </a>
-    </h2>
-    <p>View service and campaign performance reports</p>
-
+  <ul class="nhsuk-grid-row nhsuk-card-group">
+    <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        clickable: true,
+        heading: __("session.list.title"),
+        headingClasses: "nhsuk-heading-m",
+        href: "/sessions",
+        description: __("session.list.description")
+      }) }}
+    </li>
+    <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        clickable: true,
+        heading: __("report.list.title"),
+        headingClasses: "nhsuk-heading-m",
+        href: "/reports",
+        description: __("report.list.description")
+      }) }}
+    </li>
     {% if data.token.admin %}
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/vaccines">
-        {{ __("vaccine.list.title") }}
-      </a>
-    </h2>
-    <p>Add or remove batches</p>
-
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/users">
-        {{ __("user.list.title") }}
-      </a>
-    </h2>
-    <p>Add or remove team members and set permissions</p>
+    <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        clickable: true,
+        heading: __("vaccine.list.title"),
+        headingClasses: "nhsuk-heading-m",
+        href: "/vaccines",
+        description: __("vaccine.list.description")
+      }) }}
+    </li>
     {% endif %}
+  </ul>
 
-    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/account">
-        {{ __("account.show.title") }}
-      </a>
-    </h2>
-    <p>Change your email address or password</p>
-  </div>
+  {% if data.token.admin %}
+  <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
+    <a class="nhsuk-link nhsuk-link--no-visited-state" href="/users">
+      {{ __("user.list.title") }}
+    </a>
+  </h2>
+  <p>{{ __("user.list.description") }}</p>
+  {% endif %}
+
+  <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
+    <a class="nhsuk-link nhsuk-link--no-visited-state" href="/account">
+      {{ __("account.show.title") }}
+    </a>
+  </h2>
+  <p>{{ __("account.show.description") }}</p>
 {% endblock %}
