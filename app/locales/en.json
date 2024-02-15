@@ -51,6 +51,22 @@
       "label": "batch.actions.label"
     }
   },
+  "campaign": {
+    "list": {
+      "title": "Campaigns",
+      "description": "Create and manage vaccination campaigns",
+      "new": "Create a new vaccination campaign"
+    },
+    "name": {
+      "label": "Name"
+    },
+    "vaccines": {
+      "label": "Vaccines"
+    },
+    "healthQuestions": {
+      "label": "Health questions"
+    }
+  },
   "record": {
     "list": {
       "title": "Records",
