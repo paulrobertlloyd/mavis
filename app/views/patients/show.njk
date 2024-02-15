@@ -1,0 +1,28 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = patient.record.fullName %}
+
+{% block content %}
+  <div class="nhsuk-u-width-three-quarters">
+    {{ super() }}
+
+    {{ heading({
+      title: title
+    }) }}
+
+    {{ card({
+      heading: "Child record",
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(patient.record, {
+          nhsNumber: { value: patient.record.formattedNhsNumber },
+          fullName: {},
+          dob: { value: patient.record.dobWithAge },
+          sex: {},
+          address: { value: patient.record.formattedAddress | nl2br },
+          gpSurgery: {}
+        })
+      })
+    }) }}
+  </div>
+{% endblock %}
