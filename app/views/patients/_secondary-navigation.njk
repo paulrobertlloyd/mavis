@@ -1,0 +1,12 @@
+{{ xGovukSecondaryNavigation({
+  classes: "nhsuk-u-margin-bottom-6",
+  items: [{
+    text: "Details",
+    href: "/sessions/" + session.id + "/" + activity + "/" + patient.nhsn,
+    current: view == "show"
+  }, {
+    text: "Activity log",
+    href: "/sessions/" + session.id + "/" + activity + "/" + patient.nhsn + "/log",
+    current: view == "log"
+  }]
+}) }}

@@ -13,6 +13,7 @@ router.all('/:id*', sessionController.read)
 router.get('/:id', sessionController.show)
 router.get('/:id/:activity(consent)', sessionController.patients)
 router.get('/:id/:activity(consent)/:nhsn', sessionController.patient)
+router.get('/:id/:activity(consent)/:nhsn/log', sessionController.log)
 
 router.get('/:id/?:form(edit)', sessionController.edit)
 router.post('/:id/?:form(edit)', sessionController.update)

@@ -1,6 +1,8 @@
 import { wizard } from 'nhsuk-prototype-rig'
 import { CONSENT_OUTCOME, Patient } from '../models/patient.js'
+import { Event } from '../models/event.js'
 import { Session } from '../models/session.js'
+import { User } from '../models/user.js'
 
 const consentSort = Object.fromEntries(
   CONSENT_OUTCOME.map((outcome, index) => [outcome, index])
@@ -43,6 +45,28 @@ export const sessionController = {
       activity,
       paths: { back: `${session.uri}/${activity}` },
       patient: new Patient(data.patients[nhsn])
+    })
+  },
+
+  log(request, response) {
+    const { activity, id, nhsn } = request.params
+    const { data } = request.session
+
+    const session = new Session(data.sessions[id])
+
+    response.render('patients/log', {
+      activity,
+      paths: { back: `${session.uri}/${activity}` },
+      patient: new Patient(data.patients[nhsn]),
+      log: Object.values(data.patients[nhsn].log)
+        .map((event) => ({
+          ...new Event(event),
+          formattedDate: new Event(event).formattedDate,
+          ...(event.user_uuid && {
+            user: new User(data.users[event.user_uuid])
+          })
+        }))
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
     })
   },
 
