@@ -7,4 +7,6 @@ router.all('/*', patientController.read)
 
 router.get('/', patientController.show)
 
+router.get('/log', patientController.log)
+
 export const patientRoutes = router
