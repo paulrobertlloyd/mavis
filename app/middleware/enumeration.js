@@ -1,4 +1,5 @@
 import { HealthQuestion } from '../models/campaign.js'
+import { EventType } from '../models/event.js'
 import {
   CaptureOutcome,
   ConsentOutcome,
@@ -11,6 +12,7 @@ import { Registrar } from '../models/user.js'
 export const enumeration = (request, response, next) => {
   response.locals.CaptureOutcome = CaptureOutcome
   response.locals.ConsentOutcome = ConsentOutcome
+  response.locals.EventType = EventType
   response.locals.HealthQuestion = HealthQuestion
   response.locals.PatientOutcome = PatientOutcome
   response.locals.Registrar = Registrar

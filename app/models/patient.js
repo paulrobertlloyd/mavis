@@ -1,4 +1,5 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
+import { Event, EventType } from './event.js'
 import { Record } from './record.js'
 
 export class ConsentOutcome {
@@ -96,11 +97,27 @@ export class Patient {
     return `/sessions/${this.session_id}/${this.nhsn}`
   }
 
+  set event(event) {
+    this.log.push(new Event(event))
+  }
+
   set campaign(campaign) {
     this.campaign_uuid = campaign.uuid
+    this.event = {
+      type: EventType.Select,
+      name: `Added to ${campaign.name} campaign cohort`,
+      date: campaign.created,
+      user_uuid: campaign.created_user_uuid
+    }
   }
 
   set session(session) {
     this.session_id = session.id
+    this.event = {
+      type: EventType.Select,
+      name: `Added to session at ${session.location.name}`,
+      date: session.created,
+      user_uuid: session.created_user_uuid
+    }
   }
 }

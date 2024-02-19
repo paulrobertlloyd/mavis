@@ -1,6 +1,7 @@
 {% extends "_layouts/default.njk" %}
 
 {% set title = patient.record.fullName %}
+{% set view = "show" %}
 
 {% block content %}
   <div class="nhsuk-u-width-three-quarters">
@@ -10,6 +11,12 @@
       caption: session.location.name,
       title: title
     }) }}
+
+    {% include "patient/_secondary-navigation.njk" %}
+
+    <h2 class="nhsuk-heading-m nhsuk-u-visually-hidden">
+      {{ __("patient.record.label") }}
+    </h2>
 
     {{ card({
       classes: "app-card--" + patientStatus(patient).colour,

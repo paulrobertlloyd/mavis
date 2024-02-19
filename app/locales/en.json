@@ -146,6 +146,9 @@
   "patient": {
     "record": {
       "label": "Child record"
+    },
+    "log": {
+      "label": "Activity log"
     }
   },
   "record": {
