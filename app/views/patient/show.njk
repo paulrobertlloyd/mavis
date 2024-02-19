@@ -3,6 +3,7 @@
 {% set paths = false %}
 {% set sessionTitle = campaign.name + " session at " + session.location.name %}
 {% set title = patient.record.fullName %}
+{% set view = "show" %}
 
 {% block beforeContent %}
   {{ breadcrumb({
@@ -30,6 +31,8 @@
     {{ heading({
       title: title
     }) }}
+
+    {% include "patient/_secondary-navigation.njk" %}
 
     {{ card({
       classes: "app-card--" + patientStatus(patient).colour,
