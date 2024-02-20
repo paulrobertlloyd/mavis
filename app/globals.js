@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { Reply } from './models/reply.js'
 
 /**
  * Prototype specific global functions for use in Nunjucks templates.
@@ -27,6 +28,10 @@ export default () => {
    */
   globals.link = function (href, text) {
     return `<a class="nhsuk-link" href="${href}">${text}</a>`
+  }
+
+  globals.patientReplies = function (patient) {
+    return patient.replies.map((reply) => new Reply(reply))
   }
 
   globals.patientStatus = function (patient) {
@@ -83,7 +88,9 @@ export default () => {
     const summaryRows = []
 
     for (const key in rows) {
-      const value = rows[key].value || data[key]
+      let other = rows[key].other
+      let value = rows[key].value || data[key]
+      value = other ? [value, other].join(' – ') : value
 
       // Don’t show row for conditional answer
       if (typeof value === 'undefined') {

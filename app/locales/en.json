@@ -67,6 +67,27 @@
       "label": "Health questions"
     }
   },
+  "child": {
+    "label": "Child",
+    "fullName": {
+      "label": "Full name"
+    },
+    "preferredFirstName": {
+      "label": "Preferred first name"
+    },
+    "preferredLastName": {
+      "label": "Preferred last name"
+    },
+    "dob": {
+      "label": "Date of birth"
+    },
+    "gpSurgery": {
+      "label": "GP surgery"
+    },
+    "urn": {
+      "label": "School"
+    }
+  },
   "consent": {
     "label": "Consent",
     "NoResponse": {
@@ -136,6 +157,29 @@
       "colour": "red"
     }
   },
+  "parent": {
+    "label": "Parent or guardian",
+    "fullName": {
+      "label": "Name"
+    },
+    "sms": {
+      "label": "Get updates by text message",
+      "true": "Yes",
+      "false": "No"
+    },
+    "relationship": {
+      "label": "Relationship"
+    },
+    "email": {
+      "label": "Email address"
+    },
+    "tel": {
+      "label": "Phone number"
+    },
+    "contactPreference": {
+      "label": "Phone contact method"
+    }
+  },
   "patient": {
     "record": {
       "label": "Child record"
@@ -170,12 +214,32 @@
     },
     "urn": {
       "label": "School"
+    },
+    "preferredNames": {
+      "label": "Known as"
     }
   },
   "report": {
     "list": {
       "title": "Reports",
       "description": "View service and campaign performance reports."
+    }
+  },
+  "reply": {
+    "show": {
+      "title": "Consent response from %s"
+    },
+    "decision": {
+      "label": "Decision"
+    },
+    "healthAnswers": {
+      "label": "Answers to health questions"
+    },
+    "refusalReason": {
+      "label": "Reason for refusal"
+    },
+    "created": {
+      "label": "Response date"
     }
   },
   "session": {
