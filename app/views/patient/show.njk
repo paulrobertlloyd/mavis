@@ -28,6 +28,7 @@
         rows: summaryRows(patient.record, {
           nhsn: { value: patient.record.formattedNhsNumber },
           fullName: {},
+          preferredNames: { value: patient.preferredNames },
           dob: { value: patient.record.dobWithAge },
           sex: {},
           address: { value: patient.record.formattedAddress | nl2br },
@@ -43,12 +44,45 @@
         {{- icon(consentIcon) if consentIcon -}}
         {{- __("consent." + patient.consent + ".label") -}}
       </p>
+
+      {% set responseRows = [] %}
+      {% for response in patientResponses(patient) %}
+        {% set responseRows = responseRows | push([
+          {
+            header: __("parent.fullName.label"),
+            html: link(response.uri, response.parent.fullName) or "Not provided"
+          },
+          {
+            header: __("response.created.label"),
+            html: response.created | govukDate("truncate") or "Not provided",
+            attributes: {
+              "data-sort": response.created
+            }
+          },
+          {
+            header: __("response.decision.label"),
+            text: __("consent." + response.decision + ".label")
+          }
+        ]) %}
+      {% endfor %}
+
+      {{ actionTable({
+        sort: "created",
+        responsive: true,
+        head: [
+          { text: __("parent.fullName.label") },
+          { text: __("response.created.label") },
+          { text: __("response.decision.label") }
+        ],
+        rows: responseRows
+      }) }}
     {% endset %}
 
     {{ card({
       heading: __("consent.label"),
       headingClasses: "nhsuk-heading-m",
-      descriptionHtml: consentDescriptionHtml
+      descriptionHtml: consentDescriptionHtml if patientResponses(patient).length,
+      description: __("consent.NoResponse.description") if not patientResponses(patient).length
     }) }}
   </div>
 {% endblock %}

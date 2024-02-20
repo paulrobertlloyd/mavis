@@ -1,0 +1,92 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = __("response.show.title", response.parent.fullName) %}
+{% set paths = { back: "/responses" } %}
+
+{% block content %}
+  <div class="nhsuk-u-width-three-quarters">
+    {{ super() }}
+
+    {{ heading({
+      title: title
+    }) }}
+
+    {{ card({
+      heading: __("consent.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(response, {
+          created: {
+            value: response.created | govukDateTime
+          },
+          decision: {},
+          refusalReason: {
+            value: ResponseRefusal[response.refusalReason],
+            other: response.refusalReasonOther
+          } if response.refusalReason
+        })
+      })
+    }) }}
+
+    {{ card({
+      heading: __("child.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(response.child, {
+          fullName: {},
+          preferredFirstName: {},
+          preferredLastName: {},
+          dob: {
+            value: response.child.formattedDob
+          },
+          gpSurgery: {},
+          urn: {
+            value: data.schools[response.child.urn].name
+          }
+        })
+      })
+    }) }}
+
+    {{ card({
+      heading: __("parent.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(response.parent, {
+          fullName: {},
+          relationship: {
+            value: ParentalRelationship[response.parent.relationship],
+            other: response.parent.relationshipOther
+          },
+          email: {
+            value: response.parent.email | urlize
+          },
+          tel: {},
+          contactPreference: {
+            value: ContactPreference[response.parent.contactPreference],
+            other: response.parent.contactPreferenceOther
+          } if response.parent.tel,
+          sms: {
+            value: __("parent.sms." + response.parent.sms)
+          }
+        })
+      })
+    }) }}
+
+    {% set healthAnswerRows = [] %}
+    {% for key, healthAnswer in response.healthAnswers %}
+      {% set healthAnswerRows = healthAnswerRows | push({
+        key: { text: HealthQuestion[key] },
+        value: { text: healthAnswer or "No" }
+      }) %}
+    {% endfor %}
+
+    {{ card({
+      heading: __("response.healthAnswers.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        classes: "app-summary-list--full-width",
+        rows: healthAnswerRows
+      })
+    }) if response.healthAnswers }}
+  </div>
+{% endblock %}

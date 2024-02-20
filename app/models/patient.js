@@ -1,13 +1,14 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event } from './event.js'
 import { Record } from './record.js'
+import { getPreferredNames } from '../utils/response.js'
 
 export class ConsentOutcome {
   static NoResponse = 'No response'
   static Inconsistent = 'Conflicts'
   static Given = 'Given'
   static Refused = 'Refused'
-  static FinalRefusal = 'Refusal confirmed'
+  // static FinalRefusal = 'Refusal confirmed'
 }
 
 export class ScreenOutcome {
@@ -48,6 +49,7 @@ export class PatientOutcome {
  * @property {Record} record - Original CHIS record
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
+ * @function preferredNames - Preferred name(s)
  * @function ns - Namespace
  * @function uri - URL
  */
@@ -68,6 +70,7 @@ export class Patient {
   static generate(record) {
     return new Patient({
       nhsn: record.nhsn,
+      consent: faker.helpers.arrayElement(Object.keys(ConsentOutcome)),
       record
     })
   }
@@ -79,6 +82,10 @@ export class Patient {
     numberArray.splice(3, 0, ' ')
     numberArray.splice(8, 0, ' ')
     return numberArray.join('')
+  }
+
+  get preferredNames() {
+    return getPreferredNames(this.responses)
   }
 
   get ns() {
@@ -115,5 +122,13 @@ export class Patient {
 
   attachResponse(response, user) {
     this.responses.push(response)
+    this.log.push(
+      new Event({
+        type: 'CONSENT',
+        name: `Response ${response.decision} from ${response.parent.fullName}`,
+        date: response.created,
+        user_uuid: user?.uuid
+      })
+    )
   }
 }

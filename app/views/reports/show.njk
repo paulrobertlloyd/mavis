@@ -97,27 +97,27 @@
     ],
     rows: [
       [
-        { text: "Vaccine contains gelatine from pigs" },
+        { text: ResponseRefusal["Gelatine"] },
         { text: "11.1%", format: "numeric" }
       ] if type == "flu",
       [
-        { text: "Vaccine already received" },
+        { text: ResponseRefusal["AlreadyGiven"] },
         { text: "2.0%", format: "numeric" }
       ],
       [
-        { text: "Vaccine will be given elsewhere" },
+        { text: ResponseRefusal["GettingElsewhere"] },
         { text: "3.6%", format: "numeric" }
       ],
       [
-        { text: "Medical reasons" },
+        { text: ResponseRefusal["Medical"] },
         { text: "1.0%", format: "numeric" }
       ],
       [
-        { text: "Personal choice" },
+        { text: ResponseRefusal["Personal"] },
         { text: "5.1%", format: "numeric" }
       ],
       [
-        { text: "Other" },
+        { text: ResponseRefusal["Other"] },
         { text: "1.1%", format: "numeric" }
       ]
     ]
