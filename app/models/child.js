@@ -27,9 +27,21 @@ export class Child {
   }
 
   static generate(patient) {
+    let preferredFirstName
+    if (patient.record.firstName.startsWith('Al')) {
+      preferredFirstName = 'Ali'
+    }
+    if (patient.record.firstName.startsWith('Em')) {
+      preferredFirstName = 'Em'
+    }
+    if (patient.record.firstName.startsWith('Isa')) {
+      preferredFirstName = 'Izzy'
+    }
+
     return new Child({
       nhsn: patient.record.nhsn,
       firstName: patient.record.firstName,
+      preferredFirstName,
       lastName: patient.record.lastName,
       dob: patient.record.dob,
       gpSurgery: patient.record.gpSurgery,

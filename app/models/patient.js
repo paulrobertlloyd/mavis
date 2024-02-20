@@ -1,13 +1,14 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event, EventType } from './event.js'
 import { Record } from './record.js'
+import { getPreferredNames } from '../utils/reply.js'
 
 export class ConsentOutcome {
   static NoResponse = 'No response'
   static Inconsistent = 'Conflicts'
   static Given = 'Given'
   static Refused = 'Refused'
-  static FinalRefusal = 'Refusal confirmed'
+  // static FinalRefusal = 'Refusal confirmed'
 }
 
 export class ScreenOutcome {
@@ -48,6 +49,7 @@ export class PatientOutcome {
  * @property {Record} record - Original CHIS record
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
+ * @function preferredNames - Preferred name(s)
  * @function ns - Namespace
  * @function uri - URL
  */
@@ -55,7 +57,7 @@ export class Patient {
   constructor(options) {
     this.nhsn = options?.nhsn || this.#nhsn
     this.log = options?.log || []
-    this.replies = options?.replies || []
+    this.replies = options?.replies || {}
     this.consent = options?.consent || false
     this.screen = options?.screen || false
     this.capture = options?.capture || false
@@ -68,6 +70,7 @@ export class Patient {
   static generate(record) {
     return new Patient({
       nhsn: record.nhsn,
+      consent: faker.helpers.arrayElement(Object.keys(ConsentOutcome)),
       record
     })
   }
@@ -87,6 +90,10 @@ export class Patient {
 
   get fullName() {
     return [this.record.firstName, this.record.lastName].join(' ')
+  }
+
+  get preferredNames() {
+    return getPreferredNames(this.replies)
   }
 
   get ns() {
@@ -118,6 +125,24 @@ export class Patient {
       name: `Added to session at ${session.location.name}`,
       date: session.created,
       user_uuid: session.created_user_uuid
+    }
+  }
+
+  set reply(reply) {
+    if (!reply) {
+      return
+    }
+
+    const created = !this.replies[reply.uuid]
+
+    this.replies[reply.uuid] = reply
+    this.event = {
+      type: EventType.Consent,
+      name: created
+        ? `${reply.decision} by ${reply.fullName}`
+        : `${reply.decision} in updated response from ${reply.fullName}`,
+      date: created ? reply.created : new Date().toISOString(),
+      user_uuid: reply.created_user_uuid
     }
   }
 }
