@@ -1,0 +1,42 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = __("response.list.title") %}
+
+{% block content %}
+  {{ super() }}
+
+  {{ heading({
+    size: "xl",
+    title: title
+  }) }}
+
+  {% set responseRows = [] %}
+  {% for response in responses %}
+    {% set responseRows = responseRows | push([
+      {
+        header: __("parent.fullName.label"),
+        html: link(response.uri, response.parent.fullName) or "Not provided"
+      },
+      {
+        header: __("child.fullName.label"),
+        text: response.child.fullName or "Not provided"
+      },
+      {
+        header: __("response.decision.label"),
+        text: __("consent." + response.decision + ".label")
+      }
+    ]) %}
+  {% endfor %}
+
+  {{ actionTable({
+    sort: "name",
+    panel: true,
+    responsive: true,
+    head: [
+      { text: __("parent.fullName.label") },
+      { text: __("child.fullName.label") },
+      { text: __("response.decision.label") }
+    ],
+    rows: responseRows
+  }) }}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "_layouts/default.njk" %}
+
+{% set title = __("response.show.title", response.parent.fullName) %}
+{% set paths = { back: "/responses" } %}
+
+{% block content %}
+  <div class="nhsuk-u-width-three-quarters">
+    {{ super() }}
+
+    {{ heading({
+      title: title
+    }) }}
+
+    {% set refusalReasonValue %}
+      {{ __("refusal." + response.refusalReason + ".label") if response.refusalReason }}
+      {% if response.refusalReasonOther %}
+        – {{ response.refusalReasonOther }}
+      {% endif %}
+    {% endset %}
+
+    {{ card({
+      heading: __("consent.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(response, {
+          decision: { value: __("consent." + response.decision + ".label") },
+          refusalReason: { value: refusalReasonValue } if response.refusalReason
+        })
+      })
+    }) }}
+
+    {{ card({
+      heading: __("child.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(response.child, {
+          fullName: {},
+          preferredName: {},
+          dob: { value: response.child.formattedDob },
+          gpSurgery: {},
+          urn: { value: data.schools[response.child.urn].name }
+        })
+      })
+    }) }}
+
+    {% set contactPreferenceValue %}
+      {{ __("parent.contactPreference." + response.parent.contactPreference + ".label") }}
+      {% if response.parent.contactPreferenceOther %}
+        – {{ response.parent.contactPreferenceOther }}
+      {% endif %}
+    {% endset %}
+
+    {{ card({
+      heading: __("parent.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        rows: summaryRows(response.parent, {
+          fullName: {},
+          relationship: { value: __("parent.relationship." + response.parent.relationship + ".label") },
+          email: { value: response.parent.email | urlize },
+          tel: {},
+          contactPreference: { value: contactPreferenceValue } if response.parent.tel,
+          sms: { value: __("parent.sms." + response.parent.sms) }
+        })
+      })
+    }) }}
+
+    {% set healthAnswerRows = [] %}
+    {% for key, healthAnswer in response.healthAnswers %}
+      {% set healthAnswerRows = healthAnswerRows | push({
+        key: { text: __("healthQuestions." + key + ".label") },
+        value: { text: healthAnswer or "No" }
+      }) %}
+    {% endfor %}
+
+    {{ card({
+      heading: __("response.healthAnswers.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        classes: "app-summary-list--full-width",
+        rows: healthAnswerRows
+      })
+    }) if response.healthAnswers }}
+  </div>
+{% endblock %}

@@ -99,7 +99,41 @@
       "label": "Consent received too late"
     }
   },
+  "child": {
+    "label": "Child",
+    "firstName": {
+      "label": "First name"
+    },
+    "lastName": {
+      "label": "Last name"
+    },
+    "preferredFirstName": {
+      "label": "Preferred first name"
+    },
+    "preferredLastName": {
+      "label": "Preferred last name"
+    },
+    "fullName": {
+      "label": "Name"
+    },
+    "preferredName": {
+      "label": "Preferred name"
+    },
+    "dob": {
+      "label": "Date of birth"
+    },
+    "gpSurgery": {
+      "label": "GP surgery"
+    },
+    "urn": {
+      "label": "School"
+    },
+    "decision": {
+      "label": "child.decision.label"
+    }
+  },
   "consent": {
+    "label": "Consent",
     "NO_RESPONSE": {
       "colour": "grey",
       "description": "No-one responded to our requests for consent",
@@ -121,6 +155,12 @@
         "one": "%s child with consent given",
         "other": "[0] No children with consent given|%s children with consent given"
       }
+    },
+    "ONLY_MENACWY": {
+      "label": "Consent given for MenACWY only"
+    },
+    "ONLY_3_IN_1": {
+      "label": "Consent given for 3-in-1 only"
     },
     "REFUSED": {
       "colour": "red",
@@ -154,6 +194,9 @@
         "one": "%s child with conflicting consent responses",
         "other": "[0] No children with conflicting consent|%s children with conflicting consent"
       }
+    },
+    "INVALID": {
+      "label": "Consent invalid"
     }
   },
   "outcome": {
@@ -168,6 +211,65 @@
     "COULD_NOT_VACCINATE": {
       "colour": "red",
       "label": "Could not vaccinate"
+    }
+  },
+  "parent": {
+    "label": "Parent",
+    "contactPreference": {
+      "label": "Phone contact method",
+      "NONE": {
+        "label": "No preference"
+      },
+      "TEXT": {
+        "label": "Text message"
+      },
+      "CALL": {
+        "label": "Voice call"
+      },
+      "OTHER": {
+        "label": "Other"
+      },
+      "undefined": {
+        "label": "parent.contactPreference.undefined.label"
+      }
+    },
+    "relationship": {
+      "label": "Relationship to child",
+      "MUM": {
+        "label": "Mum"
+      },
+      "DAD": {
+        "label": "Dad"
+      },
+      "STEP_PARENT": {
+        "label": "Step-parent"
+      },
+      "GRANDPARENT": {
+        "label": "Grandparent"
+      },
+      "GUARDIAN": {
+        "label": "Guardian"
+      },
+      "CARER": {
+        "label": "Carer"
+      },
+      "OTHER": {
+        "label": "Other"
+      }
+    },
+    "fullName": {
+      "label": "Parents’s name"
+    },
+    "email": {
+      "label": "Email address"
+    },
+    "tel": {
+      "label": "Phone number"
+    },
+    "sms": {
+      "label": "Text message updates",
+      "true": "Yes",
+      "false": "No"
     }
   },
   "record": {
@@ -202,10 +304,58 @@
       "label": "School"
     }
   },
+  "refusal": {
+    "GELATINE": {
+      "label": "Vaccine contains gelatine"
+    },
+    "ALREADY_GIVEN": {
+      "label": "Vaccine already received"
+    },
+    "GETTING_ELSEWHERE": {
+      "label": "Vaccine will be given elsewhere"
+    },
+    "MEDICAL": {
+      "label": "Medical reasons"
+    },
+    "PERSONAL": {
+      "label": "Personal choice"
+    },
+    "OTHER": {
+      "label": "Other"
+    }
+  },
   "report": {
     "list": {
       "title": "Reports",
       "description": "View service and campaign performance reports."
+    }
+  },
+  "response": {
+    "list": {
+      "title": "Responses"
+    },
+    "show": {
+      "title": "Consent response from %s"
+    },
+    "decision": {
+      "label": "Decision"
+    },
+    "healthAnswers": {
+      "label": "Responses to health questions"
+    },
+    "refusalReason": {
+      "label": "Reason for refusal"
+    },
+    "method": {
+      "WEBSITE": {
+        "label": "Online"
+      },
+      "CALL": {
+        "label": "By phone"
+      },
+      "PAPER": {
+        "label": "Paper form"
+      }
     }
   },
   "screen": {
@@ -394,6 +544,47 @@
     },
     "dose": {
       "label": "Dose"
+    }
+  },
+  "healthQuestions": {
+    "allergy": {
+      "label": "Does your child have any severe allergies?"
+    },
+    "anythingElse": {
+      "label": "Is there anything else we should know?"
+    },
+    "aspirin": {
+      "label": "Does your child take regular aspirin?"
+    },
+    "asthma": {
+      "label": "Has your child been diagnosed with asthma?"
+    },
+    "asthmaAdmitted": {
+      "label": "Has your child been admitted to intensive care for their asthma?"
+    },
+    "asthmaSteroids": {
+      "label": "Has your child taken any oral steroids for their asthma in the last 2 weeks?"
+    },
+    "eggAllergy": {
+      "label": "Has your child ever been admitted to intensive care due an allergic reaction to egg?"
+    },
+    "householdImmuneSystem": {
+      "label": "Is anyone in your household currently having treatment that severely affects their immune system?"
+    },
+    "immuneSystem": {
+      "label": "Does your child have a disease or treatment that severely affects their immune system?"
+    },
+    "medicalConditions": {
+      "label": "Does your child have any medical conditions for which they receive treatment?"
+    },
+    "medicationAllergies": {
+      "label": "Does your child have any allergies to medication?"
+    },
+    "previousReaction": {
+      "label": "Has your child ever had a severe reaction to any medicines, including vaccines?"
+    },
+    "recentFluVaccination": {
+      "label": "Has your child had a flu vaccination in the last 5 months?"
     }
   }
 }
