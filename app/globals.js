@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { ConsentOutcome, PatientOutcome } from './models/patient.js'
+import { Reply } from './models/reply.js'
 
 /**
  * Prototype specific global functions for use in Nunjucks templates.
@@ -86,7 +87,9 @@ export default () => {
     const summaryRows = []
 
     for (const key in rows) {
-      const value = rows[key].value || data[key]
+      let other = rows[key].other
+      let value = rows[key].value || data[key]
+      value = other ? [value, other].join(' – ') : value
 
       // Don’t show row for conditional answer
       if (typeof value === 'undefined') {
