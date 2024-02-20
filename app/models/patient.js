@@ -58,7 +58,7 @@ export class Patient {
   static generate(chis_record, log) {
     return new Patient({
       nhsn: chis_record.nhsn,
-      consent: faker.helpers.arrayElement(CONSENT_OUTCOME),
+      consent: 'NO_RESPONSE',
       screen: false,
       capture: false,
       outcome: 'NO_OUTCOME_YET',

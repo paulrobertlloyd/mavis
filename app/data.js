@@ -7,6 +7,7 @@ const batches = JSON.parse(readFileSync('.data/batches.json'))
 const campaigns = JSON.parse(readFileSync('.data/campaigns.json'))
 const patients = JSON.parse(readFileSync('.data/patients.json'))
 const records = JSON.parse(readFileSync('.data/records.json'))
+const responses = JSON.parse(readFileSync('.data/responses.json'))
 const sessions = JSON.parse(readFileSync('.data/sessions.json'))
 const users = JSON.parse(readFileSync('.data/users.json'))
 
@@ -32,6 +33,7 @@ export default {
   patients,
   records,
   registrars,
+  responses,
   schools,
   sessions,
   users,
