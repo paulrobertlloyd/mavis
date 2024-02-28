@@ -1,3 +1,4 @@
+import _ from 'lodash'
 import { faker } from '@faker-js/faker'
 import campaignTypes from '../datasets/campaign-types.js'
 import healthConditions from '../datasets/health-conditions.js'
@@ -13,6 +14,29 @@ const enrichWithRealisticAnswer = (key) => {
   }
 
   return false
+}
+
+/**
+ * Get consent outcome
+ * @param {Array<Reply>} replies - Consent replies
+ * @returns {string} Consent outcome
+ */
+export const getConsentOutcome = (replies) => {
+  if (replies?.length === 1) {
+    return replies[0].decision
+  } else if (replies?.length > 1) {
+    const decisions = _.uniqBy(replies, 'decision')
+
+    if (decisions.length > 1) {
+      return 'Inconsistent'
+    } else if (decisions[0].decision === 'Given') {
+      return 'Given'
+    } else if (decisions[0].decision === 'Refused') {
+      return 'Refused'
+    }
+  } else {
+    return 'NoResponse'
+  }
 }
 
 /**

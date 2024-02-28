@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { Patient } from './models/patient.js'
 import { Reply } from './models/reply.js'
 
 /**
@@ -32,6 +33,18 @@ export default () => {
 
   globals.patientReplies = function (patient) {
     return patient.replies.map((reply) => new Reply(reply))
+  }
+
+  globals.sessionPatients = function (cohort) {
+    const { data } = this.ctx
+
+    const patients = []
+    for (const nhsn of cohort) {
+      const patient = new Patient(data.patients[nhsn])
+      patients.push(patient)
+    }
+
+    return patients
   }
 
   globals.patientStatus = function (patient) {

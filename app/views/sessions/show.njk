@@ -2,6 +2,7 @@
 
 {% set campaign = data.campaigns[session.campaign_uuid] %}
 {% set title = campaign.name + " session at " + session.location.name %}
+{% set patients = sessionPatients(session.cohort) %}
 
 {% block beforeContent %}
   {{ breadcrumb({
