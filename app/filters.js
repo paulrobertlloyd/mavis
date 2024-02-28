@@ -55,6 +55,16 @@ export default (env) => {
   }
 
   /**
+   * Group a sequence of objects by a common attribute
+   * (Nunjucks `groupby` filter doesn’t respect Getters)
+   * @param {string} string - Markdown
+   * @returns {string} HTML decorated with nhsuk-* typography classes
+   */
+  filters.groupBy = (collection, key) => {
+    return Object.groupBy(collection, (item) => item[key])
+  }
+
+  /**
    * Format markdown
    * @param {string} string - Markdown
    * @returns {string} HTML decorated with nhsuk-* typography classes

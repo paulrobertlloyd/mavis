@@ -24,14 +24,19 @@ export const sessionController = {
   },
 
   patients(request, response) {
-    const { activity } = request.params
-    const outcome = request.query.outcome || 'NO_RESPONSE'
-    const consent = outcome.toUpperCase().replace('-', '_')
+    const { activity, id } = request.params
+    const { data } = request.session
+    let { consent } = request.query
 
-    response.locals.patients = response.render('sessions/patients', {
+    response.locals.patients = Object.values(data.patients)
+      .map((patient) => new Patient(patient, data))
+      .filter((patient) => patient.session_id === id)
+
+    consent = consent || response.locals.patients[0].consent
+
+    response.render('sessions/patients', {
       activity,
-      consent,
-      outcome
+      consent
     })
   },
 
@@ -44,7 +49,7 @@ export const sessionController = {
     response.render('patients/show', {
       activity,
       paths: { back: `${session.uri}/${activity}` },
-      patient: new Patient(data.patients[nhsn])
+      patient: new Patient(data.patients[nhsn], data)
     })
   },
 
@@ -57,7 +62,7 @@ export const sessionController = {
     response.render('patients/log', {
       activity,
       paths: { back: `${session.uri}/${activity}` },
-      patient: new Patient(data.patients[nhsn]),
+      patient: new Patient(data.patients[nhsn], data),
       log: Object.values(data.patients[nhsn].log)
         .map((event) => ({
           ...new Event(event),
@@ -79,7 +84,7 @@ export const sessionController = {
     response.locals.session = session
     response.locals.patients = Object.values(data.patients)
       .filter((patient) => session.cohort.includes(patient.nhsn))
-      .map((patient) => new Patient(patient))
+      .map((patient) => new Patient(patient, data))
       .sort((a, b) => consentSort[a.consent] - consentSort[b.consent])
 
     next()

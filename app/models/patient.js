@@ -1,6 +1,7 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event } from './event.js'
 import { Record } from './record.js'
+import { getConsentOutcome } from '../utils/consent.js'
 
 export const CONSENT_OUTCOME = [
   'NO_RESPONSE',
@@ -35,7 +36,6 @@ export const OUTCOME = ['NO_OUTCOME_YET', 'VACCINATED', 'COULD_NOT_VACCINATE']
 /**
  * @class Patient in-session record
  * @property {string} nhsn - NHS number
- * @property {string} consent - Consent outcome
  * @property {string} screen - Screening outcome
  * @property {string} capture - Vaccination outcome
  * @property {string} outcome - Overall outcome
@@ -44,14 +44,14 @@ export const OUTCOME = ['NO_OUTCOME_YET', 'VACCINATED', 'COULD_NOT_VACCINATE']
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
  * @property {Array} [response_uuid] - Consent response UUID
+ * @function consent - Consent outcome
  * @function record - Get full CHIS record
  * @function ns - Namespace
  * @function uri - URL
  */
 export class Patient {
-  constructor(options) {
+  constructor(options, data) {
     this.nhsn = options?.nhsn || this.#nhsn
-    this.consent = options.consent
     this.screen = options.screen
     this.capture = options.capture
     this.outcome = options.outcome
@@ -60,12 +60,12 @@ export class Patient {
     this.campaign_uuid = options.campaign_uuid
     this.session_id = options.session_id
     this.response_uuid = options.response_uuid || []
+    this.data = data
   }
 
   static generate(chis_record) {
     return new Patient({
       nhsn: chis_record.nhsn,
-      consent: 'NO_RESPONSE',
       screen: false,
       capture: false,
       outcome: 'NO_OUTCOME_YET',
@@ -80,6 +80,10 @@ export class Patient {
     numberArray.splice(3, 0, ' ')
     numberArray.splice(8, 0, ' ')
     return numberArray.join('')
+  }
+
+  get consent() {
+    return getConsentOutcome(this)
   }
 
   get record() {
@@ -100,7 +104,7 @@ export class Patient {
       new Event({
         type: 'SELECT',
         name: `Added to ${campaign.name} campaign cohort`,
-        date: campaign.date,
+        date: campaign.created,
         user_uuid: user.uuid
       })
     )
@@ -112,7 +116,7 @@ export class Patient {
       new Event({
         type: 'SELECT',
         name: `Added to session at ${session.location.name}`,
-        date: session.entered,
+        date: session.created,
         user_uuid: user.uuid
       })
     )
@@ -124,7 +128,7 @@ export class Patient {
       new Event({
         type: 'CONSENT',
         name: `Response ${response.decision} from ${response.parent.fullName}`,
-        date: response.date,
+        date: response.created,
         user_uuid: user?.uuid
       })
     )

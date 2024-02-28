@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { Response } from './models/response.js'
 
 /**
  * Prototype specific global functions for use in Nunjucks templates.
@@ -15,6 +16,18 @@ export default () => {
    */
   globals.link = function (href, text) {
     return `<a class="nhsuk-link" href="${href}">${text}</a>`
+  }
+
+  globals.patientResponses = function (response_uuid) {
+    const { data } = this.ctx
+
+    const responses = []
+    for (const uuid of response_uuid) {
+      const response = new Response(data.responses[uuid])
+      responses.push(response)
+    }
+
+    return responses
   }
 
   globals.patientStatus = function (patient) {

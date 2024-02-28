@@ -1,8 +1,8 @@
 {% set navigationItems = [] %}
-{% for item, patients in patients | groupby("consent") %}
+{% for item, patients in patients | groupBy("consent") %}
   {% set navigationItems = navigationItems | push({
     text: (__("consent." + item + ".tab") + " " + count(patients.length)) | safe,
-    href: "?outcome=" + item | slugify,
+    href: "?consent=" + item,
     current: item == consent
   }) %}
 {% endfor %}

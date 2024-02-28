@@ -43,6 +43,15 @@
         {{- icon(consentIcon) if consentIcon -}}
         {{- __("consent." + patient.consent + ".label") -}}
       </p>
+      {% for response in patientResponses(patient.response_uuid) %}
+      <p>
+        <a href="{{ response.uri }}">
+          {{- __("consent." + response.decision + ".label" ) }} by
+          {{ response.parent.fullName -}}
+        </a>
+        ({{ __("parent.relationship." + response.parent.relationship + ".label" ) }})
+      </p>
+      {% endfor %}
     {% endset %}
 
     {{ card({

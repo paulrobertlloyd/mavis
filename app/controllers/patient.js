@@ -9,7 +9,7 @@ export const patientController = {
     const { data } = request.session
     const { nhsn } = request.params
 
-    response.locals.patient = new Patient(data.patients[nhsn])
+    response.locals.patient = new Patient(data.patients[nhsn], data)
 
     next()
   }

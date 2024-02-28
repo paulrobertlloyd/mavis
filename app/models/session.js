@@ -1,6 +1,7 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import schools from '../datasets/schools.js'
 import {
+  addDays,
   convertIsoDateToObject,
   convertObjectToIsoDate
 } from '../utils/date.js'
@@ -44,21 +45,20 @@ export class Session {
   }
 
   static generate(urn, cohort, campaign) {
-    const created = faker.date.recent({ days: 30 })
+    // Create session 7 days after campaign created
+    const created = addDays(campaign.created, 7)
 
+    // Session takes places around 90 days from now
     const date = faker.date.soon({ days: 90 })
 
     // Open consent request window 60 days before session
-    const open = new Date(date)
-    open.setDate(open.getDate() - 60)
+    const open = addDays(date, -60)
 
     // Send reminders 7 days after consent opens
-    const reminder = new Date(open)
-    reminder.setDate(reminder.getDate() + 7)
+    const reminder = addDays(open, 7)
 
     // Close consent request window 3 days before session
-    const close = new Date(date)
-    close.setDate(close.getDate() - 3)
+    const close = addDays(date, -3)
 
     return new Session({
       created,
