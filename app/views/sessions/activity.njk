@@ -3,6 +3,7 @@
 {% set campaign = data.campaigns[session.campaign_uuid] %}
 {% set sessionName = campaign.name + " session at " + session.location.name %}
 {% set title = __("session.activity." + activity + ".title") %}
+{% set patients = sessionPatients(session.cohort) %}
 {% set patientsWithOutcome = patients | where("consent", consent) %}
 
 {% block beforeContent %}
