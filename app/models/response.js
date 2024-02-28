@@ -53,8 +53,8 @@ export class Response {
     this.refusalReasonOther = options?.refusalReasonOther
   }
 
-  static generate(campaign, session, patient) {
-    const child = Child.generate(patient, session.urn)
+  static generate(campaign, patient) {
+    const child = Child.generate(patient)
     const parent = Parent.generate(patient.record.lastName)
     const decision = faker.helpers.weightedArrayElement([
       { value: RESPONSE_DECISION.GIVEN, weight: 2 },

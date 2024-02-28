@@ -1,4 +1,5 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
+import { Event } from './event.js'
 import { Record } from './record.js'
 
 export const CONSENT_OUTCOME = [
@@ -40,6 +41,9 @@ export const OUTCOME = ['NO_OUTCOME_YET', 'VACCINATED', 'COULD_NOT_VACCINATE']
  * @property {string} outcome - Overall outcome
  * @property {Array} log - Audit log
  * @property {object} chis_record - CHIS record
+ * @property {string} [campaign_uuid] - Campaign UUID
+ * @property {string} [session_id] - Session ID
+ * @property {Array} [response_uuid] - Consent response UUID
  * @function record - Get full CHIS record
  * @function ns - Namespace
  * @function uri - URL
@@ -53,16 +57,18 @@ export class Patient {
     this.outcome = options.outcome
     this.log = options.log || []
     this.chis_record = options.chis_record
+    this.campaign_uuid = options.campaign_uuid
+    this.session_id = options.session_id
+    this.response_uuid = options.response_uuid || []
   }
 
-  static generate(chis_record, log) {
+  static generate(chis_record) {
     return new Patient({
       nhsn: chis_record.nhsn,
       consent: 'NO_RESPONSE',
       screen: false,
       capture: false,
       outcome: 'NO_OUTCOME_YET',
-      log,
       chis_record
     })
   }
@@ -86,5 +92,41 @@ export class Patient {
 
   get uri() {
     return `/patients/${this.nhsn}`
+  }
+
+  attachCampaign(campaign, user) {
+    this.campaign_uuid = campaign.uuid
+    this.log.push(
+      new Event({
+        type: 'SELECT',
+        name: `Added to ${campaign.name} campaign cohort`,
+        date: campaign.date,
+        user_uuid: user.uuid
+      })
+    )
+  }
+
+  attachSession(session, user) {
+    this.session_id = session.id
+    this.log.push(
+      new Event({
+        type: 'SELECT',
+        name: `Added to session at ${session.location.name}`,
+        date: session.entered,
+        user_uuid: user.uuid
+      })
+    )
+  }
+
+  attachResponse(response, user) {
+    this.response_uuid.push(response.uuid)
+    this.log.push(
+      new Event({
+        type: 'CONSENT',
+        name: `Response ${response.decision} from ${response.parent.fullName}`,
+        date: response.date,
+        user_uuid: user?.uuid
+      })
+    )
   }
 }

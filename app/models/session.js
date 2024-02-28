@@ -43,21 +43,7 @@ export class Session {
     this.close_ = options?.close_
   }
 
-  static generate(campaign) {
-    // Flu campaigns take place in primary schools, other campaigns in secondary
-    let school = faker.helpers.arrayElement(schools)
-    if (campaign.type === 'flu') {
-      const primary = Object.values(schools).filter(
-        (school) => school.phase === 'Primary'
-      )
-      school = faker.helpers.arrayElement(primary)
-    } else {
-      const secondary = Object.values(schools).filter(
-        (school) => school.phase === 'Secondary'
-      )
-      school = faker.helpers.arrayElement(secondary)
-    }
-
+  static generate(urn, cohort, campaign) {
     const created = faker.date.recent({ days: 30 })
 
     const date = faker.date.soon({ days: 90 })
@@ -76,13 +62,13 @@ export class Session {
 
     return new Session({
       created,
-      cohort: faker.helpers.arrayElements(campaign.cohort, 10),
+      cohort,
       format: faker.helpers.arrayElement([
         'A routine session in school',
         'A catch-up session in school',
         'A clinic'
       ]),
-      urn: school.urn,
+      urn,
       date: date.toISOString(),
       time: faker.helpers.arrayElement(['Morning', 'Afternoon', 'All day']),
       open: new Date(open).toISOString(),

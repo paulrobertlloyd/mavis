@@ -1,5 +1,4 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
-import { getCohortFromAgeRange } from '../utils/cohort.js'
 import campaignTypes from '../datasets/campaign-types.js'
 
 /**
@@ -25,12 +24,7 @@ export class Campaign {
     this.vaccines = options.vaccines
   }
 
-  static generate(type, records) {
-    const { minAge, maxAge } = campaignTypes[type]
-
-    // Select cohort from CHIS records based on campaign age range
-    const cohort = getCohortFromAgeRange(records, minAge, maxAge)
-
+  static generate(type, cohort) {
     return new Campaign({
       type,
       created: faker.date.recent({ days: 90 }),
