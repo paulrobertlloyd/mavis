@@ -1,6 +1,6 @@
 import { wizard } from 'nhsuk-prototype-rig'
 import { Campaign } from '../models/campaign.js'
-import { ConsentOutcome, Patient } from '../models/patient.js'
+import { Patient } from '../models/patient.js'
 import { Record } from '../models/record.js'
 import { Session } from '../models/session.js'
 
@@ -30,13 +30,11 @@ export const sessionController = {
       'Given',
       'Refused',
       'Inconsistent'
-    ].map((item) => ({
-      text: __(`consent.${item}.label`),
-      count: patients.filter(
-        (patient) => patient.consent === ConsentOutcome[item]
-      ).length,
-      href: `?consent=${item}`,
-      current: item === consent
+    ].map((key) => ({
+      text: __(`consent.${key}.label`),
+      count: patients.filter((patient) => patient.consent?.key === key).length,
+      href: `?consent=${key}`,
+      current: key === consent
     }))
 
     request.app.locals.activity = activity
@@ -44,7 +42,8 @@ export const sessionController = {
     response.render('sessions/activity', {
       activity,
       consent,
-      navigationItems
+      navigationItems,
+      patients: patients.filter((patient) => patient.consent?.key === consent)
     })
   },
 
