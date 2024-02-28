@@ -1,7 +1,7 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event, EventType } from './event.js'
 import { Record } from './record.js'
-import { getPreferredNames } from '../utils/reply.js'
+import { getConsentOutcome, getPreferredNames } from '../utils/reply.js'
 
 export class ConsentOutcome {
   static NoResponse = 'No response'
@@ -42,13 +42,13 @@ export class PatientOutcome {
  * @property {string} nhsn - NHS number
  * @property {Array} log - Audit log
  * @property {Array} replies - Consent replies
- * @property {ConsentOutcome} consent - Consent outcome
  * @property {ScreenOutcome} screen - Screening outcome
  * @property {CaptureOutcome} capture - Vaccination outcome
  * @property {PatientOutcome} outcome - Overall outcome
  * @property {Record} record - Original CHIS record
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
+ * @function consent - Consent outcome
  * @function preferredNames - Preferred name(s)
  * @function ns - Namespace
  * @function uri - URL
@@ -58,7 +58,6 @@ export class Patient {
     this.nhsn = options?.nhsn || this.#nhsn
     this.log = options?.log || []
     this.replies = options?.replies || []
-    this.consent = options?.consent || false
     this.screen = options?.screen || false
     this.capture = options?.capture || false
     this.outcome = options?.outcome || 'NoOutcomeYet'
@@ -70,7 +69,6 @@ export class Patient {
   static generate(record) {
     return new Patient({
       nhsn: record.nhsn,
-      consent: faker.helpers.arrayElement(Object.keys(ConsentOutcome)),
       record
     })
   }
@@ -82,6 +80,10 @@ export class Patient {
     numberArray.splice(3, 0, ' ')
     numberArray.splice(8, 0, ' ')
     return numberArray.join('')
+  }
+
+  get consent() {
+    return getConsentOutcome(this.replies)
   }
 
   get preferredNames() {
