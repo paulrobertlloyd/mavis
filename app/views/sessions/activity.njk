@@ -3,7 +3,6 @@
 {% set campaign = data.campaigns[session.campaign_uuid] %}
 {% set sessionName = campaign.name + " session at " + session.location.name %}
 {% set title = __("session.activity." + activity + ".title") %}
-{% set patientsWithOutcome = patients | where("consent", ConsentOutcome[consent]) %}
 
 {% block beforeContent %}
   {{ breadcrumb({
@@ -34,7 +33,7 @@
   {% include "sessions/_secondary-navigation.njk" %}
 
   {% set patientRows = [] %}
-  {% for patient in patientsWithOutcome %}
+  {% for patient in patients %}
     {% set patientRows = patientRows | push([
       {
         header: __("record.fullName.label"),
@@ -55,12 +54,12 @@
     ]) %}
   {% endfor %}
 
-  {% if patientsWithOutcome.length %}
+  {% if patients.length %}
     {% call actionTable({
       classes: "app-patients",
       tableClasses: "app-patients__table",
       sort: "name",
-      caption: __n("consent." + consent + ".count", patientsWithOutcome.length),
+      caption: __n("consent." + consent + ".count", patients.length),
       captionClasses: "nhsuk-u-secondary-text-color nhsuk-u-font-weight-normal nhsuk-u-font-size-19",
       responsive: true,
       head: [
@@ -88,7 +87,7 @@
     {% endcall %}
   {% else %}
     <div class="app-patients">
-      <p class="app-patients__no-results nhsuk-caption-m">{{ __n("consent." + consent + ".count", patientsWithOutcome.length) }}</p>
+      <p class="app-patients__no-results nhsuk-caption-m">{{ __n("consent." + consent + ".count", patients.length) }}</p>
     </div>
   {% endif %}
 {% endblock %}

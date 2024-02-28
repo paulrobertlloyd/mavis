@@ -1,8 +1,11 @@
+import _ from 'lodash'
 import { faker } from '@faker-js/faker'
 import campaignTypes from '../datasets/campaign-types.js'
 import healthConditions from '../datasets/health-conditions.js'
 import { Child } from '../models/child.js'
-import { ReplyRefusal } from '../models/reply.js'
+import { ConsentOutcome } from '../models/patient.js'
+import { ReplyDecision, ReplyRefusal } from '../models/reply.js'
+import { getEnumKeyAndValue } from './enum.js'
 
 /**
  * Add example answers to health questions
@@ -18,6 +21,34 @@ const enrichWithRealisticAnswer = (key) => {
   }
 
   return false
+}
+
+/**
+ * Get consent outcome
+ * @param {Array<import('../models/reply.js').Reply>} replies - Consent replies
+ * @returns {string} Consent outcome
+ */
+export const getConsentOutcome = (replies) => {
+  replies = Object.values(replies)
+
+  if (replies?.length === 1) {
+    // Reply decision value matches consent outcome key
+    const { key } = getEnumKeyAndValue(ReplyDecision, replies[0].decision)
+    return getEnumKeyAndValue(ConsentOutcome, key)
+  } else if (replies?.length > 1) {
+    const decisions = _.uniqBy(replies, 'decision')
+    if (decisions.length > 1) {
+      return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Inconsistent)
+    } else if (decisions[0].decision === ReplyDecision.Given) {
+      return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Given)
+    } else if (decisions[0].decision === ReplyDecision.Refused) {
+      return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Refused)
+    }
+  } else {
+    return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.NoResponse)
+  }
+
+  return
 }
 
 /**

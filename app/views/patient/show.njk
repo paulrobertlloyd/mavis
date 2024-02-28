@@ -60,11 +60,11 @@
 
     {% set consentDescriptionHtml %}
       {% if replies.length %}
-        {%- set consentIcon = __("consent." + patient.consent + ".icon") -%}
-        {%- set consentColour = __("consent." + patient.consent + ".colour") -%}
+        {%- set consentIcon = __("consent." + patient.consent.key + ".icon") -%}
+        {%- set consentColour = __("consent." + patient.consent.key + ".colour") -%}
         <p class="app-status{{ " app-status--" + consentColour if consentColour }}">
           {{- icon(consentIcon) if consentIcon -}}
-          {{- patient.consent -}}
+          {{- patient.consent.value -}}
         </p>
 
         {% set replyRows = [] %}
