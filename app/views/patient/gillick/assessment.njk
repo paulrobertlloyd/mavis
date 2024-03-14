@@ -1,0 +1,17 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("patient.gillick.assessment.label") %}
+
+{% block form %}
+  {{ textarea({
+    label: {
+      html: heading({
+        classes: "nhsuk-fieldset__legend--l",
+        caption: patient.record.fullName,
+        title: title
+      })
+    },
+    rows: 10,
+    decorate: "patient.gillick.assessment"
+  }) }}
+{% endblock %}
