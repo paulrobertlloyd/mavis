@@ -4,6 +4,7 @@ import { ContactPreference, ParentalRelationship } from '../models/parent.js'
 import {
   CaptureOutcome,
   ConsentOutcome,
+  GillickCompetent,
   PatientOutcome,
   ScreenOutcome
 } from '../models/patient.js'
@@ -17,6 +18,7 @@ export const enumeration = (request, response, next) => {
   response.locals.ContactPreference = ContactPreference
   response.locals.EventType = EventType
   response.locals.HealthQuestion = HealthQuestion
+  response.locals.GillickCompetent = GillickCompetent
   response.locals.ParentalRelationship = ParentalRelationship
   response.locals.PatientOutcome = PatientOutcome
   response.locals.Registrar = Registrar

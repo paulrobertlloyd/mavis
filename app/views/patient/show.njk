@@ -103,6 +103,35 @@
       {% endif %}
     {% endset %}
 
+    {% set gillickDescriptionHtml %}
+      {% if patient.gillick.competence %}
+        {{ summaryList({
+          rows: summaryRows(patient, {
+            "gillick.competence": {
+              value: GillickCompetent[patient.gillick.competence],
+              href: session.uri + "/" + patient.nhsn + "/gillick/edit/competence"
+            },
+            "gillick.assessment": {
+              value: patient.gillick.assessment | nhsukMarkdown,
+              href: session.uri + "/" + patient.nhsn + "/gillick/edit/assessment"
+            }
+          })
+        }) }}
+      {% else %}
+        <p>
+          <a href="{{ session.uri }}/{{ patient.nhsn }}/gillick/new">
+            {{ __("patient.gillick.start.confirm") }}
+          </a>
+        </p>
+      {% endif %}
+    {% endset %}
+
+    {{ card({
+      heading: __("patient.gillick.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: gillickDescriptionHtml
+    }) if showGillick }}
+
     {{ card({
       heading: __("consent.label"),
       headingClasses: "nhsuk-heading-m",

@@ -181,6 +181,22 @@
     }
   },
   "patient": {
+    "gillick": {
+      "label": "Gillick assessment",
+      "start": {
+        "title": "Assessing Gillick competence",
+        "confirm": "Give your assessment"
+      },
+      "competence": {
+        "label": "Are they Gillick competent?"
+      },
+      "assessment": {
+        "label": "Details of your assessment"
+      },
+      "check-answers": {
+        "title": "Check and confirm"
+      }
+    },
     "record": {
       "label": "Child record"
     }
