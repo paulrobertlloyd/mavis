@@ -1,3 +1,4 @@
+import EventEmitter from 'node:events'
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event } from './event.js'
 import { Record } from './record.js'
@@ -31,11 +32,18 @@ export class CaptureOutcome {
   static LateConsent = 'Consent received too late'
 }
 
+export class GillickCompetent {
+  static Yes = 'Yes, they are Gillick competent'
+  static No = 'No'
+}
+
 export class PatientOutcome {
   static NoOutcomeYet = 'No outcome yet'
   static Vaccinated = 'Vaccinated'
   static CouldNotVaccinate = 'Could not vaccinate'
 }
+
+export const PatientEvents = new EventEmitter()
 
 /**
  * @class Patient in-session record
@@ -46,6 +54,9 @@ export class PatientOutcome {
  * @property {CaptureOutcome} capture - Vaccination outcome
  * @property {PatientOutcome} outcome - Overall outcome
  * @property {Record} record - Original CHIS record
+ * @property {object} [gillick] - Gillick
+ * @property {GillickCompetent} [gillick.competence] - Gillick competence
+ * @property {string} [gillick.assessment] - Gillick assessment
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
  * @function consent - Consent outcome
@@ -62,6 +73,7 @@ export class Patient {
     this.capture = options?.capture || false
     this.outcome = options?.outcome || 'NoOutcomeYet'
     this.record = new Record(options.record)
+    this.gillick = options?.gillick || {}
     this.campaign_uuid = options.campaign_uuid
     this.session_id = options.session_id
   }
@@ -96,6 +108,10 @@ export class Patient {
 
   get uri() {
     return `/patients/${this.nhsn}`
+  }
+
+  set addEvent(event) {
+    this.log.push(new Event(event))
   }
 
   attachCampaign(campaign, user) {
