@@ -46,6 +46,7 @@ export class PatientOutcome {
  * @property {CaptureOutcome} capture - Vaccination outcome
  * @property {PatientOutcome} outcome - Overall outcome
  * @property {Record} record - Original CHIS record
+ * @property {import('./gillick.js').Gillick} [gillick] - Gillick assessment
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
  * @function consent - Consent outcome
@@ -62,6 +63,7 @@ export class Patient {
     this.capture = options?.capture || false
     this.outcome = options?.outcome || PatientOutcome.NoOutcomeYet
     this.record = new Record(options.record)
+    this.gillick = options?.gillick || {}
     this.campaign_uuid = options.campaign_uuid
     this.session_id = options.session_id
   }
@@ -127,6 +129,18 @@ export class Patient {
       name: `Added to session at ${session.location.name}`,
       date: session.created,
       user_uuid: session.created_user_uuid
+    }
+  }
+
+  set assessment(assessment) {
+    const created = !Object.entries(this.gillick).length
+
+    this.gillick = assessment
+    this.event = {
+      type: EventType.Consent,
+      name: `${created ? 'Completed' : 'Updated'} Gillick assessment`,
+      date: created ? assessment.created : new Date().toISOString(),
+      user_uuid: assessment.created_user_uuid
     }
   }
 
