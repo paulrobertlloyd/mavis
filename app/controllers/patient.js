@@ -1,5 +1,6 @@
+import { Campaign } from '../models/campaign.js'
 import { Event } from '../models/event.js'
-import { Patient } from '../models/patient.js'
+import { Patient, ConsentOutcome } from '../models/patient.js'
 import { Reply } from '../models/reply.js'
 import { Session } from '../models/session.js'
 import { User } from '../models/user.js'
@@ -13,6 +14,9 @@ export const patientController = {
     const replies = Object.values(patient.replies)
     const session = new Session(data.sessions[id])
 
+    response.locals.campaign = new Campaign(
+      data.campaigns[session.campaign_uuid]
+    )
     response.locals.patient = patient
     response.locals.replies = replies.map((reply) => new Reply(reply))
     response.locals.session = session
@@ -22,11 +26,15 @@ export const patientController = {
 
   show(request, response) {
     const { activity } = request.query
-    const { session } = response.locals
+    const { campaign, patient, session } = response.locals
+
+    const showGillick =
+      patient.consent.value !== ConsentOutcome.Given && campaign.type === 'hpv'
 
     response.render('patient/show', {
       activity,
-      paths: { back: `${session.uri}/${activity}` }
+      paths: { back: `${session.uri}/${activity}` },
+      showGillick
     })
   },
 

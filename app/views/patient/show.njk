@@ -58,6 +58,35 @@
       })
     }) }}
 
+    {% set gillickDescriptionHtml %}
+      {% if patient.gillick.competence %}
+        {{ summaryList({
+          rows: summaryRows(gillick, {
+            competence: {
+              value: patient.gillick.competence,
+              href: session.uri + "/" + patient.nhsn + "/gillick/edit/competence"
+            },
+            assessment: {
+              value: patient.gillick.assessment | nhsukMarkdown,
+              href: session.uri + "/" + patient.nhsn + "/gillick/edit/assessment"
+            }
+          })
+        }) }}
+      {% else %}
+        <p>
+          <a href="{{ session.uri }}/{{ patient.nhsn }}/gillick/new">
+            {{ __("gillick.start.confirm") }}
+          </a>
+        </p>
+      {% endif %}
+    {% endset %}
+
+    {{ card({
+      heading: __("gillick.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: gillickDescriptionHtml
+    }) if showGillick }}
+
     {% set consentDescriptionHtml %}
       {% if replies.length %}
         {%- set consentIcon = __("consent." + patient.consent.key + ".icon") -%}

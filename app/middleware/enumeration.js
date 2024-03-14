@@ -1,5 +1,6 @@
 import { HealthQuestion } from '../models/campaign.js'
 import { EventType } from '../models/event.js'
+import { GillickCompetent } from '../models/gillick.js'
 import { ContactPreference, ParentalRelationship } from '../models/parent.js'
 import {
   CaptureOutcome,
@@ -17,6 +18,7 @@ export const enumeration = (request, response, next) => {
   response.locals.ContactPreference = ContactPreference
   response.locals.EventType = EventType
   response.locals.HealthQuestion = HealthQuestion
+  response.locals.GillickCompetent = GillickCompetent
   response.locals.ParentalRelationship = ParentalRelationship
   response.locals.PatientOutcome = PatientOutcome
   response.locals.Registrar = Registrar
