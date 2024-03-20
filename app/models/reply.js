@@ -15,6 +15,7 @@ export class ReplyMethod {
   static Website = 'Online'
   static Phone = 'By phone'
   static Paper = 'Paper form'
+  static InPerson = 'In person'
 }
 
 export class ReplyRefusal {
@@ -89,6 +90,17 @@ export class Reply {
       patient_nhsn: patient.nhsn,
       session_id: session.id
     })
+  }
+
+  get fullName() {
+    console.log('get fullName')
+    if (this.parent) {
+      console.log('parent')
+      return this.parent.fullName
+    } else if (this.child) {
+      console.log('child')
+      return this.child.fullName
+    }
   }
 
   get ns() {

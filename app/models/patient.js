@@ -2,6 +2,7 @@ import EventEmitter from 'node:events'
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event, EventType } from './event.js'
 import { Record } from './record.js'
+import { Reply } from './reply.js'
 import { getConsentOutcome, getPreferredNames } from '../utils/reply.js'
 
 export class ConsentOutcome {
@@ -114,6 +115,20 @@ export class Patient {
     this.log.push(new Event(event))
   }
 
+  set reply(data) {
+    if (this.replies.length > 0) {
+      this.replies.forEach((reply, index) => {
+        if (reply.uuid == data.uuid) {
+          this.replies[index] = new Reply(data)
+        } else {
+          this.replies.push(new Reply(data))
+        }
+      })
+    } else {
+      this.replies.push(new Reply(data))
+    }
+  }
+
   attachCampaign(campaign, user) {
     this.campaign_uuid = campaign.uuid
     this.event = {
@@ -135,7 +150,7 @@ export class Patient {
   }
 
   attachReply(reply, user) {
-    this.replies.push(reply)
+    this.reply = reply
     this.event = {
       type: EventType.Consent,
       name: `Response ${reply.decision} from ${reply.parent.fullName}`,

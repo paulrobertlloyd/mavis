@@ -1,0 +1,19 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("reply.decision.title", campaign.name) %}
+
+{% block form %}
+  {{ radios({
+    fieldset: {
+      legend: {
+        html: heading({
+          classes: "nhsuk-fieldset__legend--l",
+          caption: patient.record.fullName,
+          title: title
+        })
+      }
+    },
+    items: decisionItems,
+    decorate: "reply.decision"
+  }) }}
+{% endblock %}
