@@ -45,7 +45,7 @@
           }
         })
       })
-    }) }}
+    }) if reply.child }}
 
     {{ card({
       heading: __("parent.label"),
@@ -70,7 +70,7 @@
           }
         })
       })
-    }) }}
+    }) if reply.parent }}
 
     {% set healthAnswerRows = [] %}
     {% for key, healthAnswer in reply.healthAnswers %}

@@ -1,0 +1,34 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("reply.healthAnswers.title") %}
+
+{% block form %}
+  {{ heading({
+    caption: patient.record.fullName,
+    title: title
+  }) }}
+
+  {% for id in campaign.healthQuestions %}
+    {{ radios({
+      fieldset: {
+        legend: { text: HealthQuestion[id] }
+      },
+      classes: "nhsuk-radios--inline",
+      items: [
+        {
+          text: "Yes",
+          conditional: {
+            html: textarea({
+              label: { text: "Give details" },
+              decorate: ["reply", "healthAnswers", id]
+            })
+          }
+        },
+        {
+          text: "No"
+        }
+      ],
+      decorate: ["healthAnswers", id]
+    }) }}
+  {% endfor %}
+{% endblock %}
