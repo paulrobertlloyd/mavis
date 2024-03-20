@@ -199,6 +199,11 @@
     },
     "record": {
       "label": "Child record"
+    },
+    "reply": {
+      "start": {
+        "confirm": "Get consent response"
+      }
     }
   },
   "record": {
@@ -242,17 +247,36 @@
     }
   },
   "reply": {
+    "label": "Response",
     "show": {
       "title": "Consent response from %s"
     },
+    "new": {
+      "check-answers": {
+        "title": "Check and confirm"
+      }
+    },
+    "success": {
+      "create": "Response added"
+    },
+    "person": {
+      "title": "Who are you trying to get consent from?"
+    },
+    "method": {
+      "title": "How was the response given?",
+      "label": "Response method"
+    },
     "decision": {
-      "label": "Decision"
+      "label": "Decision",
+      "title": "Do they agree to having the %s vaccine?"
     },
     "healthAnswers": {
-      "label": "Answers to health questions"
+      "label": "Answers to health questions",
+      "title": "Answers to health questions"
     },
     "refusalReason": {
-      "label": "Reason for refusal"
+      "label": "Reason for refusal",
+      "title": "Why do they not agree?"
     },
     "created": {
       "label": "Response date"
