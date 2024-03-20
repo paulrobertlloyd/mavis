@@ -2,6 +2,7 @@ import _ from 'lodash'
 import { faker } from '@faker-js/faker'
 import healthConditions from '../datasets/health-conditions.js'
 import { Child } from '../models/child.js'
+import { ParentalRelationship } from '../models/parent.js'
 import { ConsentOutcome } from '../models/patient.js'
 import { ReplyDecision, ReplyRefusal } from '../models/reply.js'
 import { getEnumKeyAndValue } from './enum.js'
@@ -28,6 +29,7 @@ const enrichWithRealisticAnswer = (key) => {
  * @returns {string} Consent outcome
  */
 export const getConsentOutcome = (patient) => {
+  const parentalRelationships = Object.keys(ParentalRelationship)
   const replies = Object.values(patient.replies).map(
     (reply) => new Reply(reply)
   )
@@ -39,6 +41,14 @@ export const getConsentOutcome = (patient) => {
   } else if (replies.length > 1) {
     const decisions = _.uniqBy(replies, 'decision')
     if (decisions.length > 1) {
+      // If one of the replies is not from parent (so from child), use that
+      const childReply = replies.find(
+        (reply) => !parentalRelationships.includes(reply.relationship)
+      )
+      if (childReply) {
+        return getEnumKeyAndValue(ReplyDecision, childReply.decision)
+      }
+
       return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Inconsistent)
     } else if (decisions[0].decision === ReplyDecision.Given) {
       return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Given)
