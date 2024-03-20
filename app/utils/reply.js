@@ -39,6 +39,12 @@ export const getConsentOutcome = (patient) => {
   } else if (replies.length > 1) {
     const decisions = _.uniqBy(replies, 'decision')
     if (decisions.length > 1) {
+      // If one of the replies is from the child, use that
+      const childReply = replies.find((reply) => reply.relationship === 'Child')
+      if (childReply) {
+        return getEnumKeyAndValue(ReplyDecision, childReply.decision)
+      }
+
       return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Inconsistent)
     } else if (decisions[0].decision === ReplyDecision.Given) {
       return getEnumKeyAndValue(ConsentOutcome, ConsentOutcome.Given)
