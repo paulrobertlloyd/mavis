@@ -15,6 +15,7 @@ export class ReplyMethod {
   static Website = 'Online'
   static Phone = 'By phone'
   static Paper = 'Paper form'
+  static InPerson = 'In person'
 }
 
 export class ReplyRefusal {
@@ -31,10 +32,10 @@ export class ReplyRefusal {
  * @property {string} uuid - UUID
  * @property {string} created - Created date
  * @property {string} [created_user_uuid] - User who created reply
- * @property {import('./child.js').Child} child - Child
- * @property {import('./parent.js').Parent} parent - Parent or guardian
- * @property {ReplyDecision} decision - Consent decision
- * @property {ReplyMethod} method - Reply method
+ * @property {import('./child.js').Child} [child] - Child
+ * @property {import('./parent.js').Parent} [parent] - Parent or guardian
+ * @property {ReplyDecision} [decision] - Consent decision
+ * @property {ReplyMethod} [method] - Reply method
  * @property {object} [healthAnswers] - Answers to health questions
  * @property {ReplyRefusal} [refusalReason] - Refusal reason
  * @property {string} [refusalReasonOther] - Other refusal reason
@@ -105,6 +106,22 @@ export class Reply {
       patient_nhsn: patient.nhsn,
       session_id: session.id
     })
+  }
+
+  get fullName() {
+    if (this.parent) {
+      return this.parent.fullName
+    } else if (this.child) {
+      return this.child.fullName
+    }
+  }
+
+  get relationship() {
+    if (this.parent) {
+      return this.parent.relationship
+    } else if (this.child) {
+      return 'Child'
+    }
   }
 
   get ns() {

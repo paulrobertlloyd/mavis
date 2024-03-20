@@ -155,8 +155,8 @@ export class Patient {
     this.event = {
       type: EventType.Consent,
       name: created
-        ? `${reply.decision} by ${reply.fullName}`
-        : `${reply.decision} in updated response from ${reply.fullName}`,
+        ? `${reply.decision} by ${reply.fullName} (${reply.relationship})`
+        : `${reply.decision} in updated response from ${reply.fullName} (${reply.relationship})`,
       date: created ? reply.created : new Date().toISOString(),
       user_uuid: reply.created_user_uuid
     }
