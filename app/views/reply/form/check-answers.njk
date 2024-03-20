@@ -1,0 +1,69 @@
+{% extends "_layouts/form.njk" %}
+
+{% set confirmButtonText = "Save changes" %}
+{% set title = __("reply.new.check-answers.title") %}
+
+{% block form %}
+  {{ heading({
+    caption: patient.record.fullName,
+    title: title
+  }) }}
+
+  {{ card({
+    heading: __("reply.label"),
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(reply, {
+        decision: {
+          value: reply.decision,
+          href: session.uri + "/" + patient.nhsn + "/replies/" + reply.uuid + "/new/decision"
+        },
+        method: {
+          value: reply.method,
+          href: session.uri + "/" + patient.nhsn + "/replies/" + reply.uuid + "/new/method"
+        },
+        refusalReason: {
+          value: reply.refusalReason,
+          other: reply.refusalReasonOther if reply.refusalReason == ReplyRefusal.Other,
+          href: session.uri + "/" + patient.nhsn + "/replies/" + reply.uuid + "/new/refusal-reason"
+        } if reply.refusalReason,
+        refusalReasonDetails: {
+          value: reply.refusalReasonDetails | nhsukMarkdown,
+          href: session.uri + "/" + patient.nhsn + "/replies/" + reply.uuid + "/new/refusal-reason-details"
+        } if reply.refusalReasonDetails
+      })
+    })
+  }) }}
+
+  {{ card({
+    heading: __("parent.label"),
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(reply.parent, {
+        fullName: {},
+        relationship: {
+          value: reply.parent.relationship,
+          other: reply.parent.relationshipOther
+        },
+        tel: {}
+      })
+    })
+  }) if reply.parent }}
+
+  {% set healthAnswerRows = [] %}
+  {% for key, healthAnswer in reply.healthAnswers %}
+    {% set healthAnswerRows = healthAnswerRows | push({
+      key: { text: HealthQuestion[key] },
+      value: { text: healthAnswer or "No" }
+    }) %}
+  {% endfor %}
+
+  {{ card({
+    heading: __("reply.healthAnswers.label"),
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      classes: "app-summary-list--full-width",
+      rows: healthAnswerRows
+    })
+  }) if reply.healthAnswers }}
+{% endblock %}

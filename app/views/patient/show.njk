@@ -101,7 +101,7 @@
           {% set replyRows = replyRows | push([
             {
               header: __("parent.fullName.label"),
-              html: link(reply.uri, reply.parent.fullName) or "Not provided"
+              html: "<span>" + link(reply.uri, reply.fullName) + ('<br><span class="nhsuk-u-font-size-16">' + reply.relationship + "</span></span>")
             },
             {
               header: __("reply.created.label"),
@@ -118,6 +118,7 @@
         {% endfor %}
 
         {{ actionTable({
+          classes: "nhsuk-u-margin-bottom-4",
           sort: "created",
           responsive: true,
           head: [
@@ -130,6 +131,11 @@
       {% else %}
         {{ __("consent.NoResponse.description") | nhsukMarkdown }}
       {% endif %}
+      <p>
+        <a href="{{ session.uri }}/{{ patient.nhsn }}/replies/new">
+          {{ __("patient.reply.start.confirm") }}
+        </a>
+      </p>
     {% endset %}
 
     {{ card({

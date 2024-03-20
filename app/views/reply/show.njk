@@ -1,6 +1,6 @@
 {% extends "_layouts/default.njk" %}
 
-{% set title = __("reply.show.title", reply.parent.fullName) %}
+{% set title = __("reply.show.title", reply.fullName) %}
 {% set paths = { back: patient.uri } %}
 
 {% block content %}
@@ -21,9 +21,12 @@
           },
           decision: {},
           refusalReason: {
-            value: ReplyRefusal[reply.refusalReason],
+            value: reply.refusalReason,
             other: reply.refusalReasonOther
-          } if reply.refusalReason
+          } if reply.refusalReason,
+          refusalReasonDetails: {
+            value: reply.refusalReasonDetails | nhsukMarkdown
+          } if reply.refusalReasonDetails
         })
       })
     }) }}
@@ -45,7 +48,7 @@
           }
         })
       })
-    }) }}
+    }) if reply.child }}
 
     {{ card({
       heading: __("parent.label"),
@@ -54,15 +57,15 @@
         rows: summaryRows(reply.parent, {
           fullName: {},
           relationship: {
-            value: ParentalRelationship[reply.parent.relationship],
+            value: reply.parent.relationship,
             other: reply.parent.relationshipOther
           },
           email: {
-            value: reply.parent.email | urlize
+            value: reply.parent.email or "Not provided" | urlize
           },
           tel: {},
           contactPreference: {
-            value: ContactPreference[reply.parent.contactPreference],
+            value: reply.parent.contactPreference,
             other: reply.parent.contactPreferenceOther
           } if reply.parent.tel,
           sms: {
@@ -70,7 +73,7 @@
           }
         })
       })
-    }) }}
+    }) if reply.parent }}
 
     {% set healthAnswerRows = [] %}
     {% for key, healthAnswer in reply.healthAnswers %}
