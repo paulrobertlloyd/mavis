@@ -2,14 +2,14 @@
 
 {% set title = __("session.edit.cohort.title") %}
 
-{% macro checkboxHtml(label, nhsukNumber) %}
+{% macro checkboxHtml(label, nhsukNumber, checked) %}
 {{ checkboxes({
   name: "[session][cohort]",
   items: [{
     id: ("session-cohort-" + nhsukNumber) if nhsukNumber else "all",
     value: nhsukNumber,
     html: "<span class=\"nhsuk-u-visually-hidden\">Choose " + label + "</span>",
-    checked: session.cohort | arrayOrStringIncludes(nhsukNumber)
+    checked: checked
   }]
 }) }}
 {% endmacro %}
@@ -30,7 +30,7 @@
         {% for record in cohortItems %}
         <tr class="nhsuk-table__row">
           <td class="nhsuk-table__cell">
-            {{ checkboxHtml(record.fullName, record.nhsn) }}
+            {{ checkboxHtml(record.fullName, record.nhsn, record.checked) }}
           </td>
           <td class="nhsuk-table__cell" data-sort="{{ record.lastName }}">
             <label for="session-cohort-{{ record.nhsn }}">

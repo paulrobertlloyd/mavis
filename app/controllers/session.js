@@ -9,9 +9,13 @@ export const sessionController = {
     const { data } = request.session
 
     response.render('sessions/list', {
-      sessions: Object.values(data.sessions).map(
-        (session) => new Session(session)
-      )
+      sessions: Object.values(data.sessions).map((session) => {
+        session = new Session(session)
+        session.cohort = Object.values(data.patients).filter(
+          (patient) => patient.session_id === session.id
+        )
+        return session
+      })
     })
   },
 
@@ -49,12 +53,10 @@ export const sessionController = {
     const { id } = request.params
     const { data } = request.session
 
-    const session = new Session(data.sessions[id])
-
     request.app.locals.session = new Session(data.sessions[id])
-    request.app.locals.patients = session.cohort.map(
-      (record) => new Patient(data.patients[record])
-    )
+    request.app.locals.patients = Object.values(data.patients)
+      .filter((patient) => patient.session_id === id)
+      .map((patient) => new Patient(patient))
 
     next()
   },
@@ -152,9 +154,22 @@ export const sessionController = {
     if (request.app.locals.session.campaign_uuid) {
       const { campaign_uuid } = request.app.locals.session
       const campaign = new Campaign(data.campaigns[campaign_uuid])
-      response.locals.cohortItems = campaign.cohort.map(
-        (nhsn) => new Record(data.records[nhsn])
-      )
+      response.locals.cohortItems = campaign.cohort
+        // Only show records where child is at the selected school
+        .filter((nhsn) => {
+          const record = data.records[nhsn]
+          const { session } = request.app.locals
+          return record.urn === Number(session.urn)
+        })
+        // Check records already assigned to session
+        .map((nhsn) => {
+          const record = new Record(data.records[nhsn])
+          const patient = data.patients[record.nhsn]
+
+          record.checked = patient.session_id === id
+
+          return record
+        })
     }
 
     next()
