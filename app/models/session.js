@@ -50,7 +50,6 @@ export class Session {
     this.id = options?.id || faker.helpers.replaceSymbols('??##')
     this.created = options?.created || new Date().toISOString()
     this.created_user_uuid = options?.created_user_uuid
-    this.cohort = options?.cohort || []
     this.format = options?.format
     this.urn = options?.urn
     this.date = options?.date
@@ -67,10 +66,7 @@ export class Session {
     this.close_ = options?.close_
   }
 
-  static generate(urn, cohort, campaign, user) {
-    // Ensure cohort only contains unique values
-    cohort = [...new Set(cohort)]
-
+  static generate(urn, campaign, user) {
     // Create session 7 days after campaign created
     const created = addDays(campaign.created, 7)
 
@@ -93,7 +89,6 @@ export class Session {
     return new Session({
       created,
       created_user_uuid: user.uuid,
-      cohort,
       format: faker.helpers.arrayElement(Object.values(SessionFormat)),
       urn,
       date,
