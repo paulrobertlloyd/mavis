@@ -1,7 +1,11 @@
 import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event, EventType } from './event.js'
 import { Record } from './record.js'
-import { getConsentOutcome, getPreferredNames } from '../utils/reply.js'
+import {
+  getConsentHealthAnswers,
+  getConsentOutcome,
+  getPreferredNames
+} from '../utils/reply.js'
 
 export class ConsentOutcome {
   static NoResponse = 'No response'
@@ -90,6 +94,10 @@ export class Patient {
 
   get fullName() {
     return [this.record.firstName, this.record.lastName].join(' ')
+  }
+
+  get consentHealthAnswers() {
+    return getConsentHealthAnswers(this.replies)
   }
 
   get preferredNames() {

@@ -1,6 +1,6 @@
 import _ from 'lodash'
-import { ConsentOutcome, PatientOutcome } from './models/patient.js'
-import { Patient } from './models/patient.js'
+import { HealthQuestion } from './models/campaign.js'
+import { ConsentOutcome, Patient, PatientOutcome } from './models/patient.js'
 import { getEnumKeyAndValue } from './utils/enum.js'
 
 /**
@@ -23,6 +23,44 @@ export default () => {
   }
 
   globals.enumKeyAndValue = getEnumKeyAndValue
+
+  /**
+   * Get health answers for summary list rows
+   * @param {object} healthAnswers - Health answers
+   * @returns {Array|undefined} Parameters for summary list component
+   */
+  globals.healthAnswerRows = function (healthAnswers) {
+    if (healthAnswers.length === 0) {
+      return
+    }
+
+    const rows = []
+    for (let [id, value] of Object.entries(healthAnswers)) {
+      let html = ''
+      if (typeof value === 'object') {
+        // Answers across all replies
+        // Show the relationship of person of answered, as well as their answer
+        for (let [relationship, answer] of Object.entries(value)) {
+          html += answer
+            ? `<p>${relationship} responded: Yes:</p>\n<blockquote>${answer}</blockquote>`
+            : `<p>${relationship} responded: No<p>`
+        }
+      } else {
+        // Answer in reply
+        // Only show the answer
+        html += value
+          ? `<p>Yes:</p>\n<blockquote>${value}</blockquote>`
+          : `<p>No<p>`
+      }
+
+      rows.push({
+        key: { text: HealthQuestion[id] },
+        value: { html }
+      })
+    }
+
+    return rows
+  }
 
   /**
    * Format link
