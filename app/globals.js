@@ -1,7 +1,11 @@
 import _ from 'lodash'
-import { ConsentOutcome, PatientOutcome } from './models/patient.js'
-import { Patient } from './models/patient.js'
+import { HealthQuestion } from './models/campaign.js'
+import { ConsentOutcome, Patient, PatientOutcome } from './models/patient.js'
 import { getEnumKeyAndValue } from './utils/enum.js'
+import {
+  getRepliesWithHealthAnswers,
+  formattedHealthAnswer
+} from './utils/reply.js'
 
 /**
  * Prototype specific global functions for use in Nunjucks templates.
@@ -23,6 +27,45 @@ export default () => {
   }
 
   globals.enumKeyAndValue = getEnumKeyAndValue
+
+  /**
+   * Get health answer summary list rows
+   * @param {object} campaign - Campaign
+   * @param {Array} replies - Consent responses
+   * @returns {Array|undefined} Parameters for summary list component
+   */
+  globals.healthAnswerRows = function (campaign, replies) {
+    if (replies.length === 0) {
+      return
+    }
+
+    const rows = []
+    for (const id of campaign.healthQuestions) {
+      const repliesWithAnswers = getRepliesWithHealthAnswers(replies)
+      const uniqueReplies = _.uniqBy(repliesWithAnswers, `healthAnswers[${id}]`)
+
+      let html
+      if (replies.length > 1) {
+        const answers = []
+        for (const reply of uniqueReplies) {
+          const relationship =
+            uniqueReplies.length > 1 ? reply.relationship : 'All'
+
+          answers.push(formattedHealthAnswer(reply, id, relationship))
+        }
+        html = answers.join('\n')
+      } else {
+        html = formattedHealthAnswer(replies[0], id)
+      }
+
+      rows.push({
+        key: { text: HealthQuestion[id] },
+        value: { html }
+      })
+    }
+
+    return rows
+  }
 
   /**
    * Format link

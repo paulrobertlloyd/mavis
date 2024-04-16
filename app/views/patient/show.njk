@@ -143,5 +143,14 @@
       headingClasses: "nhsuk-heading-m",
       descriptionHtml: consentDescriptionHtml
     }) }}
+
+    {{ card({
+      heading: __("healthAnswers.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: summaryList({
+        classes: "app-summary-list--full-width",
+        rows: healthAnswerRows(campaign, replies)
+      })
+    }) if replies.length }}
   </div>
 {% endblock %}

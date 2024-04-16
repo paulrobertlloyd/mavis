@@ -24,6 +24,46 @@ const enrichWithRealisticAnswer = (key) => {
 }
 
 /**
+ * Get formatted health answer
+ * @param {object} reply - Consent response
+ * @param {string} id - Question ID
+ * @param {string} [relationship] - Reply relationship
+ * @returns {string} Answer to health question
+ */
+export const formattedHealthAnswer = (reply, id, relationship) => {
+  const healthAnswer = reply.healthAnswers[id]
+  if (relationship) {
+    return !healthAnswer
+      ? `<p>${relationship} responded: No</p>`
+      : `<p>${relationship} responded: Yes:</p>\n<blockquote>${healthAnswer}</blockquote>`
+  }
+
+  return !healthAnswer
+    ? '<p>No</p>'
+    : `<p>Yes</p>\n<blockquote>${healthAnswer}</blockquote>`
+}
+
+/**
+ * Get consent responses with answers to health questions
+ * @param {Array} replies - Consent responses
+ * @returns {Array} Consent responses with answers to health questions
+ */
+export function getRepliesWithHealthAnswers(replies) {
+  replies = Array.isArray(replies) ? replies : [replies]
+
+  return replies.filter((reply) => {
+    for (const key in reply.healthAnswers) {
+      if (
+        reply.healthAnswers.hasOwnProperty(key) &&
+        reply.healthAnswers[key] !== false
+      ) {
+        return reply.healthAnswers[key]
+      }
+    }
+  })
+}
+
+/**
  * Get consent outcome
  * @param {Array<import('../models/reply.js').Reply>} replies - Consent replies
  * @returns {string} Consent outcome

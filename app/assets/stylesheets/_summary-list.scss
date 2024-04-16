@@ -26,6 +26,15 @@
   .nhsuk-summary-list__value {
     margin-bottom: nhsuk-spacing(2);
   }
+
+  blockquote {
+    @include nhsuk-responsive-margin(4, "bottom");
+    @include nhsuk-responsive-margin(2, "top");
+
+    border-left: $nhsuk-border-width solid $nhsuk-border-color;
+    margin-left: 0;
+    padding-left: nhsuk-spacing(3);
+  }
 }
 
 // Ensure width of value cell not affected by presence of actions cell
