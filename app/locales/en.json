@@ -95,6 +95,39 @@
       "label": "School"
     }
   },
+  "screen": {
+    "label": "Triage",
+    "NeedsTriage": {
+      "colour": "blue",
+      "description": "Responses to health questions need triage",
+      "label": "Triage needed",
+      "title": "Needs triage",
+      "count": {
+        "one": "%s child needs triage",
+        "other": "[0] No children need triage|%s children need triage"
+      }
+    },
+    "DelayVaccination": {
+      "colour": "red",
+      "description": "Nurse {{user}} decided that {{name}}’s vaccination should be delayed.",
+      "title": "Delay vaccination to a later date"
+    },
+    "DoNotVaccinate": {
+      "colour": "red",
+      "description": "Nurse {{user}} decided that {{name}} should not be vaccinated.",
+      "title": "Do not vaccinate in campaign"
+    },
+    "Vaccinate": {
+      "colour": "purple",
+      "description": "Nurse {{user}} decided that {{name}} is safe to vaccinate.",
+      "label": "Triage completed",
+      "title": "Safe to vaccinate",
+      "count": {
+        "one": "%s child safe to vaccinate",
+        "other": "[0] No children safe to vaccinate|%s children safe to vaccinate"
+      }
+    }
+  },
   "consent": {
     "label": "Consent",
     "NoResponse": {

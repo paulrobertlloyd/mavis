@@ -67,7 +67,7 @@
       classes: "app-patients",
       tableClasses: "app-patients__table",
       sort: "name",
-      caption: __n("consent." + consent + ".count", patients.length),
+      caption: __n(activity + "." + tab + ".count", patients.length),
       captionClasses: "nhsuk-u-secondary-text-color nhsuk-u-font-weight-normal nhsuk-u-font-size-19",
       responsive: true,
       head: [
@@ -98,7 +98,7 @@
     {% endcall %}
   {% else %}
     <div class="app-patients">
-      <p class="app-patients__no-results nhsuk-caption-m">{{ __n("consent." + consent + ".count", patients.length) }}</p>
+      <p class="app-patients__no-results nhsuk-caption-m">{{ __n(activity + "." + tab + ".count", patients.length) }}</p>
     </div>
   {% endif %}
 {% endblock %}

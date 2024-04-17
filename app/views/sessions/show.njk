@@ -45,6 +45,13 @@
     </p>
   {% endset %}
 
+  {% set screenCardDescriptionHtml %}
+    <p>
+      {{ __n("screen.NeedsTriage.count", patients | where("screen.value", ScreenOutcome.NeedsTriage) | length) }}<br>
+      {{ __n("screen.Vaccinate.count", patients | where("screen.value", ScreenOutcome.Vaccinate) | length) }}
+    </p>
+  {% endset %}
+
   <ul class="nhsuk-grid-row nhsuk-card-group">
     <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
       {{ card({
@@ -60,7 +67,8 @@
         clickable: true,
         heading: __("session.activity.screen.title"),
         headingClasses: "nhsuk-heading-m",
-        href:  session.uri + "/screen"
+        href:  session.uri + "/screen",
+        descriptionHtml: screenCardDescriptionHtml
       }) }}
     </li>
     <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">

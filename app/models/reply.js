@@ -75,7 +75,7 @@ export class Reply {
       { value: ReplyMethod.Paper, weight: 1 }
     ])
 
-    const healthAnswers = getHealthAnswers(campaign.type)
+    const healthAnswers = getHealthAnswers(campaign.type, patient)
     const refusalReason = getRefusalReason(campaign.type)
 
     const today = new Date()
