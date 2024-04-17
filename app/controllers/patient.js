@@ -1,6 +1,6 @@
 import { Campaign } from '../models/campaign.js'
 import { Event } from '../models/event.js'
-import { ConsentOutcome, Patient } from '../models/patient.js'
+import { ConsentOutcome, Patient, TriageOutcome } from '../models/patient.js'
 import { Reply } from '../models/reply.js'
 import { Session, SessionStatus } from '../models/session.js'
 
@@ -34,7 +34,10 @@ export const patientController = {
         campaign.type !== 'flu' &&
         session.status === SessionStatus.Active &&
         patient.consent?.value !== ConsentOutcome.Given,
-      editReplies: patient.consent?.value !== ConsentOutcome.Given
+      editReplies: patient.consent?.value !== ConsentOutcome.Given,
+      editTriage:
+        patient.triage?.value === TriageOutcome.Completed &&
+        patient.outcome?.value !== PatientOutcome.Vaccinated
     }
 
     response.render('patient/show', {
