@@ -1,6 +1,6 @@
 import { Campaign } from '../models/campaign.js'
 import { Event } from '../models/event.js'
-import { ConsentOutcome, Patient } from '../models/patient.js'
+import { ConsentOutcome, Patient, TriageOutcome } from '../models/patient.js'
 import { Reply } from '../models/reply.js'
 import { Session } from '../models/session.js'
 import { User } from '../models/user.js'
@@ -30,7 +30,10 @@ export const patientController = {
     const options = {
       editGillick: patient.consent?.value !== ConsentOutcome.Given,
       showGillick: campaign.type !== 'flu',
-      editReplies: patient.consent?.value !== ConsentOutcome.Given
+      editReplies: patient.consent?.value !== ConsentOutcome.Given,
+      editTriage:
+        patient.consentHealthAnswers &&
+        patient.triage?.value !== TriageOutcome.NotNeeded
     }
 
     response.render('patient/show', {
