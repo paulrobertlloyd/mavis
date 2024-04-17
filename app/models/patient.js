@@ -2,6 +2,7 @@ import { fakerEN_GB as faker } from '@faker-js/faker'
 import { Event, EventType } from './event.js'
 import { Record } from './record.js'
 import { getConsentOutcome, getPreferredNames } from '../utils/reply.js'
+import { getScreenOutcome } from '../utils/triage.js'
 
 export class ConsentOutcome {
   static NoResponse = 'No response'
@@ -42,7 +43,6 @@ export class PatientOutcome {
  * @property {string} nhsn - NHS number
  * @property {Array} log - Audit log
  * @property {Array} replies - Consent replies
- * @property {ScreenOutcome} screen - Screening outcome
  * @property {CaptureOutcome} capture - Vaccination outcome
  * @property {PatientOutcome} outcome - Overall outcome
  * @property {Record} record - Original CHIS record
@@ -50,6 +50,7 @@ export class PatientOutcome {
  * @property {string} [campaign_uuid] - Campaign UUID
  * @property {string} [session_id] - Session ID
  * @function consent - Consent outcome
+ * @function screen - Screening outcome
  * @function preferredNames - Preferred name(s)
  * @function ns - Namespace
  * @function uri - URL
@@ -59,7 +60,6 @@ export class Patient {
     this.nhsn = options?.nhsn || this.#nhsn
     this.log = options?.log || []
     this.replies = options?.replies || {}
-    this.screen = options?.screen || false
     this.capture = options?.capture || false
     this.outcome = options?.outcome || PatientOutcome.NoOutcomeYet
     this.record = new Record(options.record)
@@ -86,6 +86,10 @@ export class Patient {
 
   get consent() {
     return getConsentOutcome(this.replies)
+  }
+
+  get screen() {
+    return getScreenOutcome(this)
   }
 
   get preferredNames() {

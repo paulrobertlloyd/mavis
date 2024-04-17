@@ -56,7 +56,8 @@
         clickable: true,
         heading: __("session.activity.screen.title"),
         headingClasses: "nhsuk-heading-m",
-        href:  session.uri + "/screen"
+        href:  session.uri + "/screen",
+        description: __n("screen.NeedsTriage.count", patients | where("screen.value", ScreenOutcome.NeedsTriage) | length)
       }) }}
     </li>
     <li class="nhsuk-grid-column-full nhsuk-card-group__item">

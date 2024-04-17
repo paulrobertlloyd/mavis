@@ -9,10 +9,11 @@ import { getEnumKeyAndValue } from './enum.js'
 
 /**
  * Add example answers to health questions
+ * @param {import('../models/patient.js').Patient} patient - Patient
  * @param {string} key - Health question key
  * @returns {string|boolean} Health answer, or `false`
  */
-const enrichWithRealisticAnswer = (key) => {
+const enrichWithRealisticAnswer = (patient, key) => {
   const condition = faker.helpers.objectKey(healthConditions)
   const useAnswer = faker.helpers.maybe(() => true, { probability: 0.2 })
 
@@ -94,13 +95,14 @@ export const getConsentOutcome = (replies) => {
 /**
  * Get faked answers for health questions in a campaign
  * @param {string} type - Campaign type
+ * @param {import('../models/patient.js').Patient} patient - Patient
  * @returns {object} Health answers
  */
-export const getHealthAnswers = (type) => {
+export const getHealthAnswers = (type, patient) => {
   const answers = {}
 
   for (const key of campaignTypes[type].healthQuestions) {
-    answers[key] = enrichWithRealisticAnswer(key)
+    answers[key] = enrichWithRealisticAnswer(patient, key)
   }
 
   return answers

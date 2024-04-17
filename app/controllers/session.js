@@ -26,26 +26,34 @@ export const sessionController = {
   activity(request, response) {
     const { patients } = request.app.locals
     const { activity } = request.params
-    const consent = request.query.consent || 'NoResponse'
+    let { tab } = request.query
     const { __ } = response.locals
 
-    const navigationItems = [
-      'NoResponse',
-      'Given',
-      'Refused',
-      'Inconsistent'
-    ].map((key) => ({
-      text: __(`consent.${key}.label`),
-      count: patients.filter((patient) => patient.consent?.key === key).length,
-      href: `?consent=${key}`,
-      current: key === consent
+    let tabs = []
+    switch (activity) {
+      case 'consent':
+        tab = tab || 'NoResponse'
+        tabs = ['NoResponse', 'Given', 'Refused', 'Inconsistent']
+        break
+      case 'screen':
+        tab = tab || 'NeedsTriage'
+        tabs = ['NeedsTriage']
+        break
+    }
+
+    const navigationItems = tabs.map((name) => ({
+      text: __(`${activity}.${name}.label`),
+      count: patients.filter((patient) => patient[activity]?.key === name)
+        .length,
+      href: `?tab=${name}`,
+      current: name === tab
     }))
 
     response.render('sessions/activity', {
       activity,
-      consent,
       navigationItems,
-      patients: patients.filter((patient) => patient.consent?.key === consent)
+      patients: patients.filter((patient) => patient[activity]?.key === tab),
+      tab
     })
   },
 

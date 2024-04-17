@@ -105,9 +105,9 @@ export default () => {
       patient.consent.value === ConsentOutcome.Given
     ) {
       // Patient in triage
-      colour = __(`screen.${patient.screen}.colour`)
-      description = __(`screen.${patient.screen}.description`)
-      title = __(`screen.${patient.screen}.title`)
+      colour = __(`screen.${patient.screen.key}.colour`)
+      description = __(`screen.${patient.screen.key}.description`)
+      title = __(`screen.${patient.screen.key}.title`)
     } else {
       // Patient requires consent
       colour = __(`consent.${patient.consent.key}.colour`)
