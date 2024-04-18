@@ -1,6 +1,6 @@
 {% extends "_layouts/form.njk" %}
 
-{% set title = __("reply.person.title") %}
+{% set title = __("reply.parent.title") %}
 
 {% block form %}
   {{ radios({
@@ -13,7 +13,7 @@
         })
       }
     },
-    items: personItems,
-    decorate: "person"
+    items: parentItems,
+    decorate: "parent"
   }) }}
 {% endblock %}

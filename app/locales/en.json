@@ -295,7 +295,10 @@
     "success": {
       "create": "Response added"
     },
-    "person": {
+    "child": {
+      "title": "Is the child giving consent?"
+    },
+    "parent": {
       "title": "Who are you trying to get consent from?"
     },
     "method": {

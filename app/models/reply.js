@@ -32,10 +32,10 @@ export class ReplyRefusal {
  * @property {string} uuid - UUID
  * @property {string} created - Created date
  * @property {string} [created_user_uuid] - User who created reply
- * @property {import('./child.js').Child} child - Child
- * @property {import('./parent.js').Parent} parent - Parent or guardian
- * @property {ReplyDecision} decision - Consent decision
- * @property {ReplyMethod} method - Reply method
+ * @property {import('./child.js').Child} [child] - Child
+ * @property {import('./parent.js').Parent} [parent] - Parent or guardian
+ * @property {ReplyDecision} [decision] - Consent decision
+ * @property {ReplyMethod} [method] - Reply method
  * @property {object} [healthAnswers] - Answers to health questions
  * @property {ReplyRefusal} [refusalReason] - Refusal reason
  * @property {string} [refusalReasonOther] - Other refusal reason

@@ -40,8 +40,13 @@ export const replyController = {
 
     data.wizard = reply
 
+    request.app.locals.start =
+      patient.gillick?.competence === GillickCompetent.Yes
+        ? 'decision'
+        : 'parent'
+
     response.redirect(
-      `/sessions/${id}/${nhsn}/replies/${reply.uuid}/new/person`
+      `/sessions/${id}/${nhsn}/replies/${reply.uuid}/new/${request.app.locals.start}`
     )
   },
 
@@ -65,7 +70,7 @@ export const replyController = {
   },
 
   readForm(request, response, next) {
-    const { reply } = request.app.locals
+    const { reply, start } = request.app.locals
     const { form, id, uuid, nhsn } = request.params
     const { data } = request.session
 
@@ -76,8 +81,10 @@ export const replyController = {
 
     const journey = {
       [`/`]: {},
-      [`/${uuid}/${form}/person`]: {},
-      [`/${uuid}/${form}/method`]: {},
+      ...(start === 'parent' && {
+        [`/${uuid}/${form}/parent`]: {},
+        [`/${uuid}/${form}/method`]: {}
+      }),
       [`/${uuid}/${form}/decision`]: {
         [`/${uuid}/${form}/health-answers`]: {
           data: 'reply.decision',
@@ -119,7 +126,7 @@ export const replyController = {
     const patient = new Patient(data.patients[nhsn])
     const { lastName } = patient.record
 
-    request.app.locals.exampleParents = {
+    request.app.locals.parents = {
       a: new Parent({
         firstName: 'Anthony',
         lastName,
@@ -136,34 +143,31 @@ export const replyController = {
       })
     }
 
-    const { exampleParents } = request.app.locals
-    response.locals.personItems = [
+    const { parents } = request.app.locals
+    response.locals.parentItems = [
       {
-        text: exampleParents.a.fullName,
+        text: parents.a.fullName,
         value: 'a',
         hint: {
-          text: exampleParents.a.relationship
+          text: parents.a.relationship
         }
       },
       {
-        text: exampleParents.b.fullName,
+        text: parents.b.fullName,
         value: 'b',
         hint: {
-          text: exampleParents.b.relationship
+          text: parents.b.relationship
         }
+      }
+    ]
+
+    response.locals.childItems = [
+      {
+        text: 'Yes'
       },
-      ...(patient?.gillick?.competence === GillickCompetent.Yes
-        ? [
-            {
-              text: patient.record.fullName,
-              value: 'self',
-              hint: {
-                text: 'Child (assessed as Gillick competent)'
-              },
-              value: 'self'
-            }
-          ]
-        : [])
+      {
+        text: 'No'
+      }
     ]
 
     response.locals.decisionItems = [
@@ -187,14 +191,14 @@ export const replyController = {
   },
 
   updateForm(request, response) {
-    const { exampleParents, reply } = request.app.locals
+    const { parents, reply } = request.app.locals
     const { data } = request.session
     const { paths } = response.locals
 
-    // If example parent selected, add parent to reply
-    if (data.person === 'a' || data.person === 'b') {
-      reply.parent = exampleParents[data.person]
-      delete data.person
+    // If parent selected, add parent to reply
+    if (data.parent) {
+      reply.parent = parents[data.parent]
+      delete data.parent
     }
 
     delete data.healthAnswers
