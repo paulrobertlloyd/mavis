@@ -2,6 +2,7 @@
 
 {% set campaign = data.campaigns[session.campaign_uuid] %}
 {% set sessionName = campaign.name + " session at " + session.location.name %}
+{% set showRefusalReasons = tab == "Refused" or tab == "Inconsistent" %}
 {% set title = __("session.activity." + activity + ".title") %}
 
 {% block beforeContent %}
@@ -50,7 +51,14 @@
           "data-filter": patient.record.dob | date({ dateStyle: "short" }),
           "data-sort": patient.record.dob
         }
-      }
+      },
+      {
+        header: __("reply.refusalReason.label"),
+        html: patient.consentRefusalReasons | join("<br>"),
+        attributes: {
+          "no-sort": "no-sort"
+        }
+      } if showRefusalReasons
     ]) %}
   {% endfor %}
 
@@ -77,7 +85,10 @@
           attributes: {
             "data-col": "dob"
           }
-        }
+        },
+        {
+          text: __("reply.refusalReason.label")
+        } if showRefusalReasons
       ],
       rows: patientRows
     }) %}
