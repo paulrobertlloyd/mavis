@@ -109,17 +109,17 @@
     },
     "DelayVaccination": {
       "colour": "red",
-      "description": "Nurse {{user}} decided that {{name}}’s vaccination should be delayed.",
+      "description": "{{user.fullNameWithRegistration}} decided that {{patient.fullName}}’s vaccination should be delayed.",
       "title": "Delay vaccination to a later date"
     },
     "DoNotVaccinate": {
       "colour": "red",
-      "description": "Nurse {{user}} decided that {{name}} should not be vaccinated.",
+      "description": "{{user.fullNameWithRegistration}} decided that {{patient.fullName}} should not be vaccinated.",
       "title": "Do not vaccinate in campaign"
     },
     "Vaccinate": {
       "colour": "purple",
-      "description": "Nurse {{user}} decided that {{name}} is safe to vaccinate.",
+      "description": "{{user.fullNameWithRegistration}} decided that {{patient.fullName}} is safe to vaccinate.",
       "label": "Triage completed",
       "title": "Safe to vaccinate",
       "count": {
@@ -431,6 +431,24 @@
     },
     "status": {
       "label": "Status"
+    }
+  },
+  "triage": {
+    "label": "Is it safe to vaccinate %s?",
+    "confirm": "Save triage",
+    "success": {
+      "create": "Triage outcome updated for {{patient.fullName}}",
+      "update": "Triage outcome updated for {{patient.fullName}}"
+    },
+    "notes": {
+      "label": "Triage notes (optional)"
+    },
+    "outcome": {
+      "label": "Outcome",
+      "Vaccinate": "Yes, it’s safe to vaccinate",
+      "DoNotVaccinate": "No, do not vaccinate",
+      "DelayVaccination": "No, delay vaccination to a later date",
+      "NeedsTriage": "No, keep in triage"
     }
   },
   "user": {

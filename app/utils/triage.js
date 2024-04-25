@@ -11,10 +11,16 @@ export const getScreenOutcome = (patient) => {
   const repliesToTriage = getRepliesWithHealthAnswers(replies)
 
   if (repliesToTriage.length === 0) {
-    return false
+    return getEnumKeyAndValue(ScreenOutcome, ScreenOutcome.Vaccinate)
   }
 
   if (repliesToTriage.length > 0) {
+    const lastTriageNote = patient.triageNotes.at(-1)
+
+    if (lastTriageNote) {
+      return getEnumKeyAndValue(ScreenOutcome, lastTriageNote.info_.outcome)
+    }
+
     return getEnumKeyAndValue(ScreenOutcome, ScreenOutcome.NeedsTriage)
   }
 }

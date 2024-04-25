@@ -1,6 +1,8 @@
 import _ from 'lodash'
+import exampleUsers from './datasets/users.js'
 import { HealthQuestion } from './models/campaign.js'
 import { ConsentOutcome, Patient, PatientOutcome } from './models/patient.js'
+import { User } from './models/user.js'
 import { getEnumKeyAndValue } from './utils/enum.js'
 
 /**
@@ -85,7 +87,10 @@ export default () => {
   }
 
   globals.patientStatus = function (patient) {
-    const { __ } = this.ctx
+    const { __, data } = this.ctx
+
+    // Get logged in user, else use placeholder
+    const user = new User(data.token ? data.token : exampleUsers[0])
 
     let colour
     let description = false
@@ -101,7 +106,10 @@ export default () => {
     ) {
       // Patient in triage
       colour = __(`screen.${patient.screen.key}.colour`)
-      description = __(`screen.${patient.screen.key}.description`)
+      description = __(`screen.${patient.screen.key}.description`, {
+        patient,
+        user
+      })
       title = __(`screen.${patient.screen.key}.title`)
     } else {
       // Patient requires consent

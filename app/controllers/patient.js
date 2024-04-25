@@ -31,7 +31,9 @@ export const patientController = {
     const options = {
       editGillick: patient.consent?.key !== 'Given',
       showGillick: campaign.type !== 'flu',
-      editReplies: patient.consent?.key !== 'Given'
+      editReplies: patient.consent?.key !== 'Given',
+      editTriage:
+        patient.consentHealthAnswers && patient.screen?.key !== 'Vaccinate'
     }
 
     response.render('patient/show', {

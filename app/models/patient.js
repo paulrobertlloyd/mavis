@@ -109,6 +109,10 @@ export class Patient {
     return getScreenOutcome(this)
   }
 
+  get triageNotes() {
+    return this.log.filter((event) => event.type === EventType.Screen)
+  }
+
   get preferredNames() {
     return getPreferredNames(this.replies)
   }
@@ -158,6 +162,17 @@ export class Patient {
       name: `${created ? 'Completed' : 'Updated'} Gillick assessment`,
       date: created ? assessment.created : new Date().toISOString(),
       user_uuid: assessment.created_user_uuid
+    }
+  }
+
+  set triage(triage) {
+    this.event = {
+      type: EventType.Screen,
+      name: `Triaged decision: ${triage.outcome}`,
+      note: triage.notes,
+      date: new Date().toISOString(),
+      user_uuid: triage.created_user_uuid,
+      info_: triage
     }
   }
 
