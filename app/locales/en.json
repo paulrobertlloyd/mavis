@@ -449,7 +449,8 @@
       "DoNotVaccinate": "No, do not vaccinate",
       "DelayVaccination": "No, delay vaccination to a later date",
       "NeedsTriage": "No, keep in triage"
-    }
+    },
+    "title": "triage.title"
   },
   "user": {
     "list": {
