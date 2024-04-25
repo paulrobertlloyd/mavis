@@ -1,4 +1,5 @@
 import { Campaign, HealthQuestion } from '../models/campaign.js'
+import { Session } from '../models/session.js'
 import { Vaccine } from '../models/vaccine.js'
 
 export const campaignController = {
@@ -20,20 +21,45 @@ export const campaignController = {
     response.render('campaigns/show')
   },
 
+  reports(request, response) {
+    response.render('campaigns/reports')
+  },
+
   read(request, response, next) {
     const { uuid } = request.params
     const { data } = request.session
 
     const campaign = new Campaign(data.campaigns[uuid])
 
-    response.locals.campaign = campaign
-    response.locals.vaccines = campaign.vaccines.map(
+    request.app.locals.campaign = campaign
+    request.app.locals.sessions = Object.values(data.sessions)
+      .filter((session) => session.campaign_uuid === uuid)
+      .map((session) => {
+        session = new Session(session)
+        session.cohort = Object.values(data.patients).filter(
+          (patient) => patient.session_id === session.id
+        )
+        return session
+      })
+    request.app.locals.vaccines = campaign.vaccines.map(
       (vaccine) => new Vaccine(data.vaccines[vaccine]).brandWithName
     )
-    response.locals.healthQuestions = campaign.healthQuestions.map(
+    request.app.locals.healthQuestions = campaign.healthQuestions.map(
       (question) => `- ${HealthQuestion[question]}`
     )
 
     next()
+  },
+
+  edit(request, response) {
+    const { campaign } = request.app.locals
+    const { data } = request.session
+
+    request.app.locals.campaign = new Campaign({
+      ...campaign, // Previous values
+      ...data.wizard // Wizard values
+    })
+
+    response.render('campaigns/edit')
   }
 }

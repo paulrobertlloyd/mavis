@@ -1,6 +1,7 @@
 {% extends "_layouts/default.njk" %}
 
-{% set title = campaign.name %}
+{% set title = campaign.name + " – " + __("campaign.show.title") %}
+{% set view = "show" %}
 
 {% block beforeContent %}
   {{ breadcrumb({
@@ -21,22 +22,61 @@
   {{ super() }}
 
   {{ heading({
-    title: title
+    title: campaign.name
   }) }}
 
-  {{ card({
-    heading: "Details",
-    headingClasses: "nhsuk-heading-m",
-    descriptionHtml: summaryList({
-      rows: summaryRows(campaign, {
-        name: {},
-        vaccines: {
-          value: vaccines | join("\n") | nl2br
+  {% include "campaigns/_secondary-navigation.njk" %}
+
+  <h2 class="nhsuk-heading-m nhsuk-u-visually-hidden">
+    {{ __("session.list.title") }}
+  </h2>
+
+  {% set sessions = sessions | sort(false, false, "status") %}
+  {% for status, sessions in sessions | groupby("status") %}
+    {% set sessionRows = [] %}
+    {% for session in sessions %}
+      {% set sessionRows = sessionRows | push([
+        {
+          header: __("session.date.label"),
+          html: session.date | govukDate or "Not provided",
+          attributes: {
+            "data-sort": session.date
+          }
         },
-        healthQuestions: {
-          value: healthQuestions | join("\n") | nhsukMarkdown
+        {
+          header: __("session.time.label"),
+          html: session.time or "Not provided"
+        },
+        {
+          header: __("session.location.label"),
+          html: sessionSummary(session) or "Not provided"
+        },
+        {
+          header: __("session.cohort.label"),
+          html: session.cohort.length,
+          format: "numeric"
         }
-      })
-    })
-  }) }}
+      ]) %}
+    {% endfor %}
+
+    {{ actionTable({
+      sort: "date",
+      panel: true,
+      heading: status,
+      responsive: true,
+      head: [
+        { text: __("session.date.label") },
+        { text: __("session.time.label") },
+        { text: __("session.location.label") },
+        {
+          text: __("session.cohort.label"),
+          format: "numeric",
+          attributes: {
+            "no-sort": "no-sort"
+          }
+        }
+      ],
+      rows: sessionRows
+    }) }}
+  {% endfor %}
 {% endblock %}

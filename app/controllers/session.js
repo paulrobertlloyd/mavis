@@ -2,20 +2,22 @@ import { wizard } from 'nhsuk-prototype-rig'
 import { Campaign } from '../models/campaign.js'
 import { Patient } from '../models/patient.js'
 import { Record } from '../models/record.js'
-import { Session } from '../models/session.js'
+import { Session, SessionStatus } from '../models/session.js'
 
 export const sessionController = {
   list(request, response) {
     const { data } = request.session
 
     response.render('sessions/list', {
-      sessions: Object.values(data.sessions).map((session) => {
-        session = new Session(session)
-        session.cohort = Object.values(data.patients).filter(
-          (patient) => patient.session_id === session.id
-        )
-        return session
-      })
+      sessions: Object.values(data.sessions)
+        .map((session) => {
+          session = new Session(session)
+          session.cohort = Object.values(data.patients).filter(
+            (patient) => patient.session_id === session.id
+          )
+          return session
+        })
+        .filter((session) => session.status === SessionStatus.Active)
     })
   },
 

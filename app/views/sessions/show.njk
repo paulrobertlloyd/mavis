@@ -1,7 +1,6 @@
 {% extends "_layouts/default.njk" %}
 
-{% set campaign = data.campaigns[session.campaign_uuid] %}
-{% set title = campaign.name + " session at " + session.location.name %}
+{% set title = session.location.name %}
 
 {% block beforeContent %}
   {{ breadcrumb({
@@ -11,8 +10,12 @@
         href: "/dashboard"
       },
       {
-        text: __("session.list.title"),
-        href: "/sessions"
+        text: __("campaign.list.title"),
+        href: "/campaigns"
+      },
+      {
+        text: data.campaigns[session.campaign_uuid].name,
+        href: "/campaigns/" + session.campaign_uuid
       }
     ]
   }) }}

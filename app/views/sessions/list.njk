@@ -23,13 +23,6 @@
     {% for session in sessions %}
       {% set sessionRows = sessionRows | push([
         {
-          header: __("session.date.label"),
-          html: session.date | govukDate or "Not provided",
-          attributes: {
-            "data-sort": session.date
-          }
-        },
-        {
           header: __("session.time.label"),
           html: session.time or "Not provided"
         },
@@ -51,7 +44,6 @@
       panel: true,
       responsive: true,
       head: [
-        { text: __("session.date.label") },
         { text: __("session.time.label") },
         { text: __("session.location.label") },
         {

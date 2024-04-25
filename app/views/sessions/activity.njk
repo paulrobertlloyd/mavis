@@ -1,7 +1,5 @@
 {% extends "_layouts/default.njk" %}
 
-{% set campaign = data.campaigns[session.campaign_uuid] %}
-{% set sessionName = campaign.name + " session at " + session.location.name %}
 {% set showRefusalReasons = tab == "Refused" or tab == "Inconsistent" %}
 {% set title = __("session.activity." + activity + ".title") %}
 
@@ -13,11 +11,15 @@
         href: "/dashboard"
       },
       {
-        text: __("session.list.title"),
-        href: "/sessions"
+        text: __("campaign.list.title"),
+        href: "/campaigns"
       },
       {
-        text: sessionName,
+        text: data.campaigns[session.campaign_uuid].name,
+        href: "/campaigns/" + session.campaign_uuid
+      },
+      {
+        text: session.location.name,
         href: "/sessions/" + session.id
       }
     ]

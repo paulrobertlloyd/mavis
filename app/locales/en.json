@@ -58,11 +58,13 @@
   "campaign": {
     "list": {
       "title": "Campaigns",
-      "description": "Create and manage vaccination campaigns.",
-      "new": "Create a new vaccination campaign"
+      "description": "Create and manage vaccination campaigns."
     },
     "new": {
       "title": "Create a new vaccination campaign"
+    },
+    "edit": {
+      "title": "Edit campaign"
     },
     "name": {
       "label": "Name"
@@ -72,6 +74,12 @@
     },
     "healthQuestions": {
       "label": "Health questions"
+    },
+    "show": {
+      "title": "School sessions"
+    },
+    "reports": {
+      "title": "Reports"
     }
   },
   "child": {
@@ -290,12 +298,6 @@
       "label": "Known as"
     }
   },
-  "report": {
-    "list": {
-      "title": "Reports",
-      "description": "View campaign performance reports."
-    }
-  },
   "reply": {
     "label": "Response",
     "show": {
@@ -360,11 +362,12 @@
       }
     },
     "list": {
-      "title": "School sessions",
-      "description": "Create new school sessions, check consent responses, triage answers to health questions and record vaccinations."
+      "title": "Today’s sessions",
+      "description": "View all sessions taking place today."
     },
     "new": {
       "title": "Add a new session",
+      "description": "Create a new session or clinic for a campaign.",
       "check-answers": {
         "title": "Check and confirm"
       }
@@ -542,6 +545,11 @@
     },
     "dose": {
       "label": "Dose"
+    }
+  },
+  "report": {
+    "list": {
+      "title": "report.list.title"
     }
   }
 }

@@ -1,0 +1,29 @@
+{% extends "_layouts/form.njk" %}
+
+{% set confirmButtonText = "Save changes" %}
+{% set paths = { back: campaign.uri } %}
+{% set title = __("campaign.edit.title") %}
+
+{% block form %}
+  {{ super() }}
+
+  {{ heading({
+    title: title
+  }) }}
+
+  {{ card({
+    heading: "Details",
+    headingClasses: "nhsuk-heading-m",
+    descriptionHtml: summaryList({
+      rows: summaryRows(campaign, {
+        name: {},
+        vaccines: {
+          value: vaccines | join("\n") | nl2br
+        },
+        healthQuestions: {
+          value: healthQuestions | join("\n") | nhsukMarkdown
+        }
+      })
+    })
+  }) }}
+{% endblock %}

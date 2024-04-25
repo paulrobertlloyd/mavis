@@ -23,37 +23,37 @@
     <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
       {{ card({
         clickable: true,
+        heading: __("campaign.list.title"),
+        headingClasses: "nhsuk-heading-m",
+        href: "/campaigns",
+        description: __("campaign.list.description")
+      }) }}
+    </li>
+    <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+      {{ card({
+        clickable: true,
         heading: __("vaccine.list.title"),
         headingClasses: "nhsuk-heading-m",
         href: "/vaccines",
         description: __("vaccine.list.description")
       }) }}
     </li>
-    <li class="nhsuk-grid-column-one-third nhsuk-card-group__item">
-      {{ card({
-        clickable: true,
-        heading: __("report.list.title"),
-        headingClasses: "nhsuk-heading-m",
-        href: "/reports",
-        description: __("report.list.description")
-      }) }}
-    </li>
   </ul>
 
   <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-    <a class="nhsuk-link nhsuk-link--no-visited-state" href="/campaigns">
-      {{ __("campaign.list.title") }}
+    <a class="nhsuk-link nhsuk-link--no-visited-state" href="/sessions/new">
+      {{ __("session.new.title") }}
     </a>
   </h2>
-  <p>{{ __("campaign.list.description") }}</p>
+  <p>{{ __("session.new.description") }}</p>
 
   {% if data.token.admin %}
-  <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
-    <a class="nhsuk-link nhsuk-link--no-visited-state" href="/users">
-      {{ __("user.list.title") }}
-    </a>
-  </h2>
-  <p>{{ __("user.list.description") }}</p>
+    <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">
+      <a class="nhsuk-link nhsuk-link--no-visited-state" href="/users">
+        {{ __("user.list.title") }}
+      </a>
+    </h2>
+    <p>{{ __("user.list.description") }}</p>
   {% endif %}
 
   <h2 class="nhsuk-heading-m nhsuk-u-margin-bottom-1">

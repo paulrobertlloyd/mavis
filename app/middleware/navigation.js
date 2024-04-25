@@ -13,16 +13,12 @@ export const navigation = (request, response, next) => {
             label: __('session.list.title')
           },
           {
+            url: '/campaigns',
+            label: __('campaign.list.title')
+          },
+          {
             url: '/vaccines',
             label: __('vaccine.list.title')
-          },
-          {
-            url: '/reports',
-            label: __('report.list.title')
-          },
-          {
-            url: '/users',
-            label: __('user.list.title')
           },
           {
             url: '/account',
@@ -39,12 +35,12 @@ export const navigation = (request, response, next) => {
             label: __('session.list.title')
           },
           {
-            url: '/vaccines',
-            label: __('vaccine.list.title')
+            url: '/campaigns',
+            label: __('campaign.list.title')
           },
           {
-            url: '/reports',
-            label: __('report.list.title')
+            url: '/vaccines',
+            label: __('vaccine.list.title')
           },
           {
             url: '/account',

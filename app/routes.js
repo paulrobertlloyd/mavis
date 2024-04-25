@@ -10,7 +10,6 @@ import { campaignRoutes } from './routes/campaign.js'
 import { gillickRoutes } from './routes/gillick.js'
 import { patientRoutes } from './routes/patient.js'
 import { recordRoutes } from './routes/record.js'
-import { reportRoutes } from './routes/report.js'
 import { replyRoutes } from './routes/reply.js'
 import { sessionRoutes } from './routes/session.js'
 import { triageRoutes } from './routes/triage.js'
@@ -26,7 +25,6 @@ router.use(flash(), navigation, notification)
 router.use('/account', accountRoutes)
 router.use('/campaigns', campaignRoutes)
 router.use('/records', recordRoutes)
-router.use('/reports', reportRoutes)
 router.use('/sessions', sessionRoutes)
 router.use('/sessions/:id/:nhsn', patientRoutes)
 router.use('/sessions/:id/:nhsn/gillick', gillickRoutes)

@@ -1,42 +1,35 @@
 {% extends "_layouts/default.njk" %}
 
-{% set title = __("report.list.title") %}
+{% set title = campaign.name + " – " + __("campaign.reports.title") %}
+{% set view = "reports" %}
 
-{% block pageTitle %}
-  {{- title }}: {{ campaign.name + " - " }}
-  {{- serviceName + " - NHS.UK" -}}
+{% block beforeContent %}
+  {{ breadcrumb({
+    items: [
+      {
+        text: "Home",
+        href: "/dashboard"
+      },
+      {
+        text: __("campaign.list.title"),
+        href: "/campaigns"
+      }
+    ]
+  }) }}
 {% endblock %}
 
 {% block content %}
-  <div class="app-heading-group">
-    {{ heading({
-      size: "xl",
-      title: title
-    }) }}
+  {{ super() }}
 
-    <p class="nhsuk-body nhsuk-u-secondary-text-color">
-      1 January 2023 - Today<br>
-      <a class="nhsuk-link nhsuk-u-font-size-16" href="#">Change date range</a>
-    </p>
-  </div>
-
-  {% set secondaryNavigationItems = [] %}
-  {% for campaign in data.campaigns | objectToArray %}
-    {% set secondaryNavigationItems = secondaryNavigationItems | push(
-      {
-        href: "/reports/" + campaign.type,
-        text: campaign.name,
-        current: type == campaign.type
-      }
-    ) %}
-  {% endfor %}
-
-  {{ xGovukSecondaryNavigation({
-    classes: "nhsuk-u-margin-bottom-4",
-    items: secondaryNavigationItems
+  {{ heading({
+    title: campaign.name
   }) }}
 
-  <h2 class="nhsuk-heading-l">Overall {{ campaign.name }} campaign performance</h2>
+  {% include "campaigns/_secondary-navigation.njk" %}
+
+  <h2 class="nhsuk-heading-m nhsuk-u-visually-hidden">
+    {{ __("report.list.title") }}
+  </h2>
 
   <div class="nhsuk-grid-row nhsuk-card-group">
     <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
@@ -99,7 +92,7 @@
       [
         { text: ReplyRefusal["Gelatine"] },
         { text: "11.1%", format: "numeric" }
-      ] if type == "flu",
+      ] if campaign.type == "flu",
       [
         { text: ReplyRefusal["AlreadyGiven"] },
         { text: "2.0%", format: "numeric" }
