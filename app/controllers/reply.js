@@ -30,6 +30,7 @@ export const replyController = {
     const { patient, session } = response.locals
 
     delete data.reply
+    delete data.triage
     delete data.wizard
 
     const reply = new Reply({
@@ -51,7 +52,7 @@ export const replyController = {
   },
 
   update(request, response) {
-    const { reply } = request.app.locals
+    const { reply, triage } = request.app.locals
     const { form, id } = request.params
     const { data } = request.session
     const { __ } = response.locals
@@ -63,9 +64,19 @@ export const replyController = {
       ...(data.token && { created_user_uuid: data.token.uuid })
     })
 
+    if (triage.outcome) {
+      patient.triage = {
+        ...triage,
+        ...data.wizard, // Wizard values
+        ...(data.token && { created_user_uuid: data.token.uuid })
+      }
+    }
+
     delete data.reply
+    delete data.triage
     delete data.wizard
     delete request.app.locals.reply
+    delete request.app.locals.triage
 
     const action = form === 'edit' ? 'update' : 'create'
     request.flash('success', __(`reply.success.${action}`, { reply, patient }))
@@ -73,7 +84,7 @@ export const replyController = {
   },
 
   readForm(request, response, next) {
-    const { reply, start } = request.app.locals
+    const { reply, start, triage } = request.app.locals
     const { form, id, uuid, nhsn } = request.params
     const { data } = request.session
 
@@ -81,6 +92,17 @@ export const replyController = {
       ...(form === 'edit' && reply), // Previous values
       ...data.wizard // Wizard values,
     })
+
+    request.app.locals.triage = {
+      ...(form === 'edit' && triage), // Previous values
+      ...data.wizard // Wizard values,
+    }
+
+    const replyNeedsTriage = (reply) => {
+      return reply?.healthAnswers
+        ? Object.values(reply.healthAnswers).find((answer) => answer !== '')
+        : false
+    }
 
     const journey = {
       [`/`]: {},
@@ -99,7 +121,7 @@ export const replyController = {
         }
       },
       [`/${uuid}/${form}/health-answers`]: {
-        [`/${uuid}/${form}/check-answers`]: true
+        [`/${uuid}/${form}/${replyNeedsTriage(request.session.data.reply) ? 'triage' : 'check-answers'}`]: true
       },
       [`/${uuid}/${form}/refusal-reason`]: {
         [`/${uuid}/${form}/refusal-reason-details`]: {
@@ -113,6 +135,9 @@ export const replyController = {
         [`/${uuid}/${form}/check-answers`]: true
       },
       [`/${uuid}/${form}/refusal-reason-details`]: {
+        [`/${uuid}/${form}/check-answers`]: true
+      },
+      [`/${uuid}/${form}/triage`]: {
         [`/${uuid}/${form}/check-answers`]: true
       },
       [`/${uuid}`]: {}
@@ -194,7 +219,7 @@ export const replyController = {
   },
 
   updateForm(request, response) {
-    const { parents, reply } = request.app.locals
+    const { parents, reply, triage } = request.app.locals
     const { data } = request.session
     const { paths } = response.locals
 
@@ -206,10 +231,12 @@ export const replyController = {
 
     delete data.healthAnswers
 
-    data.wizard = new Reply({
-      ...reply, // Previous values
-      ...request.body.reply // New value
-    })
+    data.wizard = {
+      ...reply, // Previous reply values
+      ...triage, // Previous triage values
+      ...request.body.reply, // New reply value
+      ...request.body.triage // New triage value
+    }
 
     response.redirect(paths.next)
   }
