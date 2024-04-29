@@ -33,6 +33,21 @@
     title: title
   }) }}
 
+  {{ insetText({
+    classes: "nhsuk-u-margin-top-2 nhsuk-u-margin-bottom-4",
+    HTML: __("session.window." + session.consentWindow.key + ".text", {
+      open: session.open | date({
+        day: "numeric",
+        month: "long"
+      }),
+      close: session.close | date({
+        day: "numeric",
+        month: "long",
+        year: "numeric"
+      })
+    }) | nhsukMarkdown
+  }) if activity == "consent" }}
+
   {% include "sessions/_secondary-navigation.njk" %}
 
   {% set patientRows = [] %}

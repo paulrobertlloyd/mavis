@@ -6,6 +6,13 @@ import {
   convertObjectToIsoDate,
   formatDate
 } from '../utils/date.js'
+import { getConsentWindow } from '../utils/session.js'
+
+export class ConsentWindow {
+  static Opening = 'Opening'
+  static Open = 'Open'
+  static Closed = 'Closed'
+}
 
 export class SessionFormat {
   static Routine = 'A routine session in school'
@@ -139,6 +146,10 @@ export class Session {
     if (object) {
       this.close = convertObjectToIsoDate(object)
     }
+  }
+
+  get consentWindow() {
+    return getConsentWindow(this)
   }
 
   get school() {

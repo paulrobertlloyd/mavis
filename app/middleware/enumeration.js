@@ -9,12 +9,18 @@ import {
   ScreenOutcome
 } from '../models/patient.js'
 import { ReplyDecision, ReplyMethod, ReplyRefusal } from '../models/reply.js'
-import { SessionFormat, SessionTime, SessionStatus } from '../models/session.js'
+import {
+  ConsentWindow,
+  SessionFormat,
+  SessionTime,
+  SessionStatus
+} from '../models/session.js'
 import { Registrar } from '../models/user.js'
 
 export const enumeration = (request, response, next) => {
   response.locals.CaptureOutcome = CaptureOutcome
   response.locals.ConsentOutcome = ConsentOutcome
+  response.locals.ConsentWindow = ConsentWindow
   response.locals.ContactPreference = ContactPreference
   response.locals.EventType = EventType
   response.locals.HealthQuestion = HealthQuestion

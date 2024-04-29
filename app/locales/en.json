@@ -434,6 +434,21 @@
     },
     "status": {
       "label": "Status"
+    },
+    "window": {
+      "label": "Consent period",
+      "Opening": {
+        "label": "Opens {{open}}",
+        "text": "Consent period opens on {{open}}"
+      },
+      "Open": {
+        "label": "Open until {{close}}",
+        "text": "Consent period is open from {{open}} until {{close}}"
+      },
+      "Closed": {
+        "label": "Closed {{close}}",
+        "text": "Consent period closed on {{close}}"
+      }
     }
   },
   "triage": {
