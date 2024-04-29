@@ -66,7 +66,7 @@ export class Reply {
     const child = Child.generate(patient)
     const parent = Parent.generate(patient.record.lastName)
     const decision = faker.helpers.weightedArrayElement([
-      { value: ReplyDecision.Given, weight: 2 },
+      { value: ReplyDecision.Given, weight: 3 },
       { value: ReplyDecision.Refused, weight: 1 }
     ])
     const method = faker.helpers.weightedArrayElement([
