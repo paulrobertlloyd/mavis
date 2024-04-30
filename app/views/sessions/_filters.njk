@@ -24,6 +24,22 @@
     }
   }) }}
 
+  {{ checkboxes({
+    name: "status",
+    fieldset: {
+      legend: {
+        classes: "govuk-fieldset__legend--s",
+        text: "Status"
+      }
+    },
+    items: [
+      { value: "Safe to vaccinate", text: "Safe to vaccinate" },
+      { value: "Conflicting consent", text: "Conflicting consent" },
+      { value: "Consent refused", text: "Consent refused" },
+      { value: "Needs triage", text: "Needs triage" }
+    ]
+  }) if showStatus }}
+
   {{ button({
     classes: "nhsuk-button--secondary app-button--small nhsuk-u-margin-0",
     type: "reset",

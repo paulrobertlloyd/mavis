@@ -4,7 +4,7 @@ import exampleUsers from './datasets/users.js'
 import { ConsentOutcome, PatientOutcome } from './models/patient.js'
 import { Reply } from './models/reply.js'
 import { User } from './models/user.js'
-import { HealthQuestion } from './models/vaccine.js'
+import { HealthQuestion, Vaccine } from './models/vaccine.js'
 import { getEnumKeyAndValue } from './utils/enum.js'
 
 /**
@@ -102,10 +102,10 @@ export default () => {
       relationships.push(reply.relationship)
     }
 
-    if (patient.outcome !== PatientOutcome.NoOutcomeYet) {
+    if (patient.outcome.value !== PatientOutcome.NoOutcomeYet) {
       // Patient has outcome
-      colour = __(`outcome.${patient.outcome}.colour`)
-      title = __(`outcome.${patient.outcome}.title`)
+      colour = __(`outcome.${patient.outcome.key}.colour`)
+      title = __(`outcome.${patient.outcome.key}.title`)
     } else if (
       patient.screen &&
       patient.consent.value === ConsentOutcome.Given
@@ -193,6 +193,18 @@ export default () => {
     }
 
     return summaryRows
+  }
+
+  globals.user = function (uuid) {
+    const { data } = this.ctx
+
+    return new User(data.users[uuid])
+  }
+
+  globals.vaccine = function (gtin) {
+    const { data } = this.ctx
+
+    return new Vaccine(data.vaccines[gtin])
   }
 
   return globals
