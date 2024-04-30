@@ -50,7 +50,34 @@
     </p>
   {% endset %}
 
+  {% set outcomeCardDescriptionHtml %}
+    <p>
+      {{ __n("outcome.Vaccinated.count", patients | where("outcome.value", PatientOutcome.Vaccinated) | length) }}<br>
+      {{ __n("outcome.CouldNotVaccinate.count", patients | where("outcome.value", PatientOutcome.CouldNotVaccinate) | length) }}
+    </p>
+  {% endset %}
+
   <ul class="nhsuk-grid-row nhsuk-card-group">
+    {% if session.status == SessionStatus.Active %}
+      <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+        {{ card({
+          clickable: true,
+          heading: __("session.activity.registration.title"),
+          headingClasses: "nhsuk-heading-m",
+          href: session.uri + "/registration",
+          description: __n("registration.Pending.count", patients | where("registration.value", RegistrationOutcome.Pending) | length)
+        }) }}
+      </li>
+      <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+        {{ card({
+          clickable: true,
+          heading: __("session.activity.outcome.title"),
+          headingClasses: "nhsuk-heading-m",
+          href: session.uri + "/outcome",
+          descriptionHtml: outcomeCardDescriptionHtml
+        }) }}
+      </li>
+    {% endif %}
     <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
       {{ card({
         clickable: true,

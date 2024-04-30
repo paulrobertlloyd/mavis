@@ -7,6 +7,7 @@ import {
   ScreenOutcome,
   TriageOutcome
 } from '../models/patient.js'
+import { RegistrationOutcome } from '../models/registration.js'
 import { ReplyDecision, ReplyMethod, ReplyRefusal } from '../models/reply.js'
 import {
   ConsentWindow,
@@ -15,6 +16,11 @@ import {
   SessionStatus
 } from '../models/session.js'
 import { Registrar } from '../models/user.js'
+import {
+  VaccinationMethod,
+  VaccinationProtocol,
+  VaccinationSite
+} from '../models/vaccination.js'
 import {
   HealthQuestion,
   PreScreenQuestion,
@@ -32,6 +38,7 @@ export const enumeration = (request, response, next) => {
   response.locals.PatientOutcome = PatientOutcome
   response.locals.PreScreenQuestion = PreScreenQuestion
   response.locals.Registrar = Registrar
+  response.locals.RegistrationOutcome = RegistrationOutcome
   response.locals.ReplyDecision = ReplyDecision
   response.locals.ReplyMethod = ReplyMethod
   response.locals.ReplyRefusal = ReplyRefusal
@@ -40,6 +47,9 @@ export const enumeration = (request, response, next) => {
   response.locals.SessionTime = SessionTime
   response.locals.SessionStatus = SessionStatus
   response.locals.TriageOutcome = TriageOutcome
+  response.locals.VaccinationMethod = VaccinationMethod
+  response.locals.VaccinationProtocol = VaccinationProtocol
+  response.locals.VaccinationSite = VaccinationSite
   response.locals.VaccineMethod = VaccineMethod
 
   next()

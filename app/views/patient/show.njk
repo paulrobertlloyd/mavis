@@ -12,17 +12,59 @@
       title: title
     }) }}
 
+    {% if session.status == SessionStatus.Active %}
+      <p class="nhsuk-body nhsuk-u-margin-bottom-7">
+        {% set tagColor = "red" if patient.registration.value == RegistrationOutcome.Absent else "blue" %}
+        {{ tag({
+          classes: "nhsuk-tag--" + tagColor + " nhsuk-u-margin-right-3",
+          text: patient.registration.value
+        }) if session.status == SessionStatus.Active }}
+        <a class="nhsuk-link" href="{{ patient.uri }}/registration/edit">{{
+          __("registration.edit.title")
+        }}</a>
+      </p>
+    {% endif %}
+
     {% include "patient/_secondary-navigation.njk" %}
 
     <h2 class="nhsuk-heading-m nhsuk-u-visually-hidden">
       {{ __("patient.show.title") }}
     </h2>
 
+    {% set statusDescriptionHtml %}
+      {{ patientStatus(patient).description | nhsukMarkdown }}
+
+      {% for vaccination in vaccinations %}
+        {{ summaryList({
+          rows: summaryRows(vaccination, {
+            vaccine: {
+              value: campaign.vaccine.brandWithName
+            },
+            method: {},
+            site: {},
+            formattedDose: {},
+            batch_id: {
+              classes: "app-u-monospace"
+            },
+            formattedCreated: {},
+            created_user_uuid: {
+              value: user(vaccination.created_user_uuid).fullNameWithRegistration
+            } if vaccination.created_user_uuid,
+            location: {},
+            protocol: {},
+            notes: {
+              value: patient.vaccination.notes | nhsukMarkdown
+            } if patient.vaccination.notes
+          })
+        }) }}
+      {% endfor %}
+    {% endset %}
+
     {{ card({
       classes: "app-card--" + patientStatus(patient).colour,
       heading: patientStatus(patient).title,
       headingClasses: "nhsuk-heading-m",
-      description: patientStatus(patient).description,
+      descriptionHtml: statusDescriptionHtml,
       feature: true
     }) }}
 
@@ -144,6 +186,7 @@
 
     {% set triageNotesDescriptionHtml %}
       {% for note in patient.triageNotes %}
+        <h3 class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ note.name }}</h3>
         {{ event(note) }}
         {% if not loop.last -%}
           <hr class="nhsuk-section-break nhsuk-section-break--visible  nhsuk-section-break--m">
@@ -197,5 +240,57 @@
         action: patient.uri + "/triage/new"
       }
     }) | formCard if options.editTriage }}
+
+    {% set preScreenDescriptionHtml %}
+      {{ checkboxes({
+        fieldset: {
+          legend: {
+            classes: "nhsuk-fieldset__legend--s",
+            text: __("preScreen.questions.label", { patient: patient })
+          }
+        },
+        items: preScreenQuestionItems,
+        decorate: "preScreen.questions"
+      }) }}
+
+      {{ textarea({
+        label: {
+          classes: "nhsuk-label--s nhsuk-u-margin-bottom-2",
+          text: __("preScreen.notes.label")
+        },
+        rows: 3,
+        decorate: "preScreen.notes"
+      }) }}
+
+      {{ radios({
+        fieldset: {
+          legend: {
+            classes: "nhsuk-fieldset__legend--s",
+            text: __("preScreen.outcome.label", { patient: patient })
+          }
+        },
+        items: [{
+          text: __("preScreen.outcome.administer"),
+          value: "administer"
+        }, {
+          text: __("preScreen.outcome.decline"),
+          value: "decline"
+        }],
+        decorate: "preScreen.outcome"
+      }) }}
+
+      {{ button({
+        text: __("preScreen.confirm")
+      }) }}
+    {% endset %}
+
+    {{ card({
+      heading: __("preScreen.label"),
+      headingClasses: "nhsuk-heading-m",
+      descriptionHtml: preScreenDescriptionHtml,
+      attributes: {
+        action: patient.uri + "/pre-screen"
+      }
+    }) | formCard if options.showPreScreen }}
   </div>
 {% endblock %}

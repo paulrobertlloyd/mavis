@@ -28,11 +28,11 @@ export class HealthQuestion {
 }
 
 export class PreScreenQuestion {
-  static isAllergic = 'Do you have any allergies?'
-  static isPregnant = 'Could you be pregnant?'
-  static isWell = 'Are you feeling well?'
+  static isAllergic = 'They have any allergies'
+  static isPregnant = 'They could be pregnant'
+  static isWell = 'They are feeling well'
   static isHappy =
-    'Do you know what the vaccination is for and are you ok to have it?'
+    'They know what the vaccination is for and if they’re okay to have it'
 }
 
 export class VaccineMethod {
