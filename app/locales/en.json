@@ -118,9 +118,9 @@
       }
     },
     "Inconsistent": {
-      "colour": "orange",
+      "colour": "dark-orange",
       "description": "You can only vaccinate if all respondents give consent.",
-      "icon": false,
+      "icon": "cross",
       "label": "Conflicts",
       "title": "Conflicting consent",
       "count": {
