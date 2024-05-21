@@ -76,7 +76,7 @@ export const vaccinationController = {
 
   readForm(request, response, next) {
     const { start, campaign, vaccination } = request.app.locals
-    const { form, nhsn, uuid } = request.params
+    const { form, id, nhsn, uuid } = request.params
     const { data } = request.session
     const { __ } = response.locals
 
@@ -91,11 +91,11 @@ export const vaccinationController = {
         ? {
             [`/${uuid}/${form}/administer`]: {
               [`/${uuid}/${form}/check-answers`]: () => {
-                return data?.token?.batch_id
+                return data.token?.batch?.[id]
               }
             },
             [`/${uuid}/${form}/batch-id`]: () => {
-              return !data?.token?.batch_id
+              return !data.token?.batch?.[id]
             },
             [`/${uuid}/${form}/check-answers`]: {}
           }
@@ -172,8 +172,8 @@ export const vaccinationController = {
     }
 
     // Use default batch, if set
-    if (data?.token?.batch_id) {
-      vaccination.batch_id = data.token.batch_id
+    if (data.token?.batch?.[id]) {
+      vaccination.batch_id = data.token.batch[id][0]
     }
 
     data.wizard = new Vaccination({

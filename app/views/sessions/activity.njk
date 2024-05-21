@@ -56,7 +56,7 @@
       session: session,
       vaccine: campaign.vaccine
     }) | nhsukMarkdown
-  }) if activity == "outcome" and data.token.batch_id }}
+  }) if activity == "outcome" and data.token.batch[session.id] }}
 
   {% include "sessions/_secondary-navigation.njk" %}
 
