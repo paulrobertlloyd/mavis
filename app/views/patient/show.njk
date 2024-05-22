@@ -45,6 +45,14 @@
           })
         }) }}
       {% endfor %}
+
+      {% if options.editTriage %}
+        <p>
+          <a href="{{ patient.uri }}/triage/edit/outcome">
+            {{ __("triage.edit.title") }}
+          </a>
+        </p>
+      {% endif %}
     {% endset %}
 
     {{ card({
@@ -225,7 +233,7 @@
       attributes: {
         action: patient.uri + "/triage/new"
       }
-    }) | formCard if options.editTriage }}
+    }) | formCard if options.showTriage }}
 
     {% set preScreenDescriptionHtml %}
       {{ checkboxes({

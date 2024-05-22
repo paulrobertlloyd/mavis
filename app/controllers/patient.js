@@ -49,6 +49,10 @@ export const patientController = {
       editGillick: patient.consent?.value !== ConsentOutcome.Given,
       showGillick: campaign.type !== 'flu',
       editReplies: patient.consent?.value !== ConsentOutcome.Given,
+      showTriage:
+        patient.consentHealthAnswers &&
+        patient.triage?.value === TriageOutcome.Needed &&
+        patient.outcome?.value === PatientOutcome.NoOutcomeYet,
       editTriage:
         patient.consentHealthAnswers &&
         patient.triage?.value === TriageOutcome.Completed &&

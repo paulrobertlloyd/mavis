@@ -1,0 +1,27 @@
+{% extends "_layouts/form.njk" %}
+
+{% set title = __("triage.edit.title") %}
+
+{% block form %}
+  {{ radios({
+    fieldset: {
+      legend: {
+        html: heading({
+          classes: "nhsuk-fieldset__legend--l",
+          caption: patient.record.fullName,
+          title: title
+        })
+      }
+    },
+    items: screenItems,
+    decorate: "triage.outcome"
+  }) }}
+
+  {{ textarea({
+    label: {
+      text: __("triage.notes.label") + " (optional)"
+    },
+    rows: 5,
+    decorate: "triage.notes"
+  }) }}
+{% endblock %}
