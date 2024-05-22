@@ -1,4 +1,4 @@
-import { Patient } from '../models/patient.js'
+import { Patient, ScreenOutcome } from '../models/patient.js'
 
 export const triageController = {
   update(request, response) {
@@ -20,5 +20,31 @@ export const triageController = {
     request.flash('success', __(`triage.success.${action}`, { patient }))
 
     response.redirect(`/sessions/${id}/${activity || 'triage'}`)
+  },
+
+  readForm(request, response, next) {
+    const { patient } = response.locals
+    const { id, nhsn } = request.params
+
+    response.locals.paths = {
+      back: `/sessions/${id}/${nhsn}`,
+      next: `/sessions/${id}/${nhsn}/triage/new`
+    }
+
+    response.locals.screenItems = Object.entries(ScreenOutcome).map(
+      ([key, value]) => ({
+        text: ScreenOutcome[key],
+        value,
+        checked: patient.screen.value === value
+      })
+    )
+
+    next()
+  },
+
+  showForm(request, response) {
+    const { view } = request.params
+
+    response.render(`triage/form/${view}`)
   }
 }
