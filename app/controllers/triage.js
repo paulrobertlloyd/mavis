@@ -4,6 +4,7 @@ export const triageController = {
   update(request, response) {
     const { form, id, nhsn } = request.params
     const { data } = request.session
+    const { activity } = request.app.locals
     const { __ } = response.locals
     const patient = new Patient(response.locals.patient)
 
@@ -18,6 +19,6 @@ export const triageController = {
     const action = form === 'edit' ? 'update' : 'create'
     request.flash('success', __(`triage.success.${action}`, { patient }))
 
-    response.redirect(`/sessions/${id}/triage`)
+    response.redirect(`/sessions/${id}/${activity || 'triage'}`)
   }
 }

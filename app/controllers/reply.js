@@ -52,7 +52,7 @@ export const replyController = {
   },
 
   update(request, response) {
-    const { reply, triage } = request.app.locals
+    const { activity, reply, triage } = request.app.locals
     const { form, id } = request.params
     const { data } = request.session
     const { __ } = response.locals
@@ -80,7 +80,8 @@ export const replyController = {
 
     const action = form === 'edit' ? 'update' : 'create'
     request.flash('success', __(`reply.success.${action}`, { reply, patient }))
-    response.redirect(`/sessions/${id}/consent`)
+
+    response.redirect(`/sessions/${id}/${activity || 'consent'}`)
   },
 
   readForm(request, response, next) {
