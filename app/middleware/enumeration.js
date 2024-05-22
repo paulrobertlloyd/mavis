@@ -2,6 +2,7 @@ import { EventType } from '../models/event.js'
 import { GillickCompetent } from '../models/gillick.js'
 import { ContactPreference, ParentalRelationship } from '../models/parent.js'
 import {
+  CaptureOutcome,
   ConsentOutcome,
   PatientOutcome,
   ScreenOutcome,
@@ -28,6 +29,7 @@ import {
 } from '../models/vaccine.js'
 
 export const enumeration = (request, response, next) => {
+  response.locals.CaptureOutcome = CaptureOutcome
   response.locals.ConsentOutcome = ConsentOutcome
   response.locals.ConsentWindow = ConsentWindow
   response.locals.ContactPreference = ContactPreference

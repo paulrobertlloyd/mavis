@@ -4,5 +4,9 @@ export const notification = (request, response, next) => {
     text
   }))[0]
 
+  response.locals.message = request.flash('message').map((text) => ({
+    text
+  }))[0]
+
   next()
 }

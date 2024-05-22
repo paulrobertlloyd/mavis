@@ -7,7 +7,11 @@ import {
   getConsentRefusalReasons,
   getPreferredNames
 } from '../utils/reply.js'
-import { getRegistrationOutcome, getPatientOutcome } from '../utils/capture.js'
+import {
+  getCaptureOutcome,
+  getRegistrationOutcome,
+  getPatientOutcome
+} from '../utils/capture.js'
 import { getScreenOutcome, getTriageOutcome } from '../utils/triage.js'
 import { Vaccination, VaccinationOutcome } from './vaccination.js'
 
@@ -32,6 +36,15 @@ export class TriageOutcome {
   static NotNeeded = 'No triage needed'
 }
 
+export class CaptureOutcome {
+  static Register = 'Register attendance'
+  static GetConsent = 'Get consent'
+  static CheckRefusal = 'Check refusal'
+  static NeedsTriage = 'Triage'
+  static DoNotVaccinate = 'Do not vaccinate'
+  static Vaccinate = 'Vaccinate'
+}
+
 export class PatientOutcome {
   static NoOutcomeYet = 'No outcome yet'
   static Vaccinated = 'Vaccinated'
@@ -52,6 +65,7 @@ export class PatientOutcome {
  * @function consent - Consent outcome
  * @function screen - Screening outcome
  * @function registration - Registration status
+ * @function capture - Capture outcome
  * @function outcome - Overall outcome
  * @function preferredNames - Preferred name(s)
  * @function ns - Namespace
@@ -118,6 +132,10 @@ export class Patient {
 
   get registration() {
     return getRegistrationOutcome(this)
+  }
+
+  get capture() {
+    return getCaptureOutcome(this)
   }
 
   get outcome() {

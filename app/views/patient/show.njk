@@ -12,19 +12,6 @@
       title: title
     }) }}
 
-    {% if session.status == SessionStatus.Active %}
-      <p class="nhsuk-body nhsuk-u-margin-bottom-7">
-        {% set tagColor = "red" if patient.registration.value == RegistrationOutcome.Absent else "blue" %}
-        {{ tag({
-          classes: "nhsuk-tag--" + tagColor + " nhsuk-u-margin-right-3",
-          text: patient.registration.value
-        }) if session.status == SessionStatus.Active }}
-        <a class="nhsuk-link" href="{{ patient.uri }}/registration/edit">{{
-          __("registration.edit.title")
-        }}</a>
-      </p>
-    {% endif %}
-
     {% include "patient/_secondary-navigation.njk" %}
 
     <h2 class="nhsuk-heading-m nhsuk-u-visually-hidden">
@@ -186,7 +173,7 @@
 
     {% set triageNotesDescriptionHtml %}
       {% for note in patient.triageNotes %}
-        <h3 class="nhsuk-heading-s nhsuk-u-margin-bottom-3">{{ note.name }}</h3>
+        <h3 class="nhsuk-heading-s nhsuk-u-margin-bottom-2">{{ note.name }}</h3>
         {{ event(note) }}
         {% if not loop.last -%}
           <hr class="nhsuk-section-break nhsuk-section-break--visible  nhsuk-section-break--m">
@@ -220,7 +207,6 @@
 
       {{ textarea({
         label: {
-          classes: "nhsuk-u-margin-bottom-3 nhsuk-u-margin-top-6",
           text: __("triage.notes.label") + " (optional)"
         },
         rows: 5,
@@ -245,7 +231,6 @@
       {{ checkboxes({
         fieldset: {
           legend: {
-            classes: "nhsuk-fieldset__legend--s",
             text: __("preScreen.questions.label", { patient: patient })
           }
         },
@@ -255,7 +240,6 @@
 
       {{ textarea({
         label: {
-          classes: "nhsuk-label--s nhsuk-u-margin-bottom-2",
           text: __("preScreen.notes.label")
         },
         rows: 3,
@@ -265,7 +249,6 @@
       {{ radios({
         fieldset: {
           legend: {
-            classes: "nhsuk-fieldset__legend--s",
             text: __("preScreen.outcome.label", { patient: patient })
           }
         },

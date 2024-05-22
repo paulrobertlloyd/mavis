@@ -1,7 +1,8 @@
 {% extends "_layouts/default.njk" %}
 
-{% set showRefusalReasons = tab == "Refused" or tab == "Inconsistent" %}
-{% set showRegistration = tab == "Pending" %}
+{% set showRefusalReasons = tab == "Refused" or tab == "Inconsistent" or tab == "CouldNotVaccinate" %}
+{% set showRegistration = tab == "Register" %}
+{% set showStatus = activity == "capture" %}
 {% set title = __("session.activity." + activity + ".title") %}
 
 {% block beforeContent %}
@@ -56,7 +57,7 @@
       session: session,
       vaccine: campaign.vaccine
     }) | nhsukMarkdown
-  }) if activity == "outcome" and data.token.batch[session.id] }}
+  }) if activity == "capture" and data.token.batch[session.id] }}
 
   {% include "sessions/_secondary-navigation.njk" %}
 
@@ -103,6 +104,10 @@
         html: patient.consentRefusalReasons | join("<br>")
       } if showRefusalReasons,
       {
+        header: __("capture.label"),
+        html: patientStatus(patient).title
+      } if showStatus,
+      {
         header: __("registration.label"),
         html: registerButtonHtml
       } if showRegistration
@@ -136,6 +141,12 @@
             "no-sort": "no-sort"
           }
         } if showRefusalReasons,
+        {
+          text: __("capture.label"),
+          attributes: {
+            "no-sort": "no-sort"
+          }
+        } if showStatus,
         {
           text: __("registration.label"),
           attributes: {

@@ -83,6 +83,45 @@
       "label": "Vaccines"
     }
   },
+  "capture": {
+    "label": "Status",
+    "title": "Record vaccinations",
+    "Register": {
+      "label": "Register attendance",
+      "count": {
+        "one": "%s child still to register",
+        "other": "[0] No children still to register|%s children still to register"
+      }
+    },
+    "GetConsent": {
+      "label": "Get consent",
+      "count": {
+        "one": "%s child without a consent response",
+        "other": "[0] No children without a response|%s children without a response"
+      }
+    },
+    "CheckRefusal": {
+      "label": "Check refusal",
+      "count": {
+        "one": "%s child with refused consent",
+        "other": "[0] No children with refused consent|%s children with refused consent"
+      }
+    },
+    "NeedsTriage": {
+      "label": "Triage",
+      "count": {
+        "one": "%s child needing triage",
+        "other": "[0] No children needing triage|%s children needing triage"
+      }
+    },
+    "Vaccinate": {
+      "label": "Vaccinate",
+      "count": {
+        "one": "%s child ready to vaccinate",
+        "other": "[0] No children ready to vaccinate|%s children ready to vaccinate"
+      }
+    }
+  },
   "child": {
     "label": "Child",
     "fullName": {
@@ -189,7 +228,12 @@
   },
   "outcome": {
     "NoOutcomeYet": {
-      "colour": "grey"
+      "colour": "grey",
+      "label": "No outcome yet",
+      "count": {
+        "one": "%s child without an outcome yet",
+        "other": "[0] No children without an outcome|%s children without an outcome yet"
+      }
     },
     "Vaccinated": {
       "colour": "green",
@@ -298,7 +342,13 @@
         "confirm": "Absent",
         "label": "Register {{patient.fullName}} as absent"
       },
-      "success": "{{patient.fullName}}’s session attendance updated"
+      "success": {
+        "GetConsent": "{{patient.fullName}} is attending the session. They still need consent to vaccinate.",
+        "CheckRefusal": "{{patient.fullName}} needs to leave the session because their parent or guardian refused to give consent.",
+        "NeedsTriage": "{{patient.fullName}} is attending the session. A nurse needs to triage their record.",
+        "Vaccinate": "{{patient.fullName}} is attending the session. They are ready to vaccinate.",
+        "Register": "{{patient.fullName}} needs to register for the session."
+      }
     },
     "Present": {
       "label": "Attending",
@@ -405,14 +455,14 @@
       "consent": {
         "title": "Check consent responses"
       },
-      "outcome": {
-        "title": "Record vaccinations"
-      },
-      "registration": {
-        "title": "Register attendance"
-      },
       "triage": {
         "title": "Triage health questions"
+      },
+      "capture": {
+        "title": "Record session outcomes"
+      },
+      "outcome": {
+        "title": "Review session outcomes"
       }
     },
     "batch_id": {
@@ -746,8 +796,5 @@
     "preScreenQuestions": {
       "label": "Pre-screening questions"
     }
-  },
-  "registeration": {
-    "label": "registeration.label"
   }
 }

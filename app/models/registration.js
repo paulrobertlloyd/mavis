@@ -1,7 +1,8 @@
 export class RegistrationOutcome {
+  static Pending = 'Not registered yet'
   static Present = 'Attending session'
   static Absent = 'Absent from session'
-  static Pending = 'Not registered yet'
+  static Complete = 'Completed session'
 }
 
 /**

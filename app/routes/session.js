@@ -12,7 +12,7 @@ router.all('/:id*', sessionController.read)
 
 router.get('/:id', sessionController.show)
 router.get(
-  '/:id/:activity(consent|triage|registration|outcome)',
+  '/:id/:activity(consent|triage|capture|outcome)',
   sessionController.activity
 )
 

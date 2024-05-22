@@ -1,4 +1,5 @@
 import {
+  CaptureOutcome,
   ConsentOutcome,
   PatientOutcome,
   TriageOutcome
@@ -43,7 +44,7 @@ export const getPatientOutcome = (patient) => {
 export const getRegistrationOutcome = (patient) => {
   // Patients with an outcome have completed check-in and capture journey
   if (patient.outcome.value !== PatientOutcome.NoOutcomeYet) {
-    return getEnumKeyAndValue(RegistrationOutcome, RegistrationOutcome.Pending)
+    return getEnumKeyAndValue(RegistrationOutcome, RegistrationOutcome.Complete)
   }
 
   if (patient.registered && patient.registered === true) {
@@ -53,4 +54,35 @@ export const getRegistrationOutcome = (patient) => {
   }
 
   return getEnumKeyAndValue(RegistrationOutcome, RegistrationOutcome.Pending)
+}
+
+/**
+ * Get capture outcome (what capture activity needs to be performed)
+ * @param {import('../models/patient.js').Patient} patient - Patient
+ * @returns {object} Outcome key and value
+ */
+export const getCaptureOutcome = (patient) => {
+  if (!patient.registered) {
+    return getEnumKeyAndValue(CaptureOutcome, CaptureOutcome.Register)
+  } else {
+    if (patient.consent.value === ConsentOutcome.NoResponse) {
+      return getEnumKeyAndValue(CaptureOutcome, CaptureOutcome.GetConsent)
+    } else if (
+      patient.consent.value === ConsentOutcome.Refused ||
+      patient.consent.value === ConsentOutcome.Inconsistent
+    ) {
+      return getEnumKeyAndValue(CaptureOutcome, CaptureOutcome.CheckRefusal)
+    }
+
+    if (patient.triage.value === TriageOutcome.Needed) {
+      return getEnumKeyAndValue(CaptureOutcome, CaptureOutcome.NeedsTriage)
+    }
+
+    if (
+      patient.triage.value !== TriageOutcome.Needed &&
+      patient.outcome.value !== PatientOutcome.Vaccinated
+    ) {
+      return getEnumKeyAndValue(CaptureOutcome, CaptureOutcome.Vaccinate)
+    }
+  }
 }

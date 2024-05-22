@@ -42,13 +42,19 @@ export const sessionController = {
         tab = tab || 'Needed'
         tabs = ['Needed', 'Completed', 'NotNeeded']
         break
-      case 'registration':
-        tab = tab || 'Pending'
-        tabs = ['Pending', 'Present', 'Absent']
+      case 'capture':
+        tab = tab || 'Register'
+        tabs = [
+          'Register',
+          'GetConsent',
+          'CheckRefusal',
+          'NeedsTriage',
+          'Vaccinate'
+        ]
         break
       case 'outcome':
         tab = tab || 'Vaccinated'
-        tabs = ['Vaccinated', 'CouldNotVaccinate']
+        tabs = ['Vaccinated', 'CouldNotVaccinate', 'NoOutcomeYet']
         break
     }
 
@@ -66,6 +72,7 @@ export const sessionController = {
       activity,
       navigationItems,
       patients: patients.filter((patient) => patient[activity]?.key === tab),
+      allPatients: patients,
       tab
     })
   },

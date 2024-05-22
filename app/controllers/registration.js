@@ -53,10 +53,15 @@ export const registrationController = {
     })
     data.patients[nhsn] = patient
 
-    request.flash('success', __(`registration.update.success`, { patient }))
+    const captureKey = patient.capture.key
+
+    request.flash(
+      'message',
+      __(`registration.update.success.${captureKey}`, { patient })
+    )
 
     if (tab) {
-      response.redirect(`/sessions/${id}/registration?tab=${tab}`)
+      response.redirect(`/sessions/${id}/capture?tab=${tab}`)
     } else {
       response.redirect(patient.uri)
     }

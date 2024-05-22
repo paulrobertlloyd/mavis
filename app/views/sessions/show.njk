@@ -50,10 +50,20 @@
     </p>
   {% endset %}
 
+  {% set captureCardDescriptionHtml %}
+    <p>
+      {{ __n("capture.Register.count", patients | where("capture.value", CaptureOutcome.Register) | length) }}<br>
+      {{ __n("capture.GetConsent.count", patients | where("capture.value", CaptureOutcome.GetConsent) | length) }}<br>
+      {{ __n("capture.NeedsTriage.count", patients | where("capture.value", CaptureOutcome.GetConsent) | length) }}<br>
+      {{ __n("capture.Vaccinate.count", patients | where("capture.value", CaptureOutcome.Vaccinate) | length) }}
+    </p>
+  {% endset %}
+
   {% set outcomeCardDescriptionHtml %}
     <p>
       {{ __n("outcome.Vaccinated.count", patients | where("outcome.value", PatientOutcome.Vaccinated) | length) }}<br>
-      {{ __n("outcome.CouldNotVaccinate.count", patients | where("outcome.value", PatientOutcome.CouldNotVaccinate) | length) }}
+      {{ __n("outcome.CouldNotVaccinate.count", patients | where("outcome.value", PatientOutcome.CouldNotVaccinate) | length) }}<br>
+      {{ __n("outcome.NoOutcomeYet.count", patients | where("outcome.value", PatientOutcome.NoOutcomeYet) | length) }}
     </p>
   {% endset %}
 
@@ -62,10 +72,10 @@
       <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
         {{ card({
           clickable: true,
-          heading: __("session.activity.registration.title"),
+          heading: __("session.activity.capture.title"),
           headingClasses: "nhsuk-heading-m",
-          href: session.uri + "/registration",
-          description: __n("registration.Pending.count", patients | where("registration.value", RegistrationOutcome.Pending) | length)
+          href: session.uri + "/capture",
+          descriptionHtml: captureCardDescriptionHtml
         }) }}
       </li>
       <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
@@ -77,24 +87,25 @@
           descriptionHtml: outcomeCardDescriptionHtml
         }) }}
       </li>
+    {% else %}
+      <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+        {{ card({
+          clickable: true,
+          heading: __("session.activity.consent.title"),
+          headingClasses: "nhsuk-heading-m",
+          href:  session.uri + "/consent",
+          descriptionHtml: consentCardDescriptionHtml
+        }) }}
+      </li>
+      <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+        {{ card({
+          clickable: true,
+          heading: __("session.activity.triage.title"),
+          headingClasses: "nhsuk-heading-m",
+          href:  session.uri + "/triage",
+          description: __n("triage.Needed.count", patients | where("triage.value", TriageOutcome.Needed) | length)
+        }) }}
+      </li>
     {% endif %}
-    <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
-      {{ card({
-        clickable: true,
-        heading: __("session.activity.consent.title"),
-        headingClasses: "nhsuk-heading-m",
-        href:  session.uri + "/consent",
-        descriptionHtml: consentCardDescriptionHtml
-      }) }}
-    </li>
-    <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
-      {{ card({
-        clickable: true,
-        heading: __("session.activity.triage.title"),
-        headingClasses: "nhsuk-heading-m",
-        href:  session.uri + "/triage",
-        description: __n("triage.Needed.count", patients | where("triage.value", TriageOutcome.Needed) | length)
-      }) }}
-    </li>
   </ul>
 {% endblock %}

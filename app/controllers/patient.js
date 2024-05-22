@@ -4,9 +4,9 @@ import {
   ConsentOutcome,
   Patient,
   PatientOutcome,
+  CaptureOutcome,
   TriageOutcome
 } from '../models/patient.js'
-import { RegistrationOutcome } from '../models/registration.js'
 import { Reply } from '../models/reply.js'
 import { Session } from '../models/session.js'
 import { User } from '../models/user.js'
@@ -57,9 +57,7 @@ export const patientController = {
         patient.consent?.value === ConsentOutcome.Given &&
         patient.triage?.value !== TriageOutcome.Needed &&
         patient.outcome?.value !== PatientOutcome.Vaccinated,
-      showPreScreen:
-        patient.registration?.value === RegistrationOutcome.Present &&
-        patient.outcome?.value !== PatientOutcome.Vaccinated
+      showPreScreen: patient.capture?.value === CaptureOutcome.Vaccinate
     }
 
     response.render('patient/show', {

@@ -29,7 +29,6 @@ $button-shadow-size: 4px;
   @include govuk-media-query($from: tablet) {
     align-items: baseline;
     flex-direction: row;
-    flex-wrap: wrap;
 
     .nhsuk-button,
     .nhsuk-link {
