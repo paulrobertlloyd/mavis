@@ -21,7 +21,7 @@
         dob: { value: record.dobWithAge },
         sex: {},
         address: { value: record.formattedAddress | nl2br },
-        gpSurgery: {},
+        gpSurgery: { value: record.formattedGpSurgery },
         urn: { value: data.schools[record.urn].name }
       })
     })

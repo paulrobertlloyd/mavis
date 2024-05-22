@@ -15,6 +15,12 @@ export class Sex {
   static Male = 'Male'
 }
 
+export class GPRegistered {
+  static Yes = 'Registered'
+  static No = 'Not registered'
+  static Unknown = 'Not known'
+}
+
 /**
  * @class Child Health Information Service (CHIS) record
  * @property {string} nhsn - NHS number
@@ -23,7 +29,8 @@ export class Sex {
  * @property {string} dob - Date of birth
  * @property {Sex} sex - Sex
  * @property {object} address - Address
- * @property {string} gpSurgery - GP surgery
+ * @property {GPRegistered} gpRegistered - Registered with a GP
+ * @property {string} [gpSurgery] - GP surgery
  * @property {string} urn - School URN
  * @function age - Age in years
  * @function dobWithAge - Date of birth with age in brackets
@@ -42,6 +49,7 @@ export class Record {
     this.dob = options.dob
     this.sex = options.sex
     this.address = options.address
+    this.gpRegistered = options.gpRegistered
     this.gpSurgery = options.gpSurgery
     this.urn = options.urn
   }
@@ -51,6 +59,12 @@ export class Record {
     const firstName = faker.helpers.arrayElement(firstNames[sex.toLowerCase()])
     const lastName = faker.person.lastName()
     const phase = faker.helpers.arrayElement(['Primary', 'Secondary'])
+    const gpRegistered = faker.helpers.arrayElement(Object.values(GPRegistered))
+
+    let gpSurgery
+    if (gpRegistered === GPRegistered.Yes) {
+      gpSurgery = faker.helpers.arrayElement(gpSurgeries)
+    }
 
     let dob, urn
     if (phase === 'Primary') {
@@ -71,7 +85,8 @@ export class Record {
         addressLevel1: faker.location.city(),
         postalCode: faker.location.zipCode()
       },
-      gpSurgery: faker.helpers.arrayElement(gpSurgeries),
+      gpRegistered,
+      gpSurgery,
       urn
     })
   }
@@ -105,6 +120,14 @@ export class Record {
 
   get formattedAddress() {
     return Object.values(this.address).join('\n')
+  }
+
+  get formattedGpSurgery() {
+    if (this.gpRegistered === GPRegistered.Yes) {
+      return this.gpSurgery
+    }
+
+    return this.gpRegistered
   }
 
   get ns() {
