@@ -1,7 +1,7 @@
 {% extends "_layouts/form.njk" %}
 
 {% set confirmButtonText = __("batch.edit.confirm") %}
-{% set paths = { back: vaccine.uri } %}
+{% set paths = { back: "/vaccines" } %}
 {% set title = __("batch.edit.title", { batch: batch }) %}
 
 {% block form %}
