@@ -1,8 +1,9 @@
 import { Patient, ScreenOutcome } from '../models/patient.js'
+import { SessionStatus } from '../models/session.js'
 
 export const triageController = {
   update(request, response) {
-    const { activity } = request.app.locals
+    const { activity, session } = request.app.locals
     const { form, id, nhsn } = request.params
     const { data } = request.session
     const { __ } = response.locals
@@ -19,7 +20,11 @@ export const triageController = {
     const action = form === 'edit' ? 'update' : 'create'
     request.flash('success', __(`triage.success.${action}`, { patient }))
 
-    response.redirect(`/sessions/${id}/${activity || 'triage'}`)
+    if (session.status === SessionStatus.Active) {
+      response.redirect(patient.uri)
+    } else {
+      response.redirect(`/sessions/${id}/${activity || 'triage'}`)
+    }
   },
 
   readForm(request, response, next) {
