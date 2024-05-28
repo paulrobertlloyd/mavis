@@ -40,10 +40,16 @@
             location: {},
             protocol: {},
             notes: {
-              value: patient.vaccination.notes | nhsukMarkdown
-            } if patient.vaccination.notes
+              value: vaccination.notes or "Not provided" | nhsukMarkdown
+            }
           })
         }) }}
+
+        <p>
+          <a href="{{ vaccination.uri }}/edit">
+            {{ __("vaccination.edit.title") }}
+          </a>
+        </p>
       {% endfor %}
 
       {% if options.editTriage %}
