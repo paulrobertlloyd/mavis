@@ -1,8 +1,9 @@
 {% extends "_layouts/default.njk" %}
 
-{% set showRefusalReasons = tab == "Refused" or tab == "Inconsistent" or tab == "CouldNotVaccinate" %}
+{% set showRefusalReasons = tab == "Refused" or tab == "Inconsistent" %}
+{% set showCouldNotVaccinateReason = tab == "CouldNotVaccinate" %}
 {% set showRegistration = tab == "Register" %}
-{% set showStatus = activity == "capture" %}
+{% set showStatus = activity == "capture" or tab == "NoOutcomeYet" %}
 {% set title = __("session.activity." + activity + ".title") %}
 
 {% block beforeContent %}
@@ -104,6 +105,10 @@
         html: patient.consentRefusalReasons | join("<br>")
       } if showRefusalReasons,
       {
+        header: "Reason",
+        html: couldNotVaccinateReason(patient)
+      } if showCouldNotVaccinateReason,
+      {
         header: __("capture.label"),
         html: patientStatus(patient).title
       } if showStatus,
@@ -141,6 +146,9 @@
             "no-sort": "no-sort"
           }
         } if showRefusalReasons,
+        {
+          text: "Reason"
+        } if showCouldNotVaccinateReason,
         {
           text: __("capture.label"),
           attributes: {

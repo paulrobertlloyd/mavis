@@ -9,6 +9,7 @@ import {
 import { Reply } from './models/reply.js'
 import { User } from './models/user.js'
 import { HealthQuestion, Vaccine } from './models/vaccine.js'
+import { Vaccination } from './models/vaccination.js'
 import { getEnumKeyAndValue } from './utils/enum.js'
 
 /**
@@ -156,6 +157,29 @@ export default () => {
     }
 
     return { colour, description, title }
+  }
+
+  /**
+   * Show reason could not vaccinate
+   * @param {import('./models/patient.js').Patient} patient - Patient
+   * @returns {string} Reason could not vaccinate
+   */
+  globals.couldNotVaccinateReason = function (patient) {
+    const { __ } = this.ctx
+
+    if (
+      patient?.screen?.value &&
+      patient?.screen?.value !== ScreenOutcome.Vaccinate
+    ) {
+      return __(`screen.${patient.screen.key}.status`)
+    } else if (patient?.consent?.value !== ConsentOutcome.Given) {
+      return __(`consent.${patient.consent.key}.status`)
+    } else if (patient.vaccinations) {
+      const vaccinations = Object.values(patient.vaccinations).map(
+        (vaccination) => new Vaccination(vaccination)
+      )
+      return vaccinations[0].outcome
+    }
   }
 
   /**

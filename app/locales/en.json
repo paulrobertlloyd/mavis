@@ -437,21 +437,25 @@
     "NeedsTriage": {
       "colour": "blue",
       "description": "Responses to health questions need triage.",
+      "status": "Needs triage",
       "title": "Needs triage"
     },
     "DelayVaccination": {
       "colour": "red",
       "description": "{{user.fullNameWithRegistration}} decided that {{patient.fullName}}’s vaccination should be delayed.",
+      "status": "Vaccination delayed",
       "title": "Delay vaccination to a later date"
     },
     "DoNotVaccinate": {
       "colour": "red",
       "description": "{{user.fullNameWithRegistration}} decided that {{patient.fullName}} should not be vaccinated.",
+      "status": "Do not vaccinate in this campaign",
       "title": "Do not vaccinate in campaign"
     },
     "Vaccinate": {
       "colour": "aqua-green",
       "description": "{{user.fullNameWithRegistration}} decided that {{patient.fullName}} is safe to vaccinate.",
+      "status": "Safe to vaccinate",
       "title": "Safe to vaccinate"
     }
   },
