@@ -14,12 +14,12 @@
     headingClasses: "nhsuk-heading-m",
     descriptionHtml: summaryList({
       rows: summaryRows(vaccination, {
-        vaccine: {
-          value: campaign.vaccine.brandWithName
-        } if vaccination.batch_id,
         outcome: {
           href: vaccination.uri + "/new/decline" if vaccination.outcome != "Vaccinated" and vaccination.outcome != "Partially vaccinated"
         },
+        vaccine: {
+          value: campaign.vaccine.brandWithName
+        } if vaccination.batch_id,
         method: {
           href: vaccination.uri + "/new/administer" if campaign.vaccine.method == VaccineMethod.Injection
         },

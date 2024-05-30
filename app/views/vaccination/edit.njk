@@ -16,18 +16,19 @@
     headingClasses: "nhsuk-heading-m",
     descriptionHtml: summaryList({
       rows: summaryRows(vaccination, {
+        outcome: {},
         vaccine: {
           value: campaign.vaccine.brandWithName
-        },
+        } if vaccination.batch_id,
         method: {
-          href: vaccination.uri + "/edit/method"
+          href: vaccination.uri + "/edit/method" if campaign.vaccine.method == VaccineMethod.Injection
         },
         site: {
-          href: vaccination.uri + "/edit/site"
+          href: vaccination.uri + "/edit/site" if campaign.vaccine.method == VaccineMethod.Injection
         },
         formattedDose: {
-          href: vaccination.uri + "/edit/dose"
-        },
+          href: vaccination.uri + "/edit/dose" if campaign.vaccine.method == VaccineMethod.Nasal
+        } if vaccination.dose,
         batch_id: {
           classes: "app-u-monospace",
           href: vaccination.uri + "/edit/batch-id"

@@ -24,12 +24,13 @@
       {% for vaccination in vaccinations %}
         {{ summaryList({
           rows: summaryRows(vaccination, {
+            outcome: {},
             vaccine: {
               value: campaign.vaccine.brandWithName
-            },
+            } if vaccination.batch_id,
             method: {},
             site: {},
-            formattedDose: {},
+            formattedDose: {} if vaccination.dose,
             batch_id: {
               classes: "app-u-monospace"
             },
