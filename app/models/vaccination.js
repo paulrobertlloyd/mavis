@@ -64,7 +64,7 @@ export class Vaccination {
     this.method = options?.method
     this.site = options?.site
     this.dose = options?.dose
-    this.protocol = VaccinationProtocol.PGD
+    this.protocol = options?.batch_id && VaccinationProtocol.PGD
     this.notes = options?.notes
     this.session_id = options?.session_id
     this.patient_nhsn = options?.patient_nhsn
