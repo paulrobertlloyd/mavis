@@ -53,10 +53,7 @@ export const patientController = {
         patient.consentHealthAnswers &&
         patient.triage?.value === TriageOutcome.Needed &&
         patient.outcome?.value === PatientOutcome.NoOutcomeYet,
-      editTriage:
-        patient.consentHealthAnswers &&
-        patient.triage?.value === TriageOutcome.Completed &&
-        patient.outcome?.value === PatientOutcome.NoOutcomeYet,
+      editTriage: patient.triage?.value === TriageOutcome.Completed,
       editRegistration:
         patient.consent?.value === ConsentOutcome.Given &&
         patient.triage?.value !== TriageOutcome.Needed &&
