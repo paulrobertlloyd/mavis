@@ -17,7 +17,9 @@
         vaccine: {
           value: campaign.vaccine.brandWithName
         } if vaccination.batch_id,
-        outcome: {},
+        outcome: {
+          href: vaccination.uri + "/new/decline" if vaccination.outcome != "Vaccinated" and vaccination.outcome != "Partially vaccinated"
+        },
         method: {
           href: vaccination.uri + "/new/administer" if campaign.vaccine.method == VaccineMethod.Injection
         },
