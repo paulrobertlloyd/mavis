@@ -436,7 +436,7 @@
     "label": "Triage",
     "NeedsTriage": {
       "colour": "blue",
-      "description": "Responses to health questions need triage",
+      "description": "Responses to health questions need triage.",
       "title": "Needs triage"
     },
     "DelayVaccination": {
