@@ -2,6 +2,7 @@ import {
   CaptureOutcome,
   ConsentOutcome,
   PatientOutcome,
+  ScreenOutcome,
   TriageOutcome
 } from '../models/patient.js'
 import { RegistrationOutcome } from '../models/registration.js'
@@ -14,6 +15,23 @@ import { getEnumKeyAndValue } from './enum.js'
  * @returns {string} Patient outcome
  */
 export const getPatientOutcome = (patient) => {
+  // Consent outcome
+  if (
+    patient.consent.value === ConsentOutcome.Refused ||
+    patient.consent.value === ConsentOutcome.Inconsistent
+  ) {
+    return getEnumKeyAndValue(PatientOutcome, PatientOutcome.CouldNotVaccinate)
+  }
+
+  // Screen outcome
+  if (
+    patient.screen.value === ScreenOutcome.DelayVaccination ||
+    patient.screen.value === ScreenOutcome.DoNotVaccinate
+  ) {
+    return getEnumKeyAndValue(PatientOutcome, PatientOutcome.CouldNotVaccinate)
+  }
+
+  // Vaccination outcome
   const vaccinations = Object.values(patient.vaccinations).map(
     (vaccination) => new Vaccination(vaccination)
   )
@@ -21,8 +39,7 @@ export const getPatientOutcome = (patient) => {
   if (vaccinations.length === 1) {
     if (
       vaccinations[0].outcome === VaccinationOutcome.Vaccinated ||
-      vaccinations[0].outcome === VaccinationOutcome.PartVaccinated ||
-      vaccinations[0].outcome === VaccinationOutcome.AlreadyVaccinated
+      vaccinations[0].outcome === VaccinationOutcome.PartVaccinated
     ) {
       return getEnumKeyAndValue(PatientOutcome, PatientOutcome.Vaccinated)
     } else {
