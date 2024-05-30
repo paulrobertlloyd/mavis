@@ -91,7 +91,7 @@ export function getConsentHealthAnswers(replies) {
  * @returns {string} Consent outcome
  */
 export const getConsentOutcome = (patient) => {
-  const parentalRelationships = Object.keys(ParentalRelationship)
+  const parentalRelationships = Object.values(ParentalRelationship)
   const replies = Object.values(patient.replies).map(
     (reply) => new Reply(reply)
   )
