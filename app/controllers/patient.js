@@ -58,7 +58,10 @@ export const patientController = {
         patient.consent?.value === ConsentOutcome.Given &&
         patient.triage?.value !== TriageOutcome.Needed &&
         patient.outcome?.value !== PatientOutcome.Vaccinated,
-      showPreScreen: patient.capture?.value === CaptureOutcome.Vaccinate
+      showPreScreen:
+        patient.capture?.value === CaptureOutcome.Vaccinate &&
+        patient.outcome?.value !== PatientOutcome.Vaccinated &&
+        patient.outcome?.value !== PatientOutcome.CouldNotVaccinate
     }
 
     response.render('patient/show', {
