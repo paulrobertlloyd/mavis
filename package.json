@@ -52,6 +52,9 @@
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^6.0.4"
   },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "^4.18.0"
+  },
   "engines": {
     "node": "^22"
   },
